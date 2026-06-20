@@ -55,7 +55,6 @@ CREATE TABLE "typeCommande" (
     "idTypeCommande" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
--- Correction logique appliquée ici au lieu de 'INGREDIENT' / 'EQUIPEMENT'
 
 CREATE TABLE "statutCommande" (
     "idStatutCommande" SERIAL PRIMARY KEY,
