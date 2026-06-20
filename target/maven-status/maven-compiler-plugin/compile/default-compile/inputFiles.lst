@@ -1,1 +1,12 @@
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/mkalymlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/controllers/CommandeController.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/controllers/LigneCommandeController.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/controllers/ProduitController.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/controllers/VendeuseController.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/models/Commande.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/models/LigneCommande.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/models/Produit.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
+/home/unknowm/Bureau/Projet-Mme-Baovola-S4/MKalyMlam/src/main/java/com/mkalymlam/services/VenteService.java
