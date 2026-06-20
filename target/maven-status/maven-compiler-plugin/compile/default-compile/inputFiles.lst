@@ -1,1 +1,10 @@
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/mkalymlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/itineraire/controller/ItineraireController.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/itineraire/module/Itineraire.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/itineraire/repository/ItineraireRepository.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/itineraire/service/ItineraireService.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/recette/controller/RecetteBaseController.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/recette/model/RecetteBase.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/recette/repository/RecetteBaseRepository.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/recette/service/RecetteBaseService.java
+/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java

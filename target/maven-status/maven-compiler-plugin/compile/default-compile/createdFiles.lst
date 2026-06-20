@@ -1,0 +1,10 @@
+com/mkalymlam/itineraire/repository/ItineraireRepository.class
+com/mkalymlam/itineraire/controller/ItineraireController.class
+com/mkalymlam/recette/repository/RecetteBaseRepository.class
+com/mkalymlam/recette/controller/RecetteBaseController.class
+com/mkalymlam/view/ViewController.class
+com/mkalymlam/recette/service/RecetteBaseService.class
+com/mkalymlam/recette/model/RecetteBase.class
+com/mkalymlam/MkalymlamApplication.class
+com/mkalymlam/itineraire/service/ItineraireService.class
+com/mkalymlam/itineraire/module/Itineraire.class

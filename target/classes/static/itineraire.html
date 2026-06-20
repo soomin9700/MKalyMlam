@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Itineraires du Food Truck</title>
+</head>
+<body>
+<h1>Itineraires planifies</h1>
+
+<ul id="listeItineraires"></ul>
+
+<script>
+function chargerItineraires() {
+  fetch('/itineraire/findAll')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var ul = document.getElementById('listeItineraires');
+      ul.innerHTML = '';
+      data.forEach(function(it) {
+        var li = document.createElement('li');
+        li.id = 'li-' + it.id;
+        li.innerHTML = '<strong>' + it.nomZone + '</strong> - ' + it.heureDebut + ' a ' + it.heureFin + ' <button onclick="modifier(' + it.id + ')">modifier</button>';
+        ul.appendChild(li);
+      });
+    })
+    .catch(function(e) {
+      document.getElementById('listeItineraires').innerHTML = '<li>Erreur de chargement : ' + e.message + '</li>';
+    });
+}
+
+function modifier(id) {
+  fetch('/itineraire/find?id=' + id)
+    .then(function(r) { return r.json(); })
+    .then(function(it) {
+      var li = document.getElementById('li-' + id);
+      li.innerHTML =
+        '<form action="/itineraire/update" method="POST" style="display:inline">' +
+        '<input type="hidden" name="id" value="' + it.id + '">' +
+        'Zone: <input type="text" name="nomZone" value="' + it.nomZone + '" required>' +
+        ' Debut: <input type="time" name="heureDebut" value="' + it.heureDebut + '" required>' +
+        ' Fin: <input type="time" name="heureFin" value="' + it.heureFin + '" required>' +
+        ' <button type="submit">Enregistrer</button>' +
+        '</form>' +
+        ' <button onclick="annuler(' + id + ')">Annuler</button>';
+    });
+}
+
+function annuler(id) {
+  chargerItineraires();
+}
+
+chargerItineraires();
+</script>
+</body>
+</html>
