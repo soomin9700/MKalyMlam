@@ -10,19 +10,14 @@ public class Produit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_produit")
     private Long idProduit;
 
-    @Column(name = "nom_produit")
     private String nomProduit;
 
-    @Column(name = "prix_base")
     private Double prixBase;
 
-    @Column(name = "est_nouveau")
     private Boolean estNouveau;
 
-    @Column(name = "date_creation")
     private LocalDate dateCreation;
 
     public Produit() {
