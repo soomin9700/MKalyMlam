@@ -1,0 +1,5 @@
+com/mkalymlam/repository/ProduitRepository.class
+com/mkalymlam/entity/Produit.class
+com/mkalymlam/service/ProduitService.class
+com/mkalymlam/MkalymlamApplication.class
+com/mkalymlam/controller/ProduitController.class
