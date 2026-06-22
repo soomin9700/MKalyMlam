@@ -10,29 +10,31 @@ public class Produit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "\"idProduit\"")  // ← Guillemets doubles !
     private Long idProduit;
 
+    @Column(name = "\"nomProduit\"")
     private String nomProduit;
 
+    @Column(name = "\"prixBase\"")
     private Double prixBase;
 
+    @Column(name = "\"estNouveau\"")
     private Boolean estNouveau;
 
+    @Column(name = "\"dateCreation\"")
     private LocalDate dateCreation;
 
-    public Produit() {
-    }
+    public Produit() {}
 
-    public Produit(String nomProduit,
-                   Double prixBase,
-                   Boolean estNouveau,
-                   LocalDate dateCreation) {
+    public Produit(String nomProduit, Double prixBase, Boolean estNouveau, LocalDate dateCreation) {
         this.nomProduit = nomProduit;
         this.prixBase = prixBase;
         this.estNouveau = estNouveau;
         this.dateCreation = dateCreation;
     }
 
+    // Getters et Setters...
     public Long getIdProduit() {
         return idProduit;
     }
