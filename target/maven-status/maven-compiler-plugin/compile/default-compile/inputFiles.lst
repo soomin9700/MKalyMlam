@@ -1,5 +1,5 @@
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
