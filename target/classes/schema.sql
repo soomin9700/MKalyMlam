@@ -306,6 +306,7 @@ CREATE TABLE "produit" (
 );
 
 CREATE TABLE "recetteDeBase" (
+
     "idProduit" INT NOT NULL,
     "idIngredient" INT NOT NULL,
     "quantiteRecette" NUMERIC(10, 2) NOT NULL,
