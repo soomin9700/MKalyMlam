@@ -1,109 +1,108 @@
-CREATE DATABASE "foodTruckDb";
-\c "foodTruckDb";
+
 
 
 -- Module 1
-CREATE TABLE "role" (
+CREATE TABLE IF NOT EXISTS "role" (
     "idRole" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "typeConge" (
+CREATE TABLE IF NOT EXISTS "typeConge" (
     "idTypeConge" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutValidation" (
+CREATE TABLE IF NOT EXISTS "statutValidation" (
     "idStatutValidation" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
 -- Module 2
-CREATE TABLE "statutDisponibilite" (
+CREATE TABLE IF NOT EXISTS "statutDisponibilite" (
     "idStatutDisponibilite" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutSession" (
+CREATE TABLE IF NOT EXISTS "statutSession" (
     "idStatutSession" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
 -- Module 3
-CREATE TABLE "typeEquipement" (
+CREATE TABLE IF NOT EXISTS "typeEquipement" (
     "idTypeEquipement" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutAlerte" (
+CREATE TABLE IF NOT EXISTS "statutAlerte" (
     "idStatutAlerte" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "methodeComptable" (
+CREATE TABLE IF NOT EXISTS "methodeComptable" (
     "idMethodeComptable" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "typeItem" (
+CREATE TABLE IF NOT EXISTS "typeItem" (
     "idTypeItem" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
 -- Module 4
-CREATE TABLE "typeCommande" (
+CREATE TABLE IF NOT EXISTS "typeCommande" (
     "idTypeCommande" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutCommande" (
+CREATE TABLE IF NOT EXISTS "statutCommande" (
     "idStatutCommande" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "typeTarification" (
+CREATE TABLE IF NOT EXISTS "typeTarification" (
     "idTypeTarification" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "actionCommande" (
+CREATE TABLE IF NOT EXISTS "actionCommande" (
     "idActionCommande" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "modePaiement" (
+CREATE TABLE IF NOT EXISTS "modePaiement" (
     "idModePaiement" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
 -- Module 5
-CREATE TABLE "typeDepense" (
+CREATE TABLE IF NOT EXISTS "typeDepense" (
     "idTypeDepense" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutValidationAdmin" (
+CREATE TABLE IF NOT EXISTS "statutValidationAdmin" (
     "idStatutValidationAdmin" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
 -- Module 6
-CREATE TABLE "typeRetour" (
+CREATE TABLE IF NOT EXISTS "typeRetour" (
     "idTypeRetour" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "classificationSentiment" (
+CREATE TABLE IF NOT EXISTS "classificationSentiment" (
     "idClassificationSentiment" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "statutDemandeAchat" (
+CREATE TABLE IF NOT EXISTS "statutDemandeAchat" (
     "idStatutDemandeAchat" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE "typeNotification" (
+CREATE TABLE IF NOT EXISTS "typeNotification" (
     "idTypeNotification" SERIAL PRIMARY KEY,
     "libelle" VARCHAR(50) NOT NULL
 );
@@ -113,7 +112,7 @@ CREATE TABLE "typeNotification" (
 -- MODULE 1 : Utilisateurs, Ressources Humaines & Paie
 -- ==============================================================================
 
-CREATE TABLE "utilisateur" (
+CREATE TABLE IF NOT EXISTS "utilisateur" (
     "idUtilisateur" SERIAL PRIMARY KEY,
     "nom" VARCHAR(100) NOT NULL,
     "prenom" VARCHAR(100),
@@ -125,7 +124,7 @@ CREATE TABLE "utilisateur" (
     FOREIGN KEY ("idRole") REFERENCES "role"("idRole")
 );
 
-CREATE TABLE "absenceConge" (
+CREATE TABLE IF NOT EXISTS "absenceConge" (
     "idAbsence" SERIAL PRIMARY KEY,
     "idUtilisateur" INT NOT NULL,
     "idTypeConge" INT NOT NULL,
@@ -140,7 +139,7 @@ CREATE TABLE "absenceConge" (
     FOREIGN KEY ("idRemplacant") REFERENCES "utilisateur"("idUtilisateur")
 );
 
-CREATE TABLE "fichePaie" (
+CREATE TABLE IF NOT EXISTS "fichePaie" (
     "idFiche" SERIAL PRIMARY KEY,
     "idUtilisateur" INT NOT NULL,
     "moisAnnee" VARCHAR(7) NOT NULL,
@@ -153,7 +152,7 @@ CREATE TABLE "fichePaie" (
     FOREIGN KEY ("idUtilisateur") REFERENCES "utilisateur"("idUtilisateur")
 );
 
-CREATE TABLE "historiqueSalaire" (
+CREATE TABLE IF NOT EXISTS "historiqueSalaire" (
     "idHistorique" SERIAL PRIMARY KEY,
     "idUtilisateur" INT NOT NULL,
     "salaireBase" NUMERIC(12, 2) NOT NULL,
@@ -167,14 +166,14 @@ CREATE TABLE "historiqueSalaire" (
 -- MODULE 2 : Planification, Sessions de Terrain & Véhicule
 -- ==============================================================================
 
-CREATE TABLE "truck" (
+CREATE TABLE IF NOT EXISTS "truck" (
     "idTruck" SERIAL PRIMARY KEY,
     "immatriculation" VARCHAR(20) NOT NULL UNIQUE,
     "idStatutDisponibilite" INT NOT NULL,
     FOREIGN KEY ("idStatutDisponibilite") REFERENCES "statutDisponibilite"("idStatutDisponibilite")
 );
 
-CREATE TABLE "historiqueMaintenance" (
+CREATE TABLE IF NOT EXISTS "historiqueMaintenance" (
     "idHistoriqueMaintenance" SERIAL PRIMARY KEY,
     "idTruck" INT NOT NULL,
     "dateDebut" DATE NOT NULL,
@@ -183,7 +182,7 @@ CREATE TABLE "historiqueMaintenance" (
     FOREIGN KEY ("idTruck") REFERENCES "truck"("idTruck")
 );
 
-CREATE TABLE "historiqueStatus" (
+CREATE TABLE IF NOT EXISTS "historiqueStatus" (
     "idHistoriqueStatus" SERIAL PRIMARY KEY,
     "idTruck" INT NOT NULL,
     "idStatutDisponibilite" INT NOT NULL,
@@ -192,7 +191,7 @@ CREATE TABLE "historiqueStatus" (
     FOREIGN KEY ("idStatutDisponibilite") REFERENCES "statutDisponibilite"("idStatutDisponibilite")
 );
 
-CREATE TABLE "itineraire" (
+CREATE TABLE IF NOT EXISTS "itineraire" (
     "idItineraire" SERIAL PRIMARY KEY,
     "nomZone" VARCHAR(100) NOT NULL,
     "lieuExact" TEXT NOT NULL,
@@ -201,7 +200,7 @@ CREATE TABLE "itineraire" (
     "jourSemaine" VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE "sessionTruck" (
+CREATE TABLE IF NOT EXISTS "sessionTruck" (
     "idSession" SERIAL PRIMARY KEY,
     "idTruck" INT NOT NULL,
     "idItineraire" INT NOT NULL,
@@ -216,7 +215,7 @@ CREATE TABLE "sessionTruck" (
     FOREIGN KEY ("idStatutSession") REFERENCES "statutSession"("idStatutSession")
 );
 
-CREATE TABLE "equipeSession" (
+CREATE TABLE IF NOT EXISTS "equipeSession" (
     "idSession" INT NOT NULL,
     "idUtilisateur" INT NOT NULL,
     "idRoleDuJour" INT NOT NULL,
@@ -227,7 +226,7 @@ CREATE TABLE "equipeSession" (
     FOREIGN KEY ("idRoleDuJour") REFERENCES "role"("idRole")
 );
 
-CREATE TABLE "demandeChangementItineraire" (
+CREATE TABLE IF NOT EXISTS "demandeChangementItineraire" (
     "idDemande" SERIAL PRIMARY KEY,
     "idSession" INT NOT NULL,
     "idDemandeur" INT NOT NULL,
@@ -247,14 +246,14 @@ CREATE TABLE "demandeChangementItineraire" (
 -- MODULE 3 : Stocks, Lots & Inventaires
 -- ==============================================================================
 
-CREATE TABLE "ingredient" (
+CREATE TABLE IF NOT EXISTS "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
     "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
     "uniteMesure" VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE "lotIngredient" (
+CREATE TABLE IF NOT EXISTS "lotIngredient" (
     "idLot" SERIAL PRIMARY KEY,
     "idIngredient" INT NOT NULL,
     "dateReception" DATE NOT NULL,
@@ -265,15 +264,8 @@ CREATE TABLE "lotIngredient" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
-    - Elements necessaires:
-        -> 
 
-#### 2- Benefice totaux: 
-- globalite: 
-    - Benefice globale 
-    - Consultation:
-        - Benefice / mois
-CREATE TABLE "equipement" (
+CREATE TABLE IF NOT EXISTS "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
     "idTypeEquipement" INT NOT NULL,
@@ -287,7 +279,7 @@ CREATE TABLE "equipement" (
     FOREIGN KEY ("idStatutAlerte") REFERENCES "statutAlerte"("idStatutAlerte")
 );
 
-CREATE TABLE "inventaireJournalier" (
+CREATE TABLE IF NOT EXISTS "inventaireJournalier" (
     "idInventaire" SERIAL PRIMARY KEY,
     "idSession" INT NOT NULL,
     "dateInventaire" DATE NOT NULL,
@@ -305,7 +297,7 @@ CREATE TABLE "inventaireJournalier" (
 -- MODULE 4 : Menu, Commandes Personnalisées & Factures
 -- ==============================================================================
 
-CREATE TABLE "produit" (
+CREATE TABLE IF NOT EXISTS "produit" (
     "idProduit" SERIAL PRIMARY KEY,
     "nomProduit" VARCHAR(100) NOT NULL,
     "prixBase" NUMERIC(10, 2) NOT NULL,
@@ -313,7 +305,7 @@ CREATE TABLE "produit" (
     "dateCreation" DATE DEFAULT CURRENT_DATE
 );
 
-CREATE TABLE "recetteDeBase" (
+CREATE TABLE IF NOT EXISTS "recetteDeBase" (
     "idProduit" INT NOT NULL,
     "idIngredient" INT NOT NULL,
     "quantiteRecette" NUMERIC(10, 2) NOT NULL,
@@ -322,7 +314,7 @@ CREATE TABLE "recetteDeBase" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
-CREATE TABLE "commande" (
+CREATE TABLE IF NOT EXISTS "commande" (
     "idCommande" SERIAL PRIMARY KEY,
     "idSession" INT NOT NULL,
     "idVendeuse" INT,
@@ -340,7 +332,7 @@ CREATE TABLE "commande" (
     FOREIGN KEY ("idTypeTarification") REFERENCES "typeTarification"("idTypeTarification")
 );
 
-CREATE TABLE "ligneCommande" (
+CREATE TABLE IF NOT EXISTS "ligneCommande" (
     "idLigne" SERIAL PRIMARY KEY,
     "idCommande" INT NOT NULL,
     "idProduit" INT NOT NULL,
@@ -350,7 +342,7 @@ CREATE TABLE "ligneCommande" (
     FOREIGN KEY ("idProduit") REFERENCES "produit"("idProduit")
 );
 
-CREATE TABLE "personnalisationCommande" (
+CREATE TABLE IF NOT EXISTS "personnalisationCommande" (
     "idPersonnalisation" SERIAL PRIMARY KEY,
     "idLigne" INT NOT NULL,
     "idIngredient" INT NOT NULL,
@@ -361,7 +353,7 @@ CREATE TABLE "personnalisationCommande" (
     FOREIGN KEY ("idActionCommande") REFERENCES "actionCommande"("idActionCommande")
 );
 
-CREATE TABLE "factureRecu" (
+CREATE TABLE IF NOT EXISTS "factureRecu" (
     "idFacture" SERIAL PRIMARY KEY,
     "idCommande" INT NOT NULL,
     "referenceFacture" VARCHAR(50) UNIQUE NOT NULL,
@@ -377,7 +369,7 @@ CREATE TABLE "factureRecu" (
 -- MODULE 5 : Dépenses & Imprévus
 -- ==============================================================================
 
-CREATE TABLE "depense" (
+CREATE TABLE IF NOT EXISTS "depense" (
     "idDepense" SERIAL PRIMARY KEY,
     "idSession" INT,
     "idTypeDepense" INT NOT NULL,
@@ -396,7 +388,7 @@ CREATE TABLE "depense" (
 -- MODULE 6 : Satisfaction Client, Avis & Boost
 -- ==============================================================================
 
-CREATE TABLE "retourClient" (
+CREATE TABLE IF NOT EXISTS "retourClient" (
     "idRetour" SERIAL PRIMARY KEY,
     "idTypeRetour" INT NOT NULL,
     "noteSur10" INT CHECK ("noteSur10" >= 0 AND "noteSur10" <= 10),
@@ -408,7 +400,7 @@ CREATE TABLE "retourClient" (
     FOREIGN KEY ("idClassificationSentiment") REFERENCES "classificationSentiment"("idClassificationSentiment")
 );
 
-CREATE TABLE "actionAmelioration" (
+CREATE TABLE IF NOT EXISTS "actionAmelioration" (
     "idAction" SERIAL PRIMARY KEY,
     "idRetourOrigine" INT NOT NULL,
     "idAuteurAdmin" INT NOT NULL,
@@ -419,7 +411,7 @@ CREATE TABLE "actionAmelioration" (
     FOREIGN KEY ("idStatutDemandeAchat") REFERENCES "statutDemandeAchat"("idStatutDemandeAchat")
 );
 
-CREATE TABLE "notificationPlateforme" (
+CREATE TABLE IF NOT EXISTS "notificationPlateforme" (
     "idNotification" SERIAL PRIMARY KEY,
     "idTypeNotification" INT NOT NULL,
     "titre" VARCHAR(150) NOT NULL,

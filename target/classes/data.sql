@@ -37,3 +37,4 @@ INSERT INTO "classificationSentiment" ("libelle") VALUES ('POSITIF'), ('NEGATIF'
 INSERT INTO "statutDemandeAchat" ("libelle") VALUES ('NON_APPLICABLE'), ('DEMANDE_ACHAT_ENVOYEE_A_ADMIN'), ('APPROUVEE');
 
 INSERT INTO "typeNotification" ("libelle") VALUES ('BOOST_NOUVEAU_PRODUIT'), ('ARRIVEE_POINT_DE_VENTE');
+

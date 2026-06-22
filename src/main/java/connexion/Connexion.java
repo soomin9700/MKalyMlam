@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Connexion {
     private static final String URL = "jdbc:postgresql://localhost:5432/foodTruckDb";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    private static final String PASSWORD = "1234";
     private static volatile Connexion connexion;
 
     private Connexion() {

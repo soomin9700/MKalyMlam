@@ -1,1 +1,5 @@
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/mkalymlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/rakotoarivelo/servlet/baovola/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/rakotoarivelo/servlet/baovola/src/main/java/com/mkalymlam/controller/DashboardController.java
+/home/rakotoarivelo/servlet/baovola/src/main/java/com/mkalymlam/controller/StatistiqueController.java
+/home/rakotoarivelo/servlet/baovola/src/main/java/connexion/Connexion.java
+/home/rakotoarivelo/servlet/baovola/src/main/java/service/StatistiqueService.java

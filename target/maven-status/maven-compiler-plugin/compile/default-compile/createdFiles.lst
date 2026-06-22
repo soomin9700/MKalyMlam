@@ -1,0 +1,5 @@
+com/mkalymlam/controller/DashboardController.class
+com/mkalymlam/MkalymlamApplication.class
+connexion/Connexion.class
+service/StatistiqueService.class
+com/mkalymlam/controller/StatistiqueController.class

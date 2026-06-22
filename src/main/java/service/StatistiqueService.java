@@ -1,16 +1,18 @@
 package service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import connexion.Connexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import connexion.Connexion;
 
 @Service
 @Transactional
@@ -59,7 +61,7 @@ public class StatistiqueService {
         return beneficeTotal;
     }
 
-    public Double getBeneficeByIdItineraire(Long idItineraire) {
+    public Double getBeneficeParIdItineraire(Long idItineraire) {
         String sql = """
                     SELECT
                         COALESCE(SUM("chiffreAffaireTotal"),0)
