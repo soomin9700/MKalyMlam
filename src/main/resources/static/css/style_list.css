@@ -1,259 +1,186 @@
-/* style_list.css - Styles spécifiques à la page de liste des ingrédients */
+/* Styles spécifiques à la page de liste */
+        .table-container {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
 
-.table-container {
-    background: white;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    overflow-x: auto;
-}
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-.table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
+        .table-header h1 {
+            font-size: 24px;
+            color: var(--dark);
+        }
 
-.table-header h1 {
-    font-size: 24px;
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-}
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
 
-.btn-add {
-    background: var(--primary);
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s;
-}
+        .btn-add:hover {
+            background: #a81e1e;
+        }
 
-.btn-add:hover {
-    background: #a81e1e;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
-}
+        .btn-add::before {
+            content: "+";
+            font-size: 20px;
+            font-weight: 700;
+        }
 
-.btn-add i {
-    font-size: 14px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        thead {
+            background: var(--secondary);
+            color: var(--dark);
+        }
 
-thead {
-    background: var(--secondary);
-    color: var(--dark);
-}
+        thead th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-thead th {
-    padding: 15px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        tbody tr {
+            border-bottom: 1px solid var(--gray);
+            transition: background 0.2s;
+        }
 
-thead th i {
-    margin-right: 8px;
-    font-size: 13px;
-}
+        tbody tr:hover {
+            background: #f8fafc;
+        }
 
-tbody tr {
-    border-bottom: 1px solid var(--gray);
-    transition: background 0.2s;
-}
+        tbody td {
+            padding: 15px;
+            font-size: 14px;
+        }
 
-tbody tr:hover {
-    background: #f8fafc;
-}
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
-tbody td {
-    padding: 15px;
-    font-size: 14px;
-    vertical-align: middle;
-}
+        .btn-edit {
+            background: #3B82F6;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.3s;
+            display: inline-block;
+        }
 
-.actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
+        .btn-edit:hover {
+            background: #2563EB;
+        }
 
-.btn-edit {
-    background: #3B82F6;
-    color: white;
-    padding: 6px 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
+        .btn-delete {
+            background: #EF4444;
+            color: white;
+            padding: 6px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
 
-.btn-edit:hover {
-    background: #2563EB;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
+        .btn-delete:hover {
+            background: #DC2626;
+        }
 
-.btn-edit i {
-    font-size: 13px;
-}
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
 
-.btn-delete {
-    background: #EF4444;
-    color: white;
-    padding: 6px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
 
-.btn-delete:hover {
-    background: #DC2626;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-}
+        .empty-state .btn-add {
+            display: inline-flex;
+        }
 
-.btn-delete i {
-    font-size: 13px;
-}
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
 
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #6b7280;
-}
+        .badge-warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
 
-.empty-state i {
-    font-size: 48px;
-    color: #d1d5db;
-    margin-bottom: 15px;
-    display: block;
-}
+        .badge-success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
 
-.empty-state p {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.empty-state .btn-add {
-    display: inline-flex;
-}
-
-.badge-id {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--gray);
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--dark);
-}
-
-.text-muted {
-    color: #9ca3af;
-}
-
-/* Styles pour la sidebar avec icônes */
-.sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    transition: all 0.3s;
-}
-
-.sidebar a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar a i {
-    width: 20px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.sidebar a.active {
-    background: rgba(249, 168, 38, 0.2);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .table-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .table-header h1 {
-        justify-content: center;
-    }
-    
-    .btn-add {
-        justify-content: center;
-    }
-    
-    table {
-        font-size: 13px;
-    }
-    
-    thead th,
-    tbody td {
-        padding: 10px 8px;
-    }
-    
-    .actions {
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .btn-edit,
-    .btn-delete {
-        justify-content: center;
-        width: 100%;
-    }
-    
-    thead th i {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .table-container {
-        padding: 15px;
-    }
-    
-    .table-header h1 {
-        font-size: 20px;
-    }
-    
-    .btn-add {
-        font-size: 14px;
-        padding: 8px 20px;
-    }
-}
+        @media (max-width: 768px) {
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-header h1 {
+                text-align: center;
+            }
+            
+            .btn-add {
+                justify-content: center;
+            }
+            
+            table {
+                font-size: 13px;
+            }
+            
+            thead th,
+            tbody td {
+                padding: 10px 8px;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .btn-edit,
+            .btn-delete {
+                text-align: center;
+                width: 100%;
+            }
+        }
