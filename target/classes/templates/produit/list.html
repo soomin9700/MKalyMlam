@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/style_form.css}">
     <link rel="stylesheet" th:href="@{/css/style_list.css}">
-    <!-- <link rel="stylesheet" th:href="@{/css/style_list_prod.css}"> -->
+    <link rel="stylesheet" th:href="@{/css/style_list_prod.css}">
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -16,13 +16,13 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <h2>ADMIN PANEL</h2>
-            <a href="#"><i class="fas fa-th-large"></i> Dashboard</a>
-            <a href="#" class="active" style="color: var(--secondary);"><i class="fas fa-box"></i> Produits</a>
-            <a href="#"><i class="fas fa-truck"></i> Commandes</a>
-            <a href="#"><i class="fas fa-users"></i> Employés</a>
-            <a href="#"><i class="fas fa-user-friends"></i> Clients</a>
-            <a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a>
-            <a href="#"><i class="fas fa-utensils"></i> Ingrédients</a>
+            <a href="#">Dashboard</a>
+            <a href="#" class="active" style="color: var(--secondary);">Produits</a>
+            <a href="#">Commandes</a>
+            <a href="#">Employés</a>
+            <a href="#">Clients</a>
+            <a href="#">Statistiques</a>
+            <a href="#">Ingrédients</a>
         </div>
 
         <div class="main">
@@ -40,14 +40,12 @@
                 <table>
                     <thead>
                         <tr>
-                            <h2>ADMIN PANEL</h2>
-                            <a href="#">Dashboard</a>
-                            <a href="#" class="active" style="color: var(--secondary);">Produits</a>
-                            <a href="#">Commandes</a>
-                            <a href="#">Employés</a>
-                            <a href="#">Clients</a>
-                            <a href="#">Statistiques</a>
-                            <a href="#">Ingrédients</a>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-tag"></i> Nom</th>
+                            <th><i class="fas fa-euro-sign"></i> Prix</th>
+                            <th><i class="fas fa-star"></i> Nouveau</th>
+                            <th><i class="fas fa-calendar"></i> Date</th>
+                            <th><i class="fas fa-cog"></i> Actions</th>
                         </tr>
                     </thead>
 
