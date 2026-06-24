@@ -1,0 +1,5 @@
+com/mkalymlam/controller/IngredientController.class
+com/mkalymlam/entity/Ingredient.class
+com/mkalymlam/service/IngredientService.class
+com/mkalymlam/MkalymlamApplication.class
+com/mkalymlam/repository/IngredientRepository.class
