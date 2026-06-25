@@ -1,3 +1,5 @@
+drop database "foodTruckDb";
+
 CREATE DATABASE "foodTruckDb";
 \c "foodTruckDb";
 
