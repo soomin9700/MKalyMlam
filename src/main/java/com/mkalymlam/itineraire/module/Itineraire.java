@@ -1,7 +1,13 @@
 package com.mkalymlam.itineraire.module;
 
-import jakarta.persistence.*;
 import java.sql.Time;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "itineraire")
@@ -9,22 +15,22 @@ public class Itineraire {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idItineraire")
+    @Column(name = "\"idItineraire\"")
     private Long id;
 
-    @Column(name = "nomZone")
+    @Column(name = "\"nomZone\"")
     private String nomZone;
 
-    @Column(name = "lieuExact")
+    @Column(name = "\"lieuExact\"")
     private String lieuExact;
 
-    @Column(name = "heureDebutPrevue")
+    @Column(name = "\"heureDebutPrevue\"")
     private Time heureDebutPrevue;
 
-    @Column(name = "heureFinPrevue")
+    @Column(name = "\"heureFinPrevue\"")
     private Time heureFinPrevue;
 
-    @Column(name = "jourSemaine")
+    @Column(name = "\"jourSemaine\"")
     private String jourSemaine;
 
     public Itineraire() {}

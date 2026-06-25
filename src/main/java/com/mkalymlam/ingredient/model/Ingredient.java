@@ -13,16 +13,16 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idIngredient")
+    @Column(name = "\"idIngredient\"")
     private Long id;
 
-    @Column(name = "nomIngredient", nullable = false)
+    @Column(name = "\"nomIngredient\"", nullable = false)
     private String nomIngredient;
 
-    @Column(name = "seuilAlerteQuantite", nullable = false)
+    @Column(name = "\"seuilAlerteQuantite\"", nullable = false)
     private double seuilAlerteQuantite;
 
-    @Column(name = "uniteMesure", nullable = false)
+    @Column(name = "\"uniteMesure\"", nullable = false)
     private String uniteMesure;
 
     public Ingredient() {

@@ -15,19 +15,19 @@ public class Produit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idProduit")
+    @Column(name = "\"idProduit\"")
     private Long id;
 
-    @Column(name = "nomProduit", nullable = false)
+    @Column(name = "\"nomProduit\"", nullable = false)
     private String nomProduit;
 
-    @Column(name = "prixBase", nullable = false)
+    @Column(name = "\"prixBase\"", nullable = false)
     private double prixBase;
 
-    @Column(name = "estNouveau")
+    @Column(name = "\"estNouveau\"")
     private Boolean estNouveau;
 
-    @Column(name = "dateCreation")
+    @Column(name = "\"dateCreation\"")
     private LocalDate dateCreation;
 
     public Produit() {

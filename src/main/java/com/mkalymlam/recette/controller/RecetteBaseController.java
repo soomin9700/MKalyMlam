@@ -1,14 +1,17 @@
 package com.mkalymlam.recette.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.mkalymlam.ingredient.service.IngredientService;
 import com.mkalymlam.produit.service.ProduitService;
 import com.mkalymlam.recette.model.RecetteBase;
-import com.mkalymlam.recette.model.RecetteBaseId;
 import com.mkalymlam.recette.service.RecetteBaseService;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/recetteBase")
@@ -34,6 +37,12 @@ public class RecetteBaseController {
         model.addAttribute("produits", produitService.findAll());
         model.addAttribute("ingredients", ingredientService.findAll());
         return "recetteBase";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "OK";
     }
 
     @PostMapping("/save")

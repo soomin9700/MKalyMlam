@@ -7,19 +7,19 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "recetteDeBase")
+@Table(name = "\"recetteDeBase\"")
 @IdClass(RecetteBaseId.class)
 public class RecetteBase {
 
     @Id
-    @Column(name = "idProduit")
+    @Column(name = "\"idProduit\"")
     private Long idProduit;
 
     @Id
-    @Column(name = "idIngredient")
+    @Column(name = "\"idIngredient\"")
     private Long idIngredient;
 
-    @Column(name = "quantiteRecette", nullable = false)
+    @Column(name = "\"quantiteRecette\"", nullable = false)
     private Double quantiteRecette;
 
     public RecetteBase() {
