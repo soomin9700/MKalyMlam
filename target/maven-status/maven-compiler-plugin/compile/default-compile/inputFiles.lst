@@ -3,3 +3,7 @@
 /home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
 /home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
 /home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
+/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
