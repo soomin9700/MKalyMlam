@@ -1,6 +1,11 @@
 package com.mkalymlam.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ingredient")
@@ -8,10 +13,14 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "\"idIngredient\"")
     private Long idIngredient;
 
+    @Column(name = "\"nomIngredient\"")
     private String nomIngredient;
+    @Column(name = "\"seuilAlerteQuantite\"")
     private Double seuilAlerteQuantite;
+    @Column(name = "\"uniteMesure\"")
     private String uniteMesure;
 
 

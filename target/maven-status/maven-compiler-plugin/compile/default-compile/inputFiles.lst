@@ -1,9 +1,9 @@
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
-/home/nampoina/Bureau/S4/ProjetMmeBAOVOLA/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
