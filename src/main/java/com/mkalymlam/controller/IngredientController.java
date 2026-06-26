@@ -22,7 +22,7 @@ public class IngredientController {
     // =======================
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("ingredients", service.getAll());
+        model.addAttribute("ingredients", service.findAll());
         return "ingredient/list";
     }
 

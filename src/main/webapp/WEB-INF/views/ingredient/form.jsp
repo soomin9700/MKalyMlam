@@ -26,9 +26,10 @@
 <body>
 
 <div class="dashboard">
+    <c:set var="activeMenu" value="ingredients"/>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <%-- <div class="sidebar">
         <h2>ADMIN PANEL</h2>
 
         <a href="#">Dashboard</a>
@@ -38,7 +39,9 @@
         <a href="#">Clients</a>
         <a href="#">Statistiques</a>
         <a href="#" class="active" style="color: var(--secondary);">Ingrédients</a>
-    </div>
+    </div> --%>
+
+    <jsp:include page="/WEB-INF/views/fragments/sidebar.jsp" />
 
     <div class="main">
 

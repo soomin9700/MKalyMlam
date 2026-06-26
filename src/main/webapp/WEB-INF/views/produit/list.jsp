@@ -20,10 +20,11 @@
 <body>
 
 <div class="dashboard">
+    <c:set var="activeMenu" value="produits"/>
 
     <!-- Sidebar -->
 
-    <div class="sidebar">
+    <%-- <div class="sidebar">
 
         <h2>ADMIN PANEL</h2>
 
@@ -42,7 +43,9 @@
             Ingrédients
         </a>
 
-    </div>
+    </div> --%>
+
+    <jsp:include page="/WEB-INF/views/fragments/sidebar.jsp" />
 
     <div class="main">
 
@@ -214,7 +217,7 @@
                                 <!-- Modifier -->
 
                                 <a href="${pageContext.request.contextPath}/produits/${produit.idProduit}/edit"
-                                   class="btn-edit-product">
+                                   class="btn-edit">
 
                                     <i class="fas fa-edit"></i>
 
@@ -230,7 +233,7 @@
                                       onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.');">
 
                                     <button type="submit"
-                                            class="btn-delete-product">
+                                            class="btn-delete">
 
                                         <i class="fas fa-trash-alt"></i>
 
