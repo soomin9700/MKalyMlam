@@ -187,6 +187,26 @@ header{
     margin:18px 0;
 }
 
+.sidebar a.active {
+    color: #facc15; /* jaune */
+    font-weight: bold;
+}
+
+.sidebar a.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #facc15;
+}
+
+.sidebar a.active {
+    background: rgba(250, 204, 21, 0.1);
+    color: #facc15;
+    border-radius: 8px;
+}
+
 .main{
     flex:1;
     padding:40px;

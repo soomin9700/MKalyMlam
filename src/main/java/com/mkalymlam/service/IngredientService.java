@@ -17,7 +17,7 @@ public class IngredientService {
     }
 
     // Liste de tous les ingrédients
-    public List<Ingredient> getAll() {
+    public List<Ingredient> findAll() {
         return repository.findAll();
     }
 
