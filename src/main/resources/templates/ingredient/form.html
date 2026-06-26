@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit} ? 'Modifier un ingrédient' : 'Ajouter un ingrédient'">Formulaire - Administration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style_form.css}">    
+</head>
+<body>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>ADMIN PANEL</h2>
+            <a href="#">Dashboard</a>
+            <a href="./produits">Produits</a>
+            <a href="#">Commandes</a>
+            <a href="#">Employés</a>
+            <a href="#">Clients</a>
+            <a href="#">Statistiques</a>
+            <a href="#" class="active" style="color: var(--secondary);">Ingrédients</a>
+        </div>
+
+        <div class="main">
+
+            <a th:href="@{/ingredients}" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Retour à la liste
+            </a>
+
+            <div class="form-section">
+
+                <form th:action="@{${actionUrl}}" method="post">
+                    <h1>
+                        <i class="fas fa-utensils" style="color: var(--primary); margin-right: 12px;"></i>
+                        <span th:text="${isEdit} ? 'Mettre à jour un ingrédient' : 'Ajouter un nouvel ingrédient'"></span>
+                    </h1>
+                    <p style="color: #6b7280; margin-bottom: 30px;" th:text="${isEdit} ? 'Modifiez les informations de l\'ingrédient sélectionné.' : 'Remplissez tous les champs pour enregistrer un ingrédient dans la base de données.'">
+                        Remplissez tous les champs pour enregistrer un ingrédient.
+                    </p>
+
+                    <hr>
+                    <br>
+
+                    <!-- ID caché pour UPDATE -->
+                    <input type="hidden" th:if="${isEdit}" th:value="${ingredient.idIngredient}" name="id"/>
+
+                    <!-- Champ Nom -->
+                    <div class="form-group">
+                        <label for="nomIngredient">Nom de l'ingrédient *</label>
+                        <input type="text" 
+                            id="nomIngredient"
+                            name="nomIngredient"
+                            th:value="${ingredient.nomIngredient}" 
+                            placeholder="Ex: Tomate, Poulet, etc."
+                            required/>
+                    </div>
+
+                    <!-- Champ Unité de mesure -->
+                    <div class="form-group">
+                        <label for="uniteMesure">Unité de mesure *</label>
+                        <select id="uniteMesure" name="uniteMesure" required>
+                            <option value="">Sélectionner une unité</option>
+                            <option value="kg" th:selected="${ingredient.uniteMesure == 'kg'}">Kilogramme (kg)</option>
+                            <option value="g" th:selected="${ingredient.uniteMesure == 'g'}">Gramme (g)</option>
+                            <option value="l" th:selected="${ingredient.uniteMesure == 'l'}">Litre (l)</option>
+                            <option value="ml" th:selected="${ingredient.uniteMesure == 'ml'}">Millilitre (ml)</option>
+                            <option value="unite" th:selected="${ingredient.uniteMesure == 'unite'}">Pièce (unité)</option>
+                            <option value="bot" th:selected="${ingredient.uniteMesure == 'bot'}">Botte</option>
+                        </select>
+                    </div>
+
+                    <!-- Champ Seuil d'alerte -->
+                    <div class="form-group">
+                        <label for="seuilAlerteQuantite">Seuil d'alerte</label>
+                        <input type="number"
+                            id="seuilAlerteQuantite"
+                            step="0.01"
+                            name="seuilAlerteQuantite"
+                            th:value="${ingredient.seuilAlerteQuantite}" 
+                            placeholder="Ex: 5 (alerte si stock en dessous)" 
+                            min="0"/>
+                        <small style="color: #6b7280; display: block; margin-top: 5px;"><i class="fas fa-bell"></i> Recevoir une notification lorsque le stock descend en dessous de ce seuil.</small>
+                    </div>
+
+                    <!-- Boutons d'action -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-success">
+                            <i class="fas" th:classappend="${isEdit} ? 'fa-pen' : 'fa-save'"></i>
+                            <span th:text="${isEdit} ? 'Modifier' : 'Enregistrer l\'ingrédient'"></span>
+                        </button>
+                        <button type="reset" class="btn-secondary">
+                            <i class="fas fa-undo"></i> Réinitialiser
+                        </button>
+                        <a th:href="@{/ingredients}" style="margin-left: auto; align-self: center; color: var(--primary);"><i class="fas fa-times"></i> Annuler</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
