@@ -1,0 +1,98 @@
+/* Styles spécifiques à la page de liste des produits */
+        .badge-new {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-new.active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .badge-new.inactive {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .badge-new i {
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        .price-tag {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .date-format {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-edit-product {
+            background: #3B82F6;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-edit-product:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-delete-product {
+            background: #EF4444;
+            color: white;
+            padding: 6px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-delete-product:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-delete-product i,
+        .btn-edit-product i {
+            font-size: 13px;
+        }
+
+        .product-id {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--gray);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+        }
