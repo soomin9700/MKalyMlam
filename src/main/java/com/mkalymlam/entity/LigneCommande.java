@@ -1,38 +1,45 @@
 package com.mkalymlam.entity;
 
+// import java.beans.Transient;
+
+// import org.springframework.data.annotation.Transient;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 
 @Entity
-@Table(name = "LigneCommande")
+@Table(name = "\"ligneCommande\"")
 public class LigneCommande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // private Long id;
+    @Column(name = "\"idLigne\"")
+    private Long idLigneCommande;
     @Column(name = "\"idCommande\"")
     private Long idCommande;
     @Column(name = "\"idProduit\"")
     private Long idProduit;
     @Column(name = "quantite")
     private int quantite;
-    @Column(name = "\"sousTotal\"")
+    // @Column(name = "\"sousTotal\"")
+    @Transient
     private double sousTotal;
 
     public LigneCommande() {
     }
 
-    // public Long getId() {
-    //     return id;
-    // }
+    public Long getIdLigneCommande() {
+        return idLigneCommande;
+    }
 
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
+    public void setIdLigneCommande(Long idLigneCommande) {
+        this.idLigneCommande = idLigneCommande;
+    }
 
     public Long getIdCommande() {
         return idCommande;

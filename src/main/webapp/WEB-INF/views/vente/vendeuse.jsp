@@ -214,15 +214,19 @@ function nouvelleCommande(){
             'Content-Type':'application/json'
         },
 
-        body:JSON.stringify({
-            date:new Date().toISOString().slice(0,10)
-        })
+        // body:JSON.stringify({
+        //     date:new Date().toISOString().slice(0,10)
+        // })
+
+        body:JSON.stringify({})
 
     })
 
     .then(r=>r.json())
 
     .then(c=>{
+        console.log(c);
+        
 
         cmdId=c.idCommande;
 
@@ -238,7 +242,9 @@ function nouvelleCommande(){
 
 function ajouterLigne(){
 
+    console.log(cmdId);
     if(!cmdId) return;
+    
 
     const pId=document.getElementById("selectProduit").value;
 
@@ -282,7 +288,7 @@ function ajouterLigne(){
 
             "<td>"+ligne.quantite+"</td>"+
 
-            "<td>"+ligne.sousTotal+" Ar</td>"+
+            // "<td>"+ligne.getSousTotal()+" Ar</td>"+
 
             "<td></td>";
 
