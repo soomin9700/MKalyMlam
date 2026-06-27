@@ -267,6 +267,14 @@ CREATE TABLE "lotIngredient" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
+    - Elements necessaires:
+        -> 
+
+#### 2- Benefice totaux: 
+- globalite: 
+    - Benefice globale 
+    - Consultation:
+        - Benefice / mois
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
@@ -308,6 +316,7 @@ CREATE TABLE "produit" (
 );
 
 CREATE TABLE "recetteDeBase" (
+
     "idProduit" INT NOT NULL,
     "idIngredient" INT NOT NULL,
     "quantiteRecette" NUMERIC(10, 2) NOT NULL,
