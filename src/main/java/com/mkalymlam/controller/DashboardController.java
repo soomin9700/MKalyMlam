@@ -11,6 +11,6 @@ public class DashboardController {
             "/statistique/dashboard-statistique" })
     public String dashboardStatistique(Model model) {
         model.addAttribute("titre", "Dashboard statistique");
-        return "dashboard";
+        return "dashboard/dashboard";
     }
 }

@@ -21,7 +21,7 @@ body {
     color: var(--ink);
     background: var(--bg);
     font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .page {
@@ -98,7 +98,7 @@ body {
 
 .panel-head h2 {
     margin: 0;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--brand);
     font-weight: 600;
 }
