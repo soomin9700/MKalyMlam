@@ -54,7 +54,7 @@
         Recette de Base
     </a>
 
-    <a href="${pageContext.request.contextPath}/commandes"
+    <a href="${pageContext.request.contextPath}/vente/vendeuse"
     class="${activeMenu == 'commandes' ? 'active' : ''}">
         Commandes
     </a>

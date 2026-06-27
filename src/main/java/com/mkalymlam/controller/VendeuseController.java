@@ -13,4 +13,9 @@ public class VendeuseController {
     public String vendeuse() {
         return "vente/vendeuse";
     }
+
+    // @GetMapping("/")
+    // public String vendeuse() {
+    //     return "vente/vendeuse";
+    // }
 }
