@@ -267,14 +267,6 @@ CREATE TABLE "lotIngredient" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
-    - Elements necessaires:
-        -> 
-
-#### 2- Benefice totaux: 
-- globalite: 
-    - Benefice globale 
-    - Consultation:
-        - Benefice / mois
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
@@ -325,17 +317,35 @@ CREATE TABLE "recetteDeBase" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
+-- CREATE TABLE "commande" (
+--     "idCommande" SERIAL PRIMARY KEY,
+--     "idSession" INT NOT NULL,
+--     "idVendeuse" INT,
+--     "idTypeCommande" INT NOT NULL,
+--     "dateHeureCreation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     "heureRecuperationPrevue" TIME,
+--     "lieuRecuperationPrevu" VARCHAR(150),
+--     "montantTotal" NUMERIC(12, 2) NOT NULL,
+--     "idStatutCommande" INT NOT NULL,
+--     "idTypeTarification" INT NOT NULL,
+--     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
+--     FOREIGN KEY ("idVendeuse") REFERENCES "utilisateur"("idUtilisateur"),
+--     FOREIGN KEY ("idTypeCommande") REFERENCES "typeCommande"("idTypeCommande"),
+--     FOREIGN KEY ("idStatutCommande") REFERENCES "statutCommande"("idStatutCommande"),
+--     FOREIGN KEY ("idTypeTarification") REFERENCES "typeTarification"("idTypeTarification")
+-- );
+
 CREATE TABLE "commande" (
     "idCommande" SERIAL PRIMARY KEY,
-    "idSession" INT NOT NULL,
+    "idSession" INT,
     "idVendeuse" INT,
-    "idTypeCommande" INT NOT NULL,
+    "idTypeCommande" INT,
     "dateHeureCreation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "heureRecuperationPrevue" TIME,
     "lieuRecuperationPrevu" VARCHAR(150),
-    "montantTotal" NUMERIC(12, 2) NOT NULL,
-    "idStatutCommande" INT NOT NULL,
-    "idTypeTarification" INT NOT NULL,
+    "montantTotal" NUMERIC(12, 2),
+    "idStatutCommande" INT,
+    "idTypeTarification" INT,
     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
     FOREIGN KEY ("idVendeuse") REFERENCES "utilisateur"("idUtilisateur"),
     FOREIGN KEY ("idTypeCommande") REFERENCES "typeCommande"("idTypeCommande"),
@@ -352,6 +362,9 @@ CREATE TABLE "ligneCommande" (
     FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande"),
     FOREIGN KEY ("idProduit") REFERENCES "produit"("idProduit")
 );
+
+-- ALTER TABLE "ligneCommande"
+-- ALTER COLUMN "prixUnitaireFacture" DROP NOT NULL;
 
 CREATE TABLE "personnalisationCommande" (
     "idPersonnalisation" SERIAL PRIMARY KEY,
