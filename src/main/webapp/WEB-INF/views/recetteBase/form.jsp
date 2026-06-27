@@ -146,13 +146,14 @@
                     </label>
 
                     <input type="number"
-                           id="quantiteRecette"
-                           name="quantiteRecette"
-                           step="0.001"
-                           min="0"
-                           value="${recette.quantiteRecette}"
-                           placeholder="Ex: 1.5"
-                           required>
+                        id="quantiteRecette"
+                        name="quantiteRecette"
+                        step="0.001"
+                        min="0"
+                        value="${recette.quantiteRecette}"
+                        placeholder="Ex: 1.5"
+                        required
+                    >
 
                 </div>
 
@@ -180,10 +181,10 @@
                     </button>
 
                     <a href="${pageContext.request.contextPath}/recetteBase"
-                       style="margin-left:auto;
-                              align-self:center;
-                              color:var(--primary);
-                              text-decoration:none;">
+                        style="margin-left:auto;
+                        align-self:center;
+                        color:var(--primary);
+                        text-decoration:none;">
 
                         <i class="fas fa-times"></i>
                         Annuler

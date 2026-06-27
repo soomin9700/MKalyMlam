@@ -260,3 +260,34 @@ footer{
     text-align:center;
     padding:25px;
 }
+
+/* ==========================
+   Carte du montant total
+========================== */
+
+.total-container{
+    margin-top:30px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.total-card{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    min-width:240px;
+    text-align:right;
+}
+
+.total-label{
+    color:#6b7280;
+    font-size:20px;
+}
+
+.total-value{
+    margin-top:10px;
+    font-size:40px;
+    font-weight:bold;
+    color:var(--primary);
+}
