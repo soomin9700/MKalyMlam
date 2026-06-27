@@ -49,21 +49,30 @@
             let produits = [];
 
             window.onload = function () {
-                fetch('/produits')
+                fetch('${pageContext.request.contextPath}/produits/liste')
                     .then(r => r.json())
                     .then(data => {
                         produits = data;
                         console.log(data);
                         
                         const sel = document.getElementById('selectProduit');
-                        data.forEach(p => {
+                        produits.forEach(p => {
                             const opt = document.createElement('option');
-                            opt.value = p.id;
+                            opt.value = p.idProduit;
                             opt.textContent = p.nomProduit + '  (' + p.prixBase + ' Ar)';
                             opt.dataset.prix = p.prixBase;
                             sel.appendChild(opt);
                         });
                     });
+                // fetch('${pageContext.request.contextPath}/produits/liste')
+                // .then(r => {
+                //     console.log("STATUS:", r.status);
+                //     console.log("CONTENT-TYPE:", r.headers.get("content-type"));
+                //     return r.text(); // 👈 TEMPORAIRE
+                // })
+                // .then(txt => {
+                //     console.log("RAW RESPONSE:", txt);
+                // });
             };
 
             document.getElementById('selectProduit').onchange = afficherPrix;
@@ -72,20 +81,20 @@
             function afficherPrix() {
                 const sel = document.getElementById('selectProduit');
                 const qte = parseInt(document.getElementById('inputQuantite').value) || 0;
-                const p = produits.find(x => x.id == sel.value);
+                const p = produits.find(x => x.idProduit == sel.value);
                 document.getElementById('prixUnitaire').textContent = p ? p.prixBase + ' Ar' : '-';
                 document.getElementById('previewMontant').textContent = (p && qte > 0) ? (p.prixBase * qte) + ' Ar' : '-';
             }
 
             function nouvelleCommande() {
-                fetch('/commande/ajouter', {
+                fetch('${pageContext.request.contextPath}/commande/ajouter', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ date: new Date().toISOString().slice(0, 10) })
                 })
                     .then(r => r.json())
                     .then(c => {
-                        cmdId = c.id;
+                        cmdId = c.idCommande;
                         document.getElementById('cmdId').textContent = cmdId;
                         document.getElementById('panel').classList.remove('hidden');
                         document.getElementById('lignes').innerHTML = '';
@@ -106,7 +115,7 @@
                 })
                     .then(r => r.json())
                     .then(ligne => {
-                        const p = produits.find(x => x.id == ligne.idProduit);
+                        const p = produits.find(x => x.idProduit == ligne.idProduit);
                         const tr = document.createElement('tr');
                         tr.innerHTML = '<td>' + (p ? p.nomProduit : '#' + ligne.idProduit) + '</td>'
                             + '<td>' + (p ? p.prixBase + ' Ar' : '-') + '</td>'
@@ -115,10 +124,19 @@
                         document.getElementById('lignes').appendChild(tr);
                         actualiserTotal();
                     });
+                // fetch('${pageContext.request.contextPath}/ligneCommande/ajouter')
+                // .then(r => {
+                //     console.log("STATUS:", r.status);
+                //     console.log("CONTENT-TYPE:", r.headers.get("content-type"));
+                //     return r.text(); // 👈 TEMPORAIRE
+                // })
+                // .then(txt => {
+                //     console.log("RAW RESPONSE:", txt);
+                // });
             }
 
 function actualiserTotal() {
-    fetch('/commande/montant?id=' + cmdId)
+    fetch('${pageContext.request.contextPath}/commande/montant?id=' + cmdId)
         .then(r => r.text())
         .then(t => { document.getElementById('total').textContent = t; });
 }

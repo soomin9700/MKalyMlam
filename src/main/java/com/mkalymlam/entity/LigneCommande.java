@@ -1,11 +1,11 @@
 package com.mkalymlam.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
 
 
 @Entity
@@ -14,7 +14,7 @@ public class LigneCommande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // private Long id;
-    @Column(name = "\"idComande\"")
+    @Column(name = "\"idCommande\"")
     private Long idCommande;
     @Column(name = "\"idProduit\"")
     private Long idProduit;

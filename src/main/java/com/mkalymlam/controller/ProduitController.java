@@ -2,6 +2,7 @@ package com.mkalymlam.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,13 @@ public class ProduitController {
         model.addAttribute("produits", service.findAll());
         return "produit/list";
     }
+
+    @GetMapping("/liste")
+    @ResponseBody
+    public List<Produit> liste() {
+        return service.findAll();
+    }
+
     
     @GetMapping("/new")
     public String createForm(Model model) {
