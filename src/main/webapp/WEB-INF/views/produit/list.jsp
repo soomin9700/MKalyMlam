@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list_prod.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_liste_prod.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"

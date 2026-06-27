@@ -1,3 +1,4 @@
+com/mkalymlam/controller/DashboardController.class
 com/mkalymlam/repository/ProduitRepository.class
 com/mkalymlam/repository/LigneCommandeRepository.class
 com/mkalymlam/entity/RecetteBaseId.class
@@ -10,6 +11,8 @@ com/mkalymlam/service/ProduitService.class
 com/mkalymlam/entity/Ingredient.class
 com/mkalymlam/MkalymlamApplication.class
 com/mkalymlam/service/RecetteBaseService.class
+com/mkalymlam/service/StatistiqueService.class
+com/mkalymlam/controller/StatistiqueController.class
 com/mkalymlam/controller/ProduitController.class
 com/mkalymlam/entity/Produit.class
 com/mkalymlam/repository/ItineraireRepository.class
