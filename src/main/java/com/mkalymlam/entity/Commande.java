@@ -4,11 +4,14 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 
 @Entity
 @Table(name = "commande")
@@ -17,28 +20,39 @@ public class Commande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idCommande\"")
     private Long idCommande;
-    @Column(name = "\"idSession\"")
-    private Long idSession;
+
+    @ManyToOne
+    @JoinColumn(name = "\"idSession\"")
+    private SessionTruck sessionTruck;
+
     @Column(name = "\"idVendeuse\"")
     private Long idVendeuse;
-    @Column(name = "\"idTypeCommande\"")
-    private Long idTypeCommande;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "\"typeCommande\"")
+    private TypeCommande typeCommande;
+
     @Column(name = "\"dateHeureCreation\"")
     private LocalDateTime dateHeureCreation;
+
     @Column(name = "\"heureRecuperationPrevue\"")
     private LocalDateTime heureRecuperationPrevue;
+
     @Column(name = "\"lieuRecuperationPrevu\"")
-    private LocalDateTime lieuRecuperationPrevu;
+    private String lieuRecuperationPrevu;
+
     @Column(name = "\"montantTotal\"")
     private double montantTotal;
-    @Column(name = "\"idStatutCommande\"")
-    private LocalDateTime idStatutCommande;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "\"statutCommande\"")
+    private StatutCommande statutCommande;
+
     @Column(name = "\"idTypeTarification\"")
-    private LocalDateTime idTypeTarification;
+    private Long idTypeTarification;
 
     public Commande() {
     }
-
 
     public Long getIdCommande() {
         return idCommande;
@@ -46,6 +60,14 @@ public class Commande {
 
     public void setIdCommande(Long idCommande) {
         this.idCommande = idCommande;
+    }
+
+    public SessionTruck getSessionTruck() {
+        return sessionTruck;
+    }
+
+    public void setSessionTruck(SessionTruck sessionTruck) {
+        this.sessionTruck = sessionTruck;
     }
 
     public Long getIdVendeuse() {
@@ -56,15 +78,13 @@ public class Commande {
         this.idVendeuse = idVendeuse;
     }
 
-
-    public Long getIdTypeCommande() {
-        return idTypeCommande;
+    public TypeCommande getTypeCommande() {
+        return typeCommande;
     }
 
-    public void setIdTypeCommande(Long idTypeCommande) {
-        this.idTypeCommande = idTypeCommande;
+    public void setTypeCommande(TypeCommande typeCommande) {
+        this.typeCommande = typeCommande;
     }
-
 
     public double getMontantTotal() {
         return montantTotal;
@@ -82,49 +102,35 @@ public class Commande {
         this.dateHeureCreation = dateHeureCreation;
     }
 
-    public Long getIdSession() {
-        return idSession;
-    }
-
-    public void setIdSession(Long idSession) {
-        this.idSession = idSession;
-    }
-
-
     public LocalDateTime getHeureRecuperationPrevue() {
         return heureRecuperationPrevue;
     }
-
 
     public void setHeureRecuperationPrevue(LocalDateTime heureRecuperationPrevue) {
         this.heureRecuperationPrevue = heureRecuperationPrevue;
     }
 
-    public LocalDateTime getLieuRecuperationPrevu() {
+    public String getLieuRecuperationPrevu() {
         return lieuRecuperationPrevu;
     }
 
-
-    public void setLieuRecuperationPrevu(LocalDateTime lieuRecuperationPrevu) {
+    public void setLieuRecuperationPrevu(String lieuRecuperationPrevu) {
         this.lieuRecuperationPrevu = lieuRecuperationPrevu;
     }
 
-    public LocalDateTime getIdStatutCommande() {
-        return idStatutCommande;
+    public StatutCommande getStatutCommande() {
+        return statutCommande;
     }
 
-
-    public void setIdStatutCommande(LocalDateTime idStatutCommande) {
-        this.idStatutCommande = idStatutCommande;
+    public void setStatutCommande(StatutCommande statutCommande) {
+        this.statutCommande = statutCommande;
     }
 
-    public LocalDateTime getIdTypeTarification() {
+    public Long getIdTypeTarification() {
         return idTypeTarification;
     }
 
-
-    public void setIdTypeTarification(LocalDateTime idTypeTarification) {
+    public void setIdTypeTarification(Long idTypeTarification) {
         this.idTypeTarification = idTypeTarification;
     }
-    
 }

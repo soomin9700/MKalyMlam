@@ -1,17 +1,11 @@
 package com.mkalymlam.entity;
 
-// import java.beans.Transient;
-
-// import org.springframework.data.annotation.Transient;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-
 
 @Entity
 @Table(name = "\"ligneCommande\"")
@@ -26,8 +20,7 @@ public class LigneCommande {
     private Long idProduit;
     @Column(name = "quantite")
     private int quantite;
-    // @Column(name = "\"sousTotal\"")
-    @Transient
+    @Column(name = "\"prixUnitaireFacture\"")
     private double sousTotal;
 
     public LigneCommande() {

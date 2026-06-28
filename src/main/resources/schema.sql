@@ -321,17 +321,15 @@ CREATE TABLE "recetteDeBase" (
 --     "idCommande" SERIAL PRIMARY KEY,
 --     "idSession" INT NOT NULL,
 --     "idVendeuse" INT,
---     "idTypeCommande" INT NOT NULL,
+--     "typeCommande" VARCHAR(50),
 --     "dateHeureCreation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --     "heureRecuperationPrevue" TIME,
 --     "lieuRecuperationPrevu" VARCHAR(150),
 --     "montantTotal" NUMERIC(12, 2) NOT NULL,
---     "idStatutCommande" INT NOT NULL,
+--     "statutCommande" VARCHAR(50),
 --     "idTypeTarification" INT NOT NULL,
 --     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
 --     FOREIGN KEY ("idVendeuse") REFERENCES "utilisateur"("idUtilisateur"),
---     FOREIGN KEY ("idTypeCommande") REFERENCES "typeCommande"("idTypeCommande"),
---     FOREIGN KEY ("idStatutCommande") REFERENCES "statutCommande"("idStatutCommande"),
 --     FOREIGN KEY ("idTypeTarification") REFERENCES "typeTarification"("idTypeTarification")
 -- );
 
@@ -339,17 +337,15 @@ CREATE TABLE "commande" (
     "idCommande" SERIAL PRIMARY KEY,
     "idSession" INT,
     "idVendeuse" INT,
-    "idTypeCommande" INT,
+    "typeCommande" VARCHAR(50),
     "dateHeureCreation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "heureRecuperationPrevue" TIME,
     "lieuRecuperationPrevu" VARCHAR(150),
     "montantTotal" NUMERIC(12, 2),
-    "idStatutCommande" INT,
+    "statutCommande" VARCHAR(50),
     "idTypeTarification" INT,
     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
     FOREIGN KEY ("idVendeuse") REFERENCES "utilisateur"("idUtilisateur"),
-    FOREIGN KEY ("idTypeCommande") REFERENCES "typeCommande"("idTypeCommande"),
-    FOREIGN KEY ("idStatutCommande") REFERENCES "statutCommande"("idStatutCommande"),
     FOREIGN KEY ("idTypeTarification") REFERENCES "typeTarification"("idTypeTarification")
 );
 
