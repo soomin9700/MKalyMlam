@@ -23,7 +23,7 @@
 - integration template 
     - ajout de CSS de l affichage minimal 
         - [ok] Formulaire : **Ouvrir une session**
-        - Liste des sessions du jour
+        - [ok] Liste des sessions du jour
 
 
 ------------------------------------------------------
