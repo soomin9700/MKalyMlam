@@ -1,12 +1,13 @@
 package com.mkalymlam.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 // import com.mkalymlam.entity.Ingredient;
 // import com.mkalymlam.repository.IngredientRepository;
@@ -36,6 +37,86 @@ public class StatistiqueService {
             """;
 
         return jdbcTemplate.queryForObject(sql, Double.class);
+    }
+
+
+    public Double getChiffreAffaireByIdSession(Long idSession) {
+
+        String sql = """
+            SELECT COALESCE(SUM("montantTotal"),0)
+            FROM "commande" where commande.idSession = ?
+            """;
+
+        return jdbcTemplate.queryForObject(sql, Double.class, idSession);
+    }
+
+    public Double getChiffreAffaireByZone(String zone) {
+        String sql="""
+            SELECT
+            COALESCE(SUM("chiffreAffaireTotal"),0)
+            FROM "view_Itineraire_SessionTruck_Depense"
+            WHERE "nomZone"=?
+            """;
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                Double.class,
+                zone
+        );
+    }
+
+
+    public Double getBeneficeByZone(String zone) {
+        String sql="""
+            SELECT
+            COALESCE(SUM("chiffreAffaireTotal"),0)
+            -
+            COALESCE(SUM("montantDepenseTotal"),0)
+            FROM "view_Itineraire_SessionTruck_Depense"
+            WHERE "nomZone"=?
+            """;
+
+        return jdbcTemplate.queryForObject(
+                sql,
+                Double.class,
+                zone
+        );
+    }
+
+
+    public Double getChiffreAffaireByIdSessionHebdomadaire(Long idSession) {
+
+        String sql = """
+            SELECT COALESCE(SUM("montantTotal"),0)
+            FROM "commande"
+            WHERE "idSession" = ?
+            AND "dateHeureCreation"
+            >= CURRENT_DATE - INTERVAL '7 days';
+            """;
+
+        return jdbcTemplate.queryForObject(sql, Double.class, idSession);
+    }
+
+
+    public Double getChiffreAffaireByIdSessionDates(Long idSession, LocalDateTime date1, LocalDateTime date2) {
+
+        String sql = """
+            SELECT COALESCE(SUM("montantTotal"),0)
+            FROM "commande" where commande.idSession = ?
+            and "dateHeureCreation" >= ? and "dateHeureCreation" <= ?
+            """;
+
+        return jdbcTemplate.queryForObject(sql, Double.class, idSession, date1, date2);
+    }
+
+    public Double getChiffreAffaireByIdSessionMensuel(Long idSession) {
+
+        String sql = """
+            SELECT * from view_CA_Depense_Benefice_Mensuel
+            where "idSession" = ?
+            """;
+
+        return jdbcTemplate.queryForObject(sql, Double.class, idSession);
     }
 
     public Double getBeneficeByIdItineraire(Long idItineraire){
