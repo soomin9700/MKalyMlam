@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "sessionTruck")
+@Table(name = "\"sessionTruck\"")
 public class SessionTruck {
 
     @Id

@@ -10,14 +10,14 @@ com/mkalymlam/repository/StatutDisponibiliteRepository.class
 com/mkalymlam/entity/StatutDisponibilite.class
 com/mkalymlam/repository/TruckRepository.class
 com/mkalymlam/entity/Produit.class
-com/mkalymlam/repository/RecetteBaseRepository.class
 com/mkalymlam/repository/UtilisateurRepository.class
+com/mkalymlam/repository/RecetteBaseRepository.class
 com/mkalymlam/entity/Truck.class
 com/mkalymlam/controller/ItineraireController.class
-com/mkalymlam/controller/RecetteBaseController.class
 com/mkalymlam/service/SessionTruckService.class
-com/mkalymlam/repository/StatutSessionRepository.class
+com/mkalymlam/controller/RecetteBaseController.class
 com/mkalymlam/repository/SessionTruckRepository.class
+com/mkalymlam/repository/StatutSessionRepository.class
 com/mkalymlam/controller/IngredientController.class
 com/mkalymlam/entity/Role.class
 com/mkalymlam/service/ItineraireService.class
@@ -29,8 +29,8 @@ com/mkalymlam/repository/ProduitRepository.class
 com/mkalymlam/repository/LigneCommandeRepository.class
 com/mkalymlam/repository/CommandeRepository.class
 com/mkalymlam/entity/RecetteBaseId.class
-com/mkalymlam/controller/TruckController.class
 com/mkalymlam/controller/LigneCommandeController.class
+com/mkalymlam/controller/TruckController.class
 com/mkalymlam/entity/EquipeSession.class
 com/mkalymlam/entity/Ingredient.class
 com/mkalymlam/entity/SessionTruck.class
