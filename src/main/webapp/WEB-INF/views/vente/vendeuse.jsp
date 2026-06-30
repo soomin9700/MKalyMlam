@@ -97,6 +97,93 @@
         .type-SUR_PLACE { background: #e2e3f9; color: #3a3f9e; }
         .type-A_DISTANCE { background: #f0e6f6; color: #7b2d8e; }
 
+        .btn-facture {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            background: #0f5132;
+            color: #fff;
+        }
+        .btn-facture:hover {
+            opacity: 0.85;
+        }
+        .btn-facture:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary, #4361ee);
+        }
+        .modal-content label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+        }
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .receipt {
+            font-family: 'Courier New', monospace;
+            background: #f9f9f9;
+            border: 2px dashed #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre;
+        }
+        .receipt-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .receipt-separator {
+            text-align: center;
+            letter-spacing: 4px;
+        }
+        .receipt-merci {
+            text-align: center;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
         .liste-commandes {
             margin-top: 40px;
             border-top: 2px solid #e0e0e0;
@@ -295,6 +382,29 @@
 
     </div>
 
+</div>
+
+<div class="modal-overlay" id="factureModal">
+    <div class="modal-content">
+        <h2><i class="fas fa-file-invoice"></i> Générer la facture</h2>
+        <p>Commande N° <strong id="factureCmdId"></strong></p>
+        <label for="modePaiementSelect">Mode de paiement</label>
+        <select id="modePaiementSelect">
+            <option value="ESPECE">Espèces</option>
+            <option value="MOBILE_MONEY">Mobile Money</option>
+        </select>
+        <div class="modal-actions">
+            <button class="btn-add" onclick="fermerModalFacture()">Annuler</button>
+            <button class="btn-facture" onclick="validerFacture()">Valider</button>
+        </div>
+        <div id="receiptContainer" style="display:none;">
+            <div class="receipt" id="receiptContent"></div>
+            <div class="modal-actions">
+                <button class="btn-add" onclick="imprimerRecu()"><i class="fas fa-print"></i> Imprimer</button>
+                <button class="btn-add" onclick="fermerModalFacture()">Fermer</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -515,6 +625,7 @@ function appliquerFiltre() {
 
         const statutSelectId = "statutSelect_" + c.idCommande;
 
+        const estLivree = c.statutCommande === "LIVREE";
         const actionHtml =
             '<select id="' + statutSelectId + '" class="statut-select">' +
                 '<option value="EN_ATTENTE"' + (c.statutCommande === "EN_ATTENTE" ? " selected" : "") + '>EN_ATTENTE</option>' +
@@ -523,7 +634,8 @@ function appliquerFiltre() {
                 '<option value="LIVREE"' + (c.statutCommande === "LIVREE" ? " selected" : "") + '>LIVREE</option>' +
                 '<option value="ANNULEE"' + (c.statutCommande === "ANNULEE" ? " selected" : "") + '>ANNULEE</option>' +
             '</select>' +
-            ' <button class="btn-statut" onclick="event.stopPropagation();changerStatut(' + c.idCommande + ',\'' + statutSelectId + '\')">OK</button>';
+            ' <button class="btn-statut" onclick="event.stopPropagation();changerStatut(' + c.idCommande + ',\'' + statutSelectId + '\')">OK</button>' +
+            (estLivree ? ' <button class="btn-facture" onclick="event.stopPropagation();ouvrirModalFacture(' + c.idCommande + ')"><i class="fas fa-file-invoice"></i> Facture</button>' : '');
 
         tr.innerHTML =
             "<td><strong>#" + c.idCommande + "</strong></td>" +
@@ -585,6 +697,86 @@ function changerStatut(idCommande, selectId) {
         console.error("Erreur lors du changement de statut :", err);
         alert("Erreur : impossible de changer le statut.");
     });
+}
+
+let factureCommandeId = null;
+
+function ouvrirModalFacture(idCommande) {
+    factureCommandeId = idCommande;
+    document.getElementById("factureCmdId").textContent = idCommande;
+    document.getElementById("factureModal").classList.add("active");
+    document.getElementById("receiptContainer").style.display = "none";
+    document.getElementById("modePaiementSelect").style.display = "block";
+    document.querySelector("#factureModal .modal-actions").style.display = "flex";
+
+    fetch('${pageContext.request.contextPath}/facture/byCommande?id_commande=' + idCommande)
+        .then(r => r.json())
+        .then(facture => {
+            if (facture && facture.idFacture) {
+                afficherRecu(facture);
+            }
+        })
+        .catch(() => {});
+}
+
+function fermerModalFacture() {
+    document.getElementById("factureModal").classList.remove("active");
+    factureCommandeId = null;
+}
+
+function validerFacture() {
+    const modePaiement = document.getElementById("modePaiementSelect").value;
+
+    fetch('${pageContext.request.contextPath}/facture/generer?id_commande=' + factureCommandeId + '&mode_paiement=' + modePaiement, {
+        method: 'POST'
+    })
+    .then(r => r.json())
+    .then(resultat => {
+        if (resultat.success) {
+            afficherRecu(resultat.facture);
+            chargerCommandes();
+        } else {
+            alert("Erreur : " + resultat.message);
+        }
+    })
+    .catch(err => {
+        console.error("Erreur génération facture :", err);
+        alert("Erreur lors de la génération de la facture.");
+    });
+}
+
+function afficherRecu(facture) {
+    const c = facture.commande;
+    const date = new Date(facture.dateFacturation);
+    const dateStr = date.toLocaleString("fr-FR");
+    const montant = c.montantTotal ? c.montantTotal.toFixed(2).replace(".", ",") : "0,00";
+    const modeLabel = facture.modePaiement === "ESPECE" ? "Espèces" : "Mobile Money";
+
+    const recu =
+        "==================================\n" +
+        "           FOOD TRUCK\n" +
+        "==================================\n" +
+        "Référence : " + facture.referenceFacture + "\n" +
+        "Date      : " + dateStr + "\n" +
+        "Commande  : #" + c.idCommande + "\n" +
+        "Montant   : " + montant + " Ar\n" +
+        "Paiement  : " + modeLabel + "\n" +
+        "==================================\n" +
+        "Merci pour votre achat !\n" +
+        "==================================";
+
+    document.getElementById("receiptContent").textContent = recu;
+    document.getElementById("modePaiementSelect").style.display = "none";
+    document.querySelector("#factureModal .modal-actions").style.display = "none";
+    document.getElementById("receiptContainer").style.display = "block";
+}
+
+function imprimerRecu() {
+    const contenu = document.getElementById("receiptContent").textContent;
+    const fenetre = window.open("", "", "width=400,height=600");
+    fenetre.document.write("<pre style='font-family:monospace;font-size:14px;padding:20px;'>" + contenu + "</pre>");
+    fenetre.document.close();
+    fenetre.print();
 }
 
 </script>

@@ -378,10 +378,8 @@ CREATE TABLE "factureRecu" (
     "idCommande" INT NOT NULL,
     "referenceFacture" VARCHAR(50) UNIQUE NOT NULL,
     "dateFacturation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "idModePaiement" INT NOT NULL,
-    "detailsTaxesBrut" NUMERIC(10, 2),
-    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande"),
-    FOREIGN KEY ("idModePaiement") REFERENCES "modePaiement"("idModePaiement")
+    "modePaiement" VARCHAR(50) NOT NULL,
+    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande")
 );
 
 
