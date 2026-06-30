@@ -1,6 +1,8 @@
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/config/JspConfig.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/AbsenceCongeController.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/AbsenceController.java
+/home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/AuthController.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
@@ -44,6 +46,8 @@
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/repository/RoleRepository.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
+/home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/security/CustomUserDetailsService.java
+/home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/security/SecurityConfig.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/service/AbsenceCongeService.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/service/AbsenceService.java
 /home/user/Projets/kaly/projet/MKalyMlam/src/main/java/com/mkalymlam/service/CongeService.java

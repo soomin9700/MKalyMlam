@@ -26,6 +26,7 @@ com/mkalymlam/controller/AbsenceCongeController.class
 com/mkalymlam/controller/ItineraireController.class
 com/mkalymlam/controller/RecetteBaseController.class
 com/mkalymlam/controller/UtilisateurController.class
+com/mkalymlam/security/SecurityConfig.class
 com/mkalymlam/controller/IngredientController.class
 com/mkalymlam/entity/Role.class
 com/mkalymlam/entity/TypeAbsence.class
@@ -37,6 +38,7 @@ com/mkalymlam/entity/RecetteBase.class
 com/mkalymlam/entity/Commande.class
 com/mkalymlam/service/UtilisateurService.class
 com/mkalymlam/service/CongeService.class
+com/mkalymlam/security/CustomUserDetailsService.class
 com/mkalymlam/controller/DashboardController.class
 com/mkalymlam/repository/ProduitRepository.class
 com/mkalymlam/repository/LigneCommandeRepository.class
@@ -45,6 +47,7 @@ com/mkalymlam/controller/CongeController.class
 com/mkalymlam/repository/CommandeRepository.class
 com/mkalymlam/entity/RecetteBaseId.class
 com/mkalymlam/service/AbsenceService.class
+com/mkalymlam/config/JspConfig.class
 com/mkalymlam/controller/LigneCommandeController.class
 com/mkalymlam/service/AbsenceCongeService.class
 com/mkalymlam/entity/Ingredient.class
@@ -55,5 +58,6 @@ com/mkalymlam/entity/HistoriqueSalaire.class
 com/mkalymlam/controller/CommandeController.class
 com/mkalymlam/repository/RoleRepository.class
 com/mkalymlam/entity/LigneCommande.class
+com/mkalymlam/controller/AuthController.class
 com/mkalymlam/service/IngredientService.class
 com/mkalymlam/repository/AbsenceRepository.class
