@@ -1,0 +1,14 @@
+# TODO - Module Reçu / Facturation
+
+- [x] Créer l'enum `ModePaiement` (ESPECE, MOBILE_MONEY)
+- [x] Créer l'entité `FactureRecu` (JPA, table `factureRecu`)
+- [x] Créer le repository `FactureRecuRepository`
+- [x] Créer le service `FactureRecuService` avec génération de référence
+  - Format : `FACT-{ANNEE}-{NUMERO_INCREMENTAL}`
+  - Logique : dernière facture → incrémenter compteur
+- [x] Créer le contrôleur REST `FactureRecuController`
+  - `POST /facture/generer` (vérifie LIVREE, génère ref, enregistre)
+  - `GET /facture/find` (par id)
+  - `GET /facture/findAll`
+  - `GET /facture/byCommande` (par id_commande)
+- [x] Modifier `schema.sql` : remplacer `idModePaiement` FK par `modePaiement` VARCHAR
