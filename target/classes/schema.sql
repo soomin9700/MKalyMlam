@@ -126,7 +126,8 @@ CREATE TABLE "utilisateur" (
     "statutActif" BOOLEAN DEFAULT TRUE,
     FOREIGN KEY ("idRole") REFERENCES "role"("idRole")
 );
-
+ALTER TABLE utilisateur ADD COLUMN role VARCHAR(50);
+ALTER TABLE utilisateur ADD COLUMN statut_actif boolean;
 CREATE TABLE "absenceConge" (
     "idAbsence" SERIAL PRIMARY KEY,
     "idUtilisateur" INT NOT NULL,

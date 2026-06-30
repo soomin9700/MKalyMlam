@@ -1,0 +1,114 @@
+/* ===== Variables (reprises ici pour être autonome) ===== */
+:root {
+    --brand: #da291c;
+    --brand-dark: #b71c13;
+    --bg: #f5f5f5;
+    --panel: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #666666;
+    --line: #e0e0e0;
+    --danger: #b91c1c;
+}
+
+/* ===== Conteneur centré verticalement ===== */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 16px;
+    background: var(--bg);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== Panneau du formulaire ===== */
+.auth-panel {
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid var(--line);
+}
+
+.auth-panel h2 {
+    margin-bottom: 20px;
+    color: var(--brand);
+    font-size: 22px;
+}
+
+/* ===== Champs de saisie ===== */
+.auth-panel label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+}
+
+.auth-panel input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-panel input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(218,41,28,0.1);
+}
+
+/* ===== Bouton principal ===== */
+.auth-panel button {
+    width: 100%;
+    padding: 12px;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.auth-panel button:hover {
+    background: var(--brand-dark);
+}
+
+/* ===== Lien de navigation (ex: "Créer un compte") ===== */
+.auth-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ===== Messages d'erreur et de succès ===== */
+.error-msg {
+    color: var(--danger);
+    background: #fef2f2;
+    padding: 10px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.success-msg {
+    color: #166534;
+    background: #dcfce7;
+    padding: 10px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
