@@ -1,3 +1,4 @@
+
 -- Supprimer la table si elle existe
 DROP TABLE IF EXISTS ingredient CASCADE;
 
@@ -27,7 +28,6 @@ WHERE a."idRole" > b."idRole" AND a."libelle" = b."libelle";
 
 -- Ajouter une contrainte UNIQUE sur libelle pour éviter que ça se reproduise
 ALTER TABLE "role" ADD CONSTRAINT unique_role_libelle UNIQUE ("libelle");
-
 
 
 
@@ -61,3 +61,14 @@ CREATE TABLE absence (
     commentaire TEXT,
     FOREIGN KEY ("idEmploye") REFERENCES employe(id)
 );
+
+
+ALTER TABLE "ligneCommande"
+ALTER COLUMN "prixUnitaireFacture" DROP NOT NULL;
+
+
+-- 1. Supprimer la colonne role (varchar) si elle existe encore
+ALTER TABLE utilisateur DROP COLUMN IF EXISTS role;
+
+-- 2. Supprimer la colonne statutActif si elle existe (on garde statut_actif)
+ALTER TABLE utilisateur DROP COLUMN IF EXISTS "statutActif";

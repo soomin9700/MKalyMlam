@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "utilisateur")
 public class Utilisateur {
 
-    @Id
+  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idUtilisateur\"")
     private Long idUtilisateur;
@@ -18,11 +18,11 @@ public class Utilisateur {
     @Column(name = "\"motDePasse\"")
     private String motDePasse;
 
-    // Correction : le type est bien RoleEntity
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idRole\"", nullable = false)
     private RoleEntity role;
 
+    @Column(name = "\"salaireBaseFixe\"")   // 👈 Annotation ajoutée
     private Double salaireBaseFixe;
 
     @Column(name = "statut_actif")
