@@ -51,7 +51,14 @@
                    class="btn-add">
                     Ajouter un ingrédient
                 </a>
-
+                <div class="export-buttons" style="display:flex; gap:10px; margin-left:auto;">
+    <a href="${pageContext.request.contextPath}/ingredients/export/csv" class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+        <i class="fas fa-file-csv"></i> CSV
+    </a>
+    <a href="${pageContext.request.contextPath}/ingredients/print" target="_blank" class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+        <i class="fas fa-print"></i> Imprimer
+    </a>
+</div>
             </div>
 
             <!-- Tableau -->

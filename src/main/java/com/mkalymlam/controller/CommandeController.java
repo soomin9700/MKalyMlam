@@ -40,4 +40,6 @@ public class CommandeController {
     public double getMontant(@RequestParam Long id) {
         return venteService.getMontantCommande(id);
     }
+
+    
 }

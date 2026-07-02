@@ -36,3 +36,4 @@ com/mkalymlam/repository/ItineraireRepository.class
 com/mkalymlam/controller/CommandeController.class
 com/mkalymlam/entity/LigneCommande.class
 com/mkalymlam/service/IngredientService.class
+com/mkalymlam/controller/CommandeExportController.class
