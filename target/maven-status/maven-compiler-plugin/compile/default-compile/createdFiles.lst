@@ -4,6 +4,7 @@ com/mkalymlam/repository/IngredientRepository.class
 com/mkalymlam/service/MethodeComptableService.class
 com/mkalymlam/view/ViewController.class
 com/mkalymlam/service/VenteService.class
+com/mkalymlam/controller/EquipementWebController.class
 com/mkalymlam/service/ProduitService.class
 com/mkalymlam/service/TypeEquipementService.class
 com/mkalymlam/repository/TypeEquipementRepository.class

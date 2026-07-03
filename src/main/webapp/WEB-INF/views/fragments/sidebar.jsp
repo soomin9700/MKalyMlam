@@ -49,6 +49,13 @@
         Ingrédients
     </a>
 
+    <a href="${pageContext.request.contextPath}/equipements"
+    class="${activeMenu == 'equipements' ? 'active' : ''}">
+        Équipements
+    </a>
+
+    Mouvement des équipements ( mouvementEquipement)
+
     <a href="${pageContext.request.contextPath}/recetteBase"
     class="${activeMenu == 'recetteBase' ? 'active' : ''}">
         Recette de Base
