@@ -41,23 +41,20 @@
 
             </div>
 
-            
-
             <!-- Tableau -->
             <table>
 
                 <thead>
-
                     <tr>
-                        <th><i class="fas fa-tag"></i> SessionTruck</th>
-                        <th><i class="fas fa-calendar-times"></i> Date de péremption</th>
-                        <th><i class="fas fa-calendar-plus"></i> Type Item</th>
-                        <th><i class="fas fa-calendar-plus"></i> Item</th>
-                        <th><i class="fas fa-weight"></i> Quantité Physique Constatée</th>
-                        <th><i class="fas fa-weight-hanging"></i> Quantité Théorique Système</th>
-                        <th><i class="fas fa-solid fa-not-equal"></i> Écart</th>
+                        <th><i class="fas fa-tag"></i> Session</th>
+                        <th><i class="fas fa-calendar"></i> Date inventaire</th>
+                        <th><i class="fas fa-tag"></i> Type</th>
+                        <th><i class="fas fa-box"></i> Item</th>  <!-- Nouvelle colonne -->
+                        <th><i class="fas fa-weight"></i> Quantité physique</th>
+                        <th><i class="fas fa-weight-hanging"></i> Quantité théorique</th>
+                        <th><i class="fas fa-balance-scale"></i> Écart</th>
+                        <th><i class="fas fa-cog"></i> Actions</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -65,28 +62,18 @@
                     <!-- Aucun inventaire -->
                     <c:if test="${empty inventaires}">
                         <tr>
-
                             <td colspan="8">
-
                                 <div class="empty-state">
-
                                     <i class="fas fa-boxes"
                                        style="font-size:48px;color:#d1d5db;margin-bottom:15px;display:block;"></i>
-
                                     <p>Aucun inventaire enregistré pour le moment.</p>
-
                                     <a href="${pageContext.request.contextPath}/inventaire/save"
                                        class="btn-add">
-
                                         <i class="fas fa-plus"></i>
                                         Ajouter le premier inventaire
-
                                     </a>
-
                                 </div>
-
                             </td>
-
                         </tr>
                     </c:if>
 
@@ -94,13 +81,14 @@
                     <c:forEach items="${inventaires}" var="inventaire">
 
                         <tr>
-
                             <td>
-                                <strong>${inventaire.sessionTruck.id}</strong>
+                                <strong>Session #${inventaire.sessionTruck.id}</strong>
+                                <br>
+                                <small>${inventaire.sessionTruck.dateSession}</small>
                             </td>
 
                             <td>
-                                    ${inventaire.dateInventaire}
+                                ${inventaire.dateInventaire}
                             </td>
 
                             <td>
@@ -109,9 +97,11 @@
                                 </span>
                             </td>
 
+                            <!-- ✅ Affichage du nom de l'item -->
                             <td>
-                                <span class="">
-                                    ${inventaire.idItem.libelle}
+                                <span class="badge bg-info">
+                                    <i class="fas fa-box"></i>
+                                    ${inventaire.nomItem}
                                 </span>
                             </td>
 
@@ -144,7 +134,25 @@
                                 </c:choose>
                             </td>
 
-                            
+                            <td>
+                                <div class="actions">
+                                    <a href="${pageContext.request.contextPath}/inventaire/edit/${inventaire.idInventaire}"
+                                       class="btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                        Modifier
+                                    </a>
+
+                                    <form action="${pageContext.request.contextPath}/inventaire/delete/${inventaire.idInventaire}"
+                                          method="post"
+                                          style="display:inline;"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet inventaire ?');">
+                                        <button type="submit" class="btn-delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
 
                         </tr>
 

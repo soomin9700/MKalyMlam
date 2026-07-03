@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "\"inventaireJournalier\"")
 public class InventaireJournalier {
@@ -25,6 +24,10 @@ public class InventaireJournalier {
     @JoinColumn(name = "\"idTypeItem\"")
     private TypeItem typeItem;
 
+    // ✅ Ajout du champ idItem
+    @Column(name = "\"idItem\"")
+    private Long idItem;
+
     @Column(name = "\"quantitePhysiqueConstatee\"")
     private Double quantitePhysiqueConstatee;
 
@@ -34,23 +37,28 @@ public class InventaireJournalier {
     @Column(name = "\"ecartInventaire\"")
     private Double ecartInventaire;
 
+    // ✅ Champs transitoires pour l'affichage (non persistés en base)
+    @Transient
+    private String nomItem;
+
+    // Constructeurs
+    public InventaireJournalier() {
+    }
 
     public InventaireJournalier(Long idInventaire, SessionTruck sessionTruck, LocalDate dateInventaire,
-            TypeItem typeItem, Double quantitePhysiqueConstatee, Double quantiteTheoriqueSysteme,
-            Double ecartInventaire) {
+            TypeItem typeItem, Long idItem, Double quantitePhysiqueConstatee, 
+            Double quantiteTheoriqueSysteme, Double ecartInventaire) {
         this.idInventaire = idInventaire;
         this.sessionTruck = sessionTruck;
         this.dateInventaire = dateInventaire;
         this.typeItem = typeItem;
+        this.idItem = idItem;
         this.quantitePhysiqueConstatee = quantitePhysiqueConstatee;
         this.quantiteTheoriqueSysteme = quantiteTheoriqueSysteme;
         this.ecartInventaire = ecartInventaire;
     }
 
-    public InventaireJournalier() {
-    }
-    
-
+    // Getters et Setters
     public Long getIdInventaire() {
         return idInventaire;
     }
@@ -83,6 +91,14 @@ public class InventaireJournalier {
         this.typeItem = typeItem;
     }
 
+    public Long getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(Long idItem) {
+        this.idItem = idItem;
+    }
+
     public Double getQuantitePhysiqueConstatee() {
         return quantitePhysiqueConstatee;
     }
@@ -107,4 +123,11 @@ public class InventaireJournalier {
         this.ecartInventaire = ecartInventaire;
     }
 
+    public String getNomItem() {
+        return nomItem;
+    }
+
+    public void setNomItem(String nomItem) {
+        this.nomItem = nomItem;
+    }
 }
