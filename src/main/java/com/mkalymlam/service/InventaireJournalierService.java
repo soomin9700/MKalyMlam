@@ -14,13 +14,13 @@ import java.util.List;
 public class InventaireJournalierService {
     
     private final InventaireJournalierRepository inventaireRepository;
-    private final MouvementLotIngredientRepository mouvementLotService;
-    private final MouvementEquipementService mouvementEquipementService;
+    private final SessionTruckRepository sessionTruckRepository;
+    private final TypeItemRepository typeItemRepository;
 
-    public InventaireJournalierService (InventaireJournalierRepository inventaireRepository, MouvementLotIngredientRepository mouvementLotService, MouvementEquipementService mouvementEquipementService) {
+    public InventaireJournalierService (InventaireJournalierRepository inventaireRepository, SessionTruckRepository sessionTruckRepository, TypeItemRepository typeItemRepository) {
         this.inventaireRepository = inventaireRepository;
-        this.mouvementLotService = mouvementLotService;
-        this.mouvementEquipementService = mouvementEquipementService;
+        this.sessionTruckRepository = sessionTruckRepository;
+        this.typeItemRepository = typeItemRepository;
     }
     
     @Transactional
@@ -37,26 +37,6 @@ public class InventaireJournalierService {
         return inventaireRepository.save(inventaire);
     }
 
-    // TSY MBOLA VITA LE UPDATE!!!!!
-    
-    // @Transactional
-    // public InventaireJournalier update(Long id, InventaireJournalier inventaireJournalier) {
-    //     InventaireJournalier existing = getById(id);
-    //     if (existing == null) {
-    //         return null;
-    //     }
-
-    //     if (inventaireJournalier.getSessionTruck() != null && inventaireJournalier.getSessionTruck().getId() != null){
-    //         SessionTruck sessionTruck = inventaireRepository.findByIdSession(id)
-    //             .orElse(null);
-    //             existing.setSessionTruck(inventaireJournalier.getSessionTruck());
-    //     }
-
-        
-
-    //     return inventaireRepository.save(existing);
-    // }
-
     public List<InventaireJournalier> getAll() {
         return inventaireRepository.findAllByOrderByDateInventaireAsc();
     }
@@ -66,9 +46,16 @@ public class InventaireJournalierService {
     public InventaireJournalier getById(Long id) {
         return inventaireRepository.findById(id).orElse(null);
     }
+
+    public List<TypeItem> getAllTypeItems() {
+        return typeItemRepository.findAll();
+    }
     
-    public List<InventaireJournalier> findByBySession(Long idSession) {
-        return inventaireRepository.findByIdSession(idSession);
+    public List<InventaireJournalier> findBySession(Long idSession) {
+        return inventaireRepository.findBySessionTruckId(idSession);
+    }
+    public List<SessionTruck> getAllSessionTrucks(){
+        return sessionTruckRepository.findAll();
     }
 
     public List<InventaireJournalier> findByDateInventaire(LocalDate dateInventaire) {

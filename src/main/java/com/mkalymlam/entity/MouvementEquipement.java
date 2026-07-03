@@ -18,8 +18,8 @@ public class MouvementEquipement {
     private TypeMouvement typeMouvement;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idLot\"")
-    private LotIngredient lotIngredient;
+    @JoinColumn(name = "\"idEquipement\"")
+    private Equipement equipement;  
 
     @Column(name = "\"quantite\"")
     private Double quantite;
@@ -27,11 +27,11 @@ public class MouvementEquipement {
     @Column(name = "\"dateMouvement\"")
     private LocalDate dateMouvement;
 
-    public MouvementEquipement(Long idMouvementEquipement, TypeMouvement typeMouvement, LotIngredient lotIngredient,
-            Double quantite, LocalDate dateMouvement) {
+    public MouvementEquipement(Long idMouvementEquipement, TypeMouvement typeMouvement, 
+                               Equipement equipement, Double quantite, LocalDate dateMouvement) {
         this.idMouvementEquipement = idMouvementEquipement;
         this.typeMouvement = typeMouvement;
-        this.lotIngredient = lotIngredient;
+        this.equipement = equipement;  
         this.quantite = quantite;
         this.dateMouvement = dateMouvement;
     }
@@ -55,12 +55,12 @@ public class MouvementEquipement {
         this.typeMouvement = typeMouvement;
     }
 
-    public LotIngredient getLotIngredient() {
-        return lotIngredient;
+    public Equipement getEquipement() {  
+        return equipement;
     }
 
-    public void setLotIngredient(LotIngredient lotIngredient) {
-        this.lotIngredient = lotIngredient;
+    public void setEquipement(Equipement equipement) {  
+        this.equipement = equipement;
     }
 
     public Double getQuantite() {

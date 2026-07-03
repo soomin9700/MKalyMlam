@@ -8,26 +8,26 @@ public class TypeItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"idInventaire\"")
-    private Long idInventaire;
+    @Column(name = "\"idTypeItem\"")
+    private Long idTypeItem;
 
     @Column(name = "\"libelle\"")
     private String libelle;
 
-    public TypeItem(Long idInventaire, String libelle) {
-        this.idInventaire = idInventaire;
+    public TypeItem(Long idTypeItem, String libelle) {
+        this.idTypeItem = idTypeItem;
         this.libelle = libelle;
     }
 
     public TypeItem() {
     }
 
-    public Long getIdInventaire() {
-        return idInventaire;
+    public Long getIdTypeItem() {
+        return idTypeItem;
     }
 
-    public void setIdInventaire(Long idInventaire) {
-        this.idInventaire = idInventaire;
+    public void setIdTypeItem(Long idTypeItem) {
+        this.idTypeItem = idTypeItem;
     }
 
     public String getLibelle() {

@@ -40,7 +40,7 @@ public class MouvementLotIngredientService {
         
         // màj le stock du lot
         LotIngredient lot = lotService.getById(idMouvementLotIngredient);
-        if (typeMouvement.getId() == 2) { // SORTIE
+        if (typeMouvement.getIdTypeMouvement() == 2) { // SORTIE
             Double nouvelleQuantite = lot.getQuantiteRestante() + quantite;
             if (nouvelleQuantite < 0) {
                 throw new IllegalStateException("Stock insuffisant");
@@ -55,7 +55,7 @@ public class MouvementLotIngredientService {
     }
     
     public List<MouvementLotIngredient> getMouvementsByLot(Long idMouvementLotIngredient) {
-        return mouvementRepository.findByIdLotOrderByDateMouvementDesc(idMouvementLotIngredient);
+        return mouvementRepository.findByLotIngredientIdLotOrderByDateMouvementDesc(idMouvementLotIngredient);
     }
     
     public Double getStockReel(Long idMouvementLotIngredient) {
