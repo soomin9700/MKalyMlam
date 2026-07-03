@@ -189,7 +189,7 @@
                             </td>
 
                             <td>
-                                <span class="badge bg-info">
+                                <span class="">
                                     <i class="fas fa-box"></i>
                                     ${inventaire.nomItem}
                                 </span>
