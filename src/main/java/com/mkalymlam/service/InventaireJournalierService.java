@@ -18,18 +18,60 @@ public class InventaireJournalierService {
     private final TypeItemRepository typeItemRepository;
     private final IngredientRepository ingredientRepository;
     private final EquipementRepository equipementRepository;
+    private final LotIngredientRepository lotIngredientRepository;  
 
     public InventaireJournalierService(
             InventaireJournalierRepository inventaireRepository, 
             SessionTruckRepository sessionTruckRepository, 
             TypeItemRepository typeItemRepository,
             IngredientRepository ingredientRepository,
-            EquipementRepository equipementRepository) {
+            EquipementRepository equipementRepository,
+            LotIngredientRepository lotIngredientRepository) {  
         this.inventaireRepository = inventaireRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.typeItemRepository = typeItemRepository;
         this.ingredientRepository = ingredientRepository;
         this.equipementRepository = equipementRepository;
+        this.lotIngredientRepository = lotIngredientRepository;
+    }
+    
+    @Transactional
+    public InventaireJournalier save(InventaireJournalier inventaire) {
+        if (inventaire.getQuantitePhysiqueConstatee() == null) {
+            throw new IllegalArgumentException("La quantité physique est obligatoire");
+        }
+        
+        Double quantiteTheorique = calculerQuantiteTheorique(inventaire);
+        inventaire.setQuantiteTheoriqueSysteme(quantiteTheorique);
+        
+        double ecart = inventaire.getQuantitePhysiqueConstatee() - quantiteTheorique;
+        inventaire.setEcartInventaire(ecart);
+        
+        return inventaireRepository.save(inventaire);
+    }
+
+    private Double calculerQuantiteTheorique(InventaireJournalier inventaire) {
+        if (inventaire.getTypeItem() == null || inventaire.getIdItem() == null) {
+            return 0.0;
+        }
+
+        // INGREDIENT
+        if (inventaire.getTypeItem().getIdTypeItem() == 1) {
+            List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(inventaire.getIdItem());
+            
+            return lots.stream()
+                .mapToDouble(LotIngredient::getQuantiteRestante)
+                .sum();
+        }
+        
+        // EQUIPEMENT
+        if (inventaire.getTypeItem().getIdTypeItem() == 2) {
+            // Pour les équipements, on pourrait retourner le stock total
+            // ou 0 si on ne fait pas d'inventaire d'équipements
+            return 0.0;
+        }
+        
+        return 0.0;
     }
 
     @Transactional
@@ -39,6 +81,7 @@ public class InventaireJournalierService {
             throw new RuntimeException("Inventaire non trouvé avec l'ID : " + id);
         }
 
+        // Mettre à jour les champs modifiables
         if (inventaire.getSessionTruck() != null) {
             existing.setSessionTruck(inventaire.getSessionTruck());
         }
@@ -54,12 +97,11 @@ public class InventaireJournalierService {
         if (inventaire.getQuantitePhysiqueConstatee() != null) {
             existing.setQuantitePhysiqueConstatee(inventaire.getQuantitePhysiqueConstatee());
         }
-        if (inventaire.getQuantiteTheoriqueSysteme() != null) {
-            existing.setQuantiteTheoriqueSysteme(inventaire.getQuantiteTheoriqueSysteme());
-        }
         
-        // recalculer l'écart
-        double ecart = existing.getQuantitePhysiqueConstatee() - existing.getQuantiteTheoriqueSysteme();
+        Double quantiteTheorique = calculerQuantiteTheorique(existing);
+        existing.setQuantiteTheoriqueSysteme(quantiteTheorique);
+        
+        double ecart = existing.getQuantitePhysiqueConstatee() - quantiteTheorique;
         existing.setEcartInventaire(ecart);
         
         return inventaireRepository.save(existing);
@@ -68,31 +110,6 @@ public class InventaireJournalierService {
     @Transactional
     public void delete(Long id) {
         inventaireRepository.deleteById(id);
-    }
-    
-    @Transactional
-    public InventaireJournalier save(InventaireJournalier inventaire) {
-        if (inventaire.getQuantitePhysiqueConstatee() == null) {
-            throw new IllegalArgumentException("La quantité physique est obligatoire");
-        }
-        
-        if (inventaire.getTypeItem() != null && inventaire.getIdItem() != null) {
-            if (inventaire.getTypeItem().getIdTypeItem() == 1) {
-                // INGREDIENT
-                ingredientRepository.findById(inventaire.getIdItem())
-                    .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé"));
-            } else if (inventaire.getTypeItem().getIdTypeItem() == 2) {
-                // EQUIPEMENT
-                equipementRepository.findById(inventaire.getIdItem())
-                    .orElseThrow(() -> new RuntimeException("Équipement non trouvé"));
-            }
-        }
-        
-        double ecart = inventaire.getQuantitePhysiqueConstatee() 
-                    - inventaire.getQuantiteTheoriqueSysteme();
-        inventaire.setEcartInventaire(ecart);
-        
-        return inventaireRepository.save(inventaire);
     }
 
     public List<InventaireJournalier> getAllWithItemNames() {

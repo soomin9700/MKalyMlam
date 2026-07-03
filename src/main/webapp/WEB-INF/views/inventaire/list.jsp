@@ -138,8 +138,8 @@
                         <th><i class="fas fa-calendar"></i> Date inventaire</th>
                         <th><i class="fas fa-tag"></i> Type</th>
                         <th><i class="fas fa-box"></i> Item</th>  
-                        <th><i class="fas fa-weight"></i> Quantité physique</th>
                         <th><i class="fas fa-weight-hanging"></i> Quantité théorique</th>
+                        <th><i class="fas fa-weight"></i> Quantité physique</th>
                         <th><i class="fas fa-balance-scale"></i> Écart</th>
                         <th><i class="fas fa-cog"></i> Actions</th>
                     </tr>

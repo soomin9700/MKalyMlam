@@ -191,22 +191,24 @@
                     </small>
                 </div>
 
-                <!-- Quantité Théorique Système
                 <div class="form-group">
+                    <input type="hidden" name="quantiteTheoriqueSysteme" value="${inventaire.quantiteTheoriqueSysteme}">
                     <label for="quantiteTheoriqueSysteme">
-                        Quantité théorique système *
+                        Quantité théorique système (calculée automatiquement)
                     </label>
                     <input
                         type="number"
                         id="quantiteTheoriqueSysteme"
                         name="quantiteTheoriqueSysteme"
                         step="0.01"
-                        min="0"
                         value="${inventaire.quantiteTheoriqueSysteme}"
-                        placeholder="Ex: 25.00"
-                        required>
-                    
-                </div> -->
+                        readonly
+                        style="background-color:#f3f4f6;cursor:not-allowed;">
+                    <small style="color:#6b7280;display:block;margin-top:5px;">
+                        <i class="fas fa-calculator"></i>
+                        Cette quantité est calculée automatiquement à partir des lots d'ingrédients.
+                    </small>
+                </div>
 
                 <!-- Boutons -->
                 <div class="form-actions">
