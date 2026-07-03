@@ -19,6 +19,7 @@ public class InventaireJournalierService {
     private final IngredientRepository ingredientRepository;
     private final EquipementRepository equipementRepository;
     private final LotIngredientRepository lotIngredientRepository;  
+    private final MouvementEquipementRepository mouvementEquipementRepository; 
 
     public InventaireJournalierService(
             InventaireJournalierRepository inventaireRepository, 
@@ -26,13 +27,15 @@ public class InventaireJournalierService {
             TypeItemRepository typeItemRepository,
             IngredientRepository ingredientRepository,
             EquipementRepository equipementRepository,
-            LotIngredientRepository lotIngredientRepository) {  
+            LotIngredientRepository lotIngredientRepository,
+            MouvementEquipementRepository mouvementEquipementRepository) { 
         this.inventaireRepository = inventaireRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.typeItemRepository = typeItemRepository;
         this.ingredientRepository = ingredientRepository;
         this.equipementRepository = equipementRepository;
         this.lotIngredientRepository = lotIngredientRepository;
+        this.mouvementEquipementRepository = mouvementEquipementRepository;
     }
     
     @Transactional
@@ -57,7 +60,9 @@ public class InventaireJournalierService {
 
         // INGREDIENT
         if (inventaire.getTypeItem().getIdTypeItem() == 1) {
-            List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(inventaire.getIdItem());
+            List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(
+                inventaire.getIdItem()
+            );
             
             return lots.stream()
                 .mapToDouble(LotIngredient::getQuantiteRestante)
@@ -66,12 +71,20 @@ public class InventaireJournalierService {
         
         // EQUIPEMENT
         if (inventaire.getTypeItem().getIdTypeItem() == 2) {
-            // Pour les équipements, on pourrait retourner le stock total
-            // ou 0 si on ne fait pas d'inventaire d'équipements
-            return 0.0;
+            return calculerStockEquipement(inventaire.getIdItem());
         }
         
         return 0.0;
+    }
+
+    private Double calculerStockEquipement(Long idEquipement) {
+        Double entree = mouvementEquipementRepository.sumEntreeByEquipement(idEquipement);
+        Double sortie = mouvementEquipementRepository.sumSortieByEquipement(idEquipement);
+        
+        entree = entree != null ? entree : 0.0;
+        sortie = sortie != null ? sortie : 0.0;
+        
+        return entree - sortie;
     }
 
     @Transactional
@@ -81,7 +94,6 @@ public class InventaireJournalierService {
             throw new RuntimeException("Inventaire non trouvé avec l'ID : " + id);
         }
 
-        // Mettre à jour les champs modifiables
         if (inventaire.getSessionTruck() != null) {
             existing.setSessionTruck(inventaire.getSessionTruck());
         }
@@ -105,6 +117,26 @@ public class InventaireJournalierService {
         existing.setEcartInventaire(ecart);
         
         return inventaireRepository.save(existing);
+    }
+
+    private String getNomItem(Long idTypeItem, Long idItem) {
+        if (idTypeItem == null || idItem == null) {
+            return "Non défini";
+        }
+
+        try {
+            if (idTypeItem == 1) { 
+                Ingredient ingredient = ingredientRepository.findById(idItem).orElse(null);
+                return ingredient != null ? ingredient.getNomIngredient() : "Ingrédient inconnu (ID: " + idItem + ")";
+            } else if (idTypeItem == 2) { 
+                Equipement equipement = equipementRepository.findById(idItem).orElse(null);
+                return equipement != null ? equipement.getNomEquipement() : "Équipement inconnu (ID: " + idItem + ")";
+            } else {
+                return "Type inconnu (ID: " + idItem + ")";
+            }
+        } catch (Exception e) {
+            return "Erreur chargement (ID: " + idItem + ")";
+        }
     }
 
     @Transactional
@@ -160,26 +192,7 @@ public class InventaireJournalierService {
         return inventaires;
     }
 
-    // récupérer le nom de l'item selon son type
-    private String getNomItem(Long idTypeItem, Long idItem) {
-        if (idTypeItem == null || idItem == null) {
-            return "Non défini";
-        }
-
-        try {
-            if (idTypeItem == 1) { // INGREDIENT
-                Ingredient ingredient = ingredientRepository.findById(idItem).orElse(null);
-                return ingredient != null ? ingredient.getNomIngredient() : "Ingrédient inconnu (ID: " + idItem + ")";
-            } else if (idTypeItem == 2) { // EQUIPEMENT
-                Equipement equipement = equipementRepository.findById(idItem).orElse(null);
-                return equipement != null ? equipement.getNomEquipement() : "Équipement inconnu (ID: " + idItem + ")";
-            } else {
-                return "Type inconnu (ID: " + idItem + ")";
-            }
-        } catch (Exception e) {
-            return "Erreur chargement (ID: " + idItem + ")";
-        }
-    }
+    
 
     public List<InventaireJournalier> getAll() {
         return getAllWithItemNames();
