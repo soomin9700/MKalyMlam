@@ -1,0 +1,231 @@
+/* Styles spécifiques à la page de liste des produits */
+        .flash-toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+            position: relative;
+            overflow: hidden;
+            animation: flashToastIn 0.35s ease-out;
+        }
+
+        .flash-toast::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+
+        .flash-toast-success {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #86efac;
+            color: #064e3b;
+        }
+
+        .flash-toast-error {
+            background: linear-gradient(135deg, #fff1f2 0%, #fee2e2 100%);
+            border-color: #fca5a5;
+            color: #7f1d1d;
+        }
+
+        .flash-toast-icon {
+            flex: 0 0 44px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+        }
+
+        .flash-toast-success .flash-toast-icon {
+            background: rgba(16, 185, 129, 0.16);
+            color: #059669;
+        }
+
+        .flash-toast-error .flash-toast-icon {
+            background: rgba(239, 68, 68, 0.16);
+            color: #dc2626;
+        }
+
+        .flash-toast-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .flash-toast-title {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .flash-toast-message {
+            font-size: 14px;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+
+        .flash-toast-close {
+            flex: 0 0 auto;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.08);
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .flash-toast-close:hover {
+            transform: scale(1.05);
+            background: rgba(15, 23, 42, 0.14);
+        }
+
+        .flash-toast-hide {
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+
+        @keyframes flashToastIn {
+            from {
+                opacity: 0;
+                transform: translateY(-14px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .badge-new {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-new.active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .badge-new.inactive {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .badge-new i {
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        .price-tag {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .date-format {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-edit-product {
+            background: #3B82F6;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-edit-product:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-delete-product {
+            background: #EF4444;
+            color: white;
+            padding: 6px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-delete-product:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-delete-product i,
+        .btn-edit-product i {
+            font-size: 13px;
+        }
+
+        .product-id {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--gray);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        @media (max-width: 768px) {
+            .flash-toast {
+                padding: 16px;
+                gap: 12px;
+                align-items: center;
+            }
+
+            .flash-toast-icon {
+                width: 38px;
+                height: 38px;
+                flex-basis: 38px;
+            }
+
+            .flash-toast-title {
+                font-size: 14px;
+            }
+
+            .flash-toast-message {
+                font-size: 13px;
+            }
+        }
