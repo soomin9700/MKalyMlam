@@ -14,14 +14,13 @@ import com.mkalymlam.entity.TypeItem;
 @Repository
 public interface InventaireJournalierRepository extends JpaRepository<InventaireJournalier, Long>{
     
-    List<InventaireJournalier> findBySessionIdSession(Long idSession);
-
+    List<InventaireJournalier> findByIdSession(Long idSession);
     List<InventaireJournalier> findByDateInventaire(LocalDate dateInventaire);
     
-    List<LotIngredient> findAllByOrderByDateInventaireAsc();
-    List<LotIngredient> findAllByOrderByDateInventaireDesc();
+    List<InventaireJournalier> findAllByOrderByDateInventaireAsc();
+    List<InventaireJournalier> findAllByOrderByDateInventaireDesc();
 
-    List<LotIngredient> findByTypeItemAndIdItem(TypeItem typeItem, Long idItem);
+    List<InventaireJournalier> findByTypeItemAndIdItem(TypeItem typeItem, Long idItem);
 
     @Query("SELECT i FROM inventaireJournalier i WHERE i.ecartInventaire <> 0")
     List<InventaireJournalier> findWithEcart();

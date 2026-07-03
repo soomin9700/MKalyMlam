@@ -11,13 +11,13 @@ import com.mkalymlam.entity.MouvementLotIngredient;
 @Repository
 public interface MouvementLotIngredientRepository extends JpaRepository<MouvementLotIngredient, Integer> {
     
-    List<MouvementLotIngredient> findByIdLot(Integer idLot);
+    List<MouvementLotIngredient> findByIdLot(Long idLot);
     
-    List<MouvementLotIngredient> findByIdLotOrderByDateMouvementDesc(Integer idLot);
+    List<MouvementLotIngredient> findByIdLotOrderByDateMouvementDesc(Long idLot);
     
     @Query("SELECT SUM(m.quantite) FROM MouvementLotIngredient m WHERE m.idLot = :idLot AND m.idTypeMouvement.idTypeMouvement = 1")
-    Double sumEntreeByLot(Integer idLot);
+    Double sumEntreeByLot(Long idLot);
     
     @Query("SELECT SUM(m.quantite) FROM MouvementLotIngredient m WHERE m.idLot = :idLot AND m.idTypeMouvement.idTypeMouvement = 2")
-    Double sumSortieByLot(Integer idLot);
+    Double sumSortieByLot(Long idLot);
 }
