@@ -29,4 +29,8 @@ public class PersonnalisationCommandeService {
     public List<PersonnalisationCommande> findAllByLigne(Long idLigne) {
         return repository.findByIdLine(idLigne);
     }
+
+    public List<PersonnalisationCommande> findAllByCommande(Long idCommande) {
+        return repository.findAllByCommande(idCommande);
+    }
 }

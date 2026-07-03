@@ -39,6 +39,13 @@
             background-color: #fdedec;
         }
 
+        .custom-empty {
+            display: block;
+            color: #888;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
         .flex-actions {
             display: flex;
             gap: 6px;
@@ -314,8 +321,9 @@
                             selectIng.appendChild(opt);
                         });
 
-                        chargerHistoriquePerso(currentLineId);
                     });
+
+                    chargerPersonnalisationsCommande();
                 })
                 .catch(err => console.error("Erreur récupération des lignes:", err));
         }
@@ -344,51 +352,78 @@
             })
                 .then(r => r.json())
                 .then(data => {
-                    chargerHistoriquePerso(idLine);
+                    chargerPersonnalisationsCommande();
                     document.getElementById("custom-ing-" + idLine).value = "";
                     document.getElementById("custom-qte-" + idLine).value = "1";
                 })
                 .catch(err => console.error("Erreur enregistrement personnalisation:", err));
         }
 
-        function chargerHistoriquePerso(idLine) {
-            fetch('${pageContext.request.contextPath}/personnalisation/findAllByLigne?id_ligne=' + idLine)
+        function chargerPersonnalisationsCommande() {
+            if (!cmdId) {
+                return;
+            }
+
+            fetch('${pageContext.request.contextPath}/personnalisation/findAllByCommande?id_commande=' + cmdId)
                 .then(r => r.json())
                 .then(listPerso => {
-                    const container = document.getElementById("custom-list-" + idLine);
-                    container.innerHTML = ""; 
-
                     if (listPerso && !Array.isArray(listPerso)) {
                         listPerso = [listPerso];
                     }
 
-                    cachePersonnalisations[idLine] = listPerso || [];
+                    cachePersonnalisations = {};
+                    cacheLignesCourantes.forEach(ligne => {
+                        cachePersonnalisations[ligne.idLine] = [];
+                    });
 
-                    if (!listPerso || listPerso.length === 0) {
-                        container.style.display = "none";
-                        actualiserTotalDynamique();
-                        return;
-                    }
-                    container.style.display = "block";
+                    (listPerso || []).forEach(perso => {
+                        if (!cachePersonnalisations[perso.idLine]) {
+                            cachePersonnalisations[perso.idLine] = [];
+                        }
+                        cachePersonnalisations[perso.idLine].push(perso);
+                    });
 
-                    listPerso.forEach(p => {
-                        const ingObj = ingredients.find(i => i.idIngredient == p.idIngredient);
-                        const nomIngredient = ingObj ? ingObj.nomIngredient : "Ingrédient";
-
-                        const estAjout = p.idActionCommande === 1;
-                        const symbole = estAjout ? "+" : "-";
-                        const classeCSS = estAjout ? "ajouter" : "retirer";
-
-                        const span = document.createElement("span");
-                        span.className = "custom-badge " + classeCSS;
-                        span.textContent = symbole + " " + nomIngredient + " x" + p.quantiteAjustee;
-
-                        container.appendChild(span);
+                    cacheLignesCourantes.forEach(ligne => {
+                        afficherPersonnalisationsProduit(ligne);
                     });
 
                     actualiserTotalDynamique();
                 })
-                .catch(err => console.error("Erreur historique perso:", err));
+                .catch(err => console.error("Erreur personnalisations commande:", err));
+        }
+
+        function afficherPersonnalisationsProduit(ligne) {
+            const container = document.getElementById("custom-list-" + ligne.idLine);
+            if (!container) {
+                return;
+            }
+
+            container.innerHTML = "";
+            container.style.display = "block";
+
+            const persosProduit = cachePersonnalisations[ligne.idLine] || [];
+            if (persosProduit.length === 0) {
+                const empty = document.createElement("span");
+                empty.className = "custom-empty";
+                empty.textContent = "(aucune personnalisation)";
+                container.appendChild(empty);
+                return;
+            }
+
+            persosProduit.forEach(p => {
+                const ingObj = ingredients.find(i => i.idIngredient == p.idIngredient);
+                const nomIngredient = ingObj ? ingObj.nomIngredient : "Ingrédient";
+
+                const estAjout = p.idActionCommande === 1;
+                const symbole = estAjout ? "+" : "-";
+                const classeCSS = estAjout ? "ajouter" : "retirer";
+
+                const span = document.createElement("span");
+                span.className = "custom-badge " + classeCSS;
+                span.textContent = symbole + " " + nomIngredient + " x" + p.quantiteAjustee;
+
+                container.appendChild(span);
+            });
         }
 
         // CALCULATEUR DYNAMIQUE ET SÛR A 100%

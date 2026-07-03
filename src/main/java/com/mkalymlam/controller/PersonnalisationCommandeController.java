@@ -40,4 +40,9 @@ public class PersonnalisationCommandeController {
     public List<PersonnalisationCommande> findAllByLigne(@RequestParam("id_ligne") Long idLigne) {
         return service.findAllByLigne(idLigne);
     }
+
+    @GetMapping("/findAllByCommande")
+    public List<PersonnalisationCommande> findAllByCommande(@RequestParam("id_commande") Long idCommande) {
+        return service.findAllByCommande(idCommande);
+    }
 }
