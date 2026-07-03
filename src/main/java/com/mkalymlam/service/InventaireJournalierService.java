@@ -8,7 +8,6 @@ import com.mkalymlam.repository.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,6 +31,44 @@ public class InventaireJournalierService {
         this.ingredientRepository = ingredientRepository;
         this.equipementRepository = equipementRepository;
     }
+
+    @Transactional
+    public InventaireJournalier update(Long id, InventaireJournalier inventaire) {
+        InventaireJournalier existing = getById(id);
+        if (existing == null) {
+            throw new RuntimeException("Inventaire non trouvé avec l'ID : " + id);
+        }
+
+        if (inventaire.getSessionTruck() != null) {
+            existing.setSessionTruck(inventaire.getSessionTruck());
+        }
+        if (inventaire.getDateInventaire() != null) {
+            existing.setDateInventaire(inventaire.getDateInventaire());
+        }
+        if (inventaire.getTypeItem() != null) {
+            existing.setTypeItem(inventaire.getTypeItem());
+        }
+        if (inventaire.getIdItem() != null) {
+            existing.setIdItem(inventaire.getIdItem());
+        }
+        if (inventaire.getQuantitePhysiqueConstatee() != null) {
+            existing.setQuantitePhysiqueConstatee(inventaire.getQuantitePhysiqueConstatee());
+        }
+        if (inventaire.getQuantiteTheoriqueSysteme() != null) {
+            existing.setQuantiteTheoriqueSysteme(inventaire.getQuantiteTheoriqueSysteme());
+        }
+        
+        // recalculer l'écart
+        double ecart = existing.getQuantitePhysiqueConstatee() - existing.getQuantiteTheoriqueSysteme();
+        existing.setEcartInventaire(ecart);
+        
+        return inventaireRepository.save(existing);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        inventaireRepository.deleteById(id);
+    }
     
     @Transactional
     public InventaireJournalier save(InventaireJournalier inventaire) {
@@ -39,14 +76,25 @@ public class InventaireJournalierService {
             throw new IllegalArgumentException("La quantité physique est obligatoire");
         }
         
+        if (inventaire.getTypeItem() != null && inventaire.getIdItem() != null) {
+            if (inventaire.getTypeItem().getIdTypeItem() == 1) {
+                // INGREDIENT
+                ingredientRepository.findById(inventaire.getIdItem())
+                    .orElseThrow(() -> new RuntimeException("Ingrédient non trouvé"));
+            } else if (inventaire.getTypeItem().getIdTypeItem() == 2) {
+                // EQUIPEMENT
+                equipementRepository.findById(inventaire.getIdItem())
+                    .orElseThrow(() -> new RuntimeException("Équipement non trouvé"));
+            }
+        }
+        
         double ecart = inventaire.getQuantitePhysiqueConstatee() 
-                       - inventaire.getQuantiteTheoriqueSysteme();
+                    - inventaire.getQuantiteTheoriqueSysteme();
         inventaire.setEcartInventaire(ecart);
         
         return inventaireRepository.save(inventaire);
     }
 
-    // ✅ Méthode pour enrichir les inventaires avec le nom de l'item
     public List<InventaireJournalier> getAllWithItemNames() {
         List<InventaireJournalier> inventaires = inventaireRepository.findAllByOrderByDateInventaireAsc();
         return enrichirAvecNomItem(inventaires);
@@ -75,7 +123,6 @@ public class InventaireJournalierService {
         return enrichirAvecNomItem(inventaires);
     }
 
-    // ✅ Méthode privée pour enrichir un inventaire avec le nom de l'item
     private void enrichirAvecNomItem(InventaireJournalier inventaire) {
         if (inventaire == null || inventaire.getTypeItem() == null || inventaire.getIdItem() == null) {
             return;
@@ -85,7 +132,6 @@ public class InventaireJournalierService {
         inventaire.setNomItem(nomItem);
     }
 
-    // ✅ Méthode privée pour enrichir une liste d'inventaires
     private List<InventaireJournalier> enrichirAvecNomItem(List<InventaireJournalier> inventaires) {
         if (inventaires == null) {
             return null;
@@ -97,7 +143,7 @@ public class InventaireJournalierService {
         return inventaires;
     }
 
-    // ✅ Méthode pour récupérer le nom de l'item selon son type
+    // récupérer le nom de l'item selon son type
     private String getNomItem(Long idTypeItem, Long idItem) {
         if (idTypeItem == null || idItem == null) {
             return "Non défini";
@@ -118,7 +164,6 @@ public class InventaireJournalierService {
         }
     }
 
-    // ✅ Méthodes existantes (avec enrichissement)
     public List<InventaireJournalier> getAll() {
         return getAllWithItemNames();
     }
@@ -156,7 +201,6 @@ public class InventaireJournalierService {
         return inventaire.getEcartInventaire() != 0;
     }
 
-    // ✅ Méthode utilitaire pour récupérer tous les ingrédients et équipements
     public List<Ingredient> getAllIngredients() {
         return ingredientRepository.findAll();
     }

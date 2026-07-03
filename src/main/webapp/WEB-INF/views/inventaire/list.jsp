@@ -29,9 +29,9 @@
             <div class="table-header">
 
                 <h1>
-                    <i class="fas fa-utensils"
+                    <i class="fas fa-clipboard-list"
                        style="color: var(--primary); margin-right:10px;"></i>
-                    Liste des inventaires
+                    ${titre}
                 </h1>
 
                 <a href="${pageContext.request.contextPath}/inventaire/new"
@@ -41,6 +41,94 @@
 
             </div>
 
+            <!-- Filtres -->
+            <div class="filters-container">
+                <form action="${pageContext.request.contextPath}/inventaire/findAll" method="get" class="filters-form">
+                    
+                    <!-- Filtre par session -->
+                    <div class="filter-group">
+                        <label for="idSession" class="filter-label">
+                            <i class="fas fa-truck"></i>
+                            Session
+                        </label>
+                        <select id="idSession" name="idSession" class="filter-select">
+                            <option value="">-- Toutes les sessions --</option>
+                            <c:forEach items="${sessions}" var="session">
+                                <option value="${session.id}"
+                                    ${session.id == idSessionFiltre ? 'selected' : ''}>
+                                    Session #${session.id} - ${session.dateSession}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <!-- Filtre par date -->
+                    <div class="filter-group">
+                        <label for="dateInventaire" class="filter-label">
+                            <i class="fas fa-search"></i>
+                            Rechercher par date
+                        </label>
+                        <input 
+                            type="date" 
+                            id="dateInventaire" 
+                            name="dateInventaire" 
+                            value="${dateInventaire}" 
+                            class="filter-input">
+                    </div>
+                    
+                    <!-- Filtre par écart -->
+                    <div class="filter-group filter-checkbox">
+                        <label for="ecart" class="filter-label">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Écarts
+                        </label>
+                        <input 
+                            type="checkbox" 
+                            id="ecart" 
+                            name="ecart" 
+                            value="true"
+                            ${ecartFiltre != null && ecartFiltre ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label">Afficher uniquement les inventaires avec écarts</span>
+                    </div>
+                    
+                    <!-- Boutons d'action -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-filter"></i>
+                            Filtrer
+                        </button>
+                        <a href="${pageContext.request.contextPath}/inventaire/findAll" class="btn-filter-reset">
+                            <i class="fas fa-undo"></i>
+                            Réinitialiser
+                        </a>
+                    </div>
+                    
+                </form>
+            </div>
+
+            <!-- Résumé des filtres actifs -->
+            <c:if test="${filtreActif != 'tous'}">
+                <div class="filter-summary">
+                    <span class="filter-badge">
+                        <i class="fas fa-filter"></i>
+                        Filtre actif : 
+                        <c:choose>
+                            <c:when test="${filtreActif == 'ecart'}">
+                                <strong>Inventaires avec écarts</strong>
+                            </c:when>
+                            <c:when test="${filtreActif == 'session'}">
+                                <strong>Session #${idSessionFiltre}</strong>
+                            </c:when>
+                        </c:choose>
+                    </span>
+                    <span class="filter-count">
+                        <i class="fas fa-list"></i>
+                        ${inventaires.size()} inventaire(s) trouvé(s)
+                    </span>
+                </div>
+            </c:if>
+
             <!-- Tableau -->
             <table>
 
@@ -49,7 +137,7 @@
                         <th><i class="fas fa-tag"></i> Session</th>
                         <th><i class="fas fa-calendar"></i> Date inventaire</th>
                         <th><i class="fas fa-tag"></i> Type</th>
-                        <th><i class="fas fa-box"></i> Item</th>  <!-- Nouvelle colonne -->
+                        <th><i class="fas fa-box"></i> Item</th>  
                         <th><i class="fas fa-weight"></i> Quantité physique</th>
                         <th><i class="fas fa-weight-hanging"></i> Quantité théorique</th>
                         <th><i class="fas fa-balance-scale"></i> Écart</th>
@@ -66,11 +154,14 @@
                                 <div class="empty-state">
                                     <i class="fas fa-boxes"
                                        style="font-size:48px;color:#d1d5db;margin-bottom:15px;display:block;"></i>
-                                    <p>Aucun inventaire enregistré pour le moment.</p>
-                                    <a href="${pageContext.request.contextPath}/inventaire/save"
-                                       class="btn-add">
-                                        <i class="fas fa-plus"></i>
-                                        Ajouter le premier inventaire
+                                    <p>Aucun inventaire trouvé pour les filtres sélectionnés.</p>
+                                    <a href="${pageContext.request.contextPath}/inventaire/findAll" class="btn-filter-reset">
+                                        <i class="fas fa-undo"></i>
+                                        Réinitialiser les filtres
+                                    </a>
+                                    <br>
+                                    <a href="${pageContext.request.contextPath}/inventaire/new" class="btn-add" style="margin-top:10px;">
+                                        Ajouter un inventaire
                                     </a>
                                 </div>
                             </td>
@@ -97,7 +188,6 @@
                                 </span>
                             </td>
 
-                            <!-- ✅ Affichage du nom de l'item -->
                             <td>
                                 <span class="badge bg-info">
                                     <i class="fas fa-box"></i>
@@ -107,13 +197,13 @@
 
                             <td>
                                 <span class="">
-                                    ${inventaire.quantitePhysiqueConstatee}
+                                    ${inventaire.quantiteTheoriqueSysteme}
                                 </span>
                             </td>
 
                             <td>
                                 <span class="">
-                                    ${inventaire.quantiteTheoriqueSysteme}
+                                    ${inventaire.quantitePhysiqueConstatee}
                                 </span>
                             </td>
 
@@ -128,7 +218,7 @@
                                     <c:otherwise>
                                         <span class="badge bg-success">
                                             <i class="fas fa-check-circle"></i>
-                                            OK
+                                            OK (0)
                                         </span>
                                     </c:otherwise>
                                 </c:choose>

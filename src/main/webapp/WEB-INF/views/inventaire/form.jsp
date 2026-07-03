@@ -185,9 +185,13 @@
                         value="${inventaire.quantitePhysiqueConstatee}"
                         placeholder="Ex: 25.50"
                         required>
+                    <small style="color:#6b7280;display:block;margin-top:5px;">
+                        <i class="fas fa-calculator"></i>
+                        L'écart entre la quantité physiaue et théorique sera calculé automatiquement : Quantité physique - Quantité théorique
+                    </small>
                 </div>
 
-                <!-- Quantité Théorique Système -->
+                <!-- Quantité Théorique Système
                 <div class="form-group">
                     <label for="quantiteTheoriqueSysteme">
                         Quantité théorique système *
@@ -201,11 +205,8 @@
                         value="${inventaire.quantiteTheoriqueSysteme}"
                         placeholder="Ex: 25.00"
                         required>
-                    <small style="color:#6b7280;display:block;margin-top:5px;">
-                        <i class="fas fa-calculator"></i>
-                        L'écart sera calculé automatiquement : Quantité physique - Quantité théorique
-                    </small>
-                </div>
+                    
+                </div> -->
 
                 <!-- Boutons -->
                 <div class="form-actions">
