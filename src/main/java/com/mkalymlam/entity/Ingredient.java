@@ -1,23 +1,28 @@
 package com.mkalymlam.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ingredient")
+@Table(name = "\"ingredient\"")
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idingredient")
+    @Column(name = "\"idIngredient\"")
     private Integer idIngredient;
 
-    @Column(name = "nomingredient")
+    @Column(name = "\"nomIngredient\"")
     private String nomIngredient;
 
-    @Column(name = "seuilalertequantite")
+    @Column(name = "\"seuilAlerteQuantite\"")
     private Double seuilAlerteQuantite;
 
-    @Column(name = "unitemesure")
+    @Column(name = "\"uniteMesure\"")
     private String uniteMesure;
 
     // AJOUT DE LA COLONNE PRIX

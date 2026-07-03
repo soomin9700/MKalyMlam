@@ -3,29 +3,28 @@ package com.mkalymlam.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "personnalisation_commande")
+@Table(name = "\"personnalisationCommande\"")
 public class PersonnalisationCommande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpersonnalisation")
+    @Column(name = "\"idPersonnalisation\"")
     private Long idPersonnalisation;
 
-    @Column(name = "idline")
-    private Long idLine; // Correspond à idLine de LigneCommande
+    @Column(name = "\"idLigne\"")
+    private Long idLine;
 
-    @Column(name = "idingredient")
+    @Column(name = "\"idIngredient\"")
     private Integer idIngredient;
 
-    @Column(name = "idactioncommande")
+    @Column(name = "\"idActionCommande\"")
     private Integer idActionCommande;
 
-    @Column(name = "quantiteajustee")
+    @Column(name = "\"quantiteAjustee\"")
     private Double quantiteAjustee;
 
     public PersonnalisationCommande() {}
 
-    // Getters et Setters
     public Long getIdPersonnalisation() { return idPersonnalisation; }
     public void setIdPersonnalisation(Long idPersonnalisation) { this.idPersonnalisation = idPersonnalisation; }
 

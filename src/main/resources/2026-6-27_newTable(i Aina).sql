@@ -1,29 +1,36 @@
--- Création du type ENUM pour l'action
-CREATE TYPE action_personnalisation AS ENUM ('AJOUTER', 'RETIRER');
+-- Drop si la table existe déjà
+DROP INDEX IF EXISTS "idx_personnalisationLigne";
+DROP TABLE IF EXISTS "personnalisationCommande" CASCADE;
+DROP TYPE IF EXISTS "actionPersonnalisation";
 
--- Création de la table
-CREATE TABLE personnalisation_commande (
-    id_personnalisation BIGSERIAL PRIMARY KEY,
-    id_ligne BIGINT NOT NULL,
-    id_ingredient INTEGER NOT NULL,
-    action action_personnalisation NOT NULL,
-    quantite_ajustee NUMERIC(10,2) NOT NULL,
-    date_creation TIMESTAMP DEFAULT NOW(),
+-- Type ENUM pour l'action
+CREATE TYPE "actionPersonnalisation" AS ENUM ('AJOUTER', 'RETIRER');
 
-    CONSTRAINT fk_personnalisation_ligne
-        FOREIGN KEY (id_ligne) REFERENCES ligne_commande(id) ON DELETE CASCADE,
+-- Table personnalisationCommande
+CREATE TABLE "personnalisationCommande" (
+    "idPersonnalisation" BIGSERIAL PRIMARY KEY,
+    "idLigne" BIGINT NOT NULL,
+    "idIngredient" INTEGER NOT NULL,
+    "idActionCommande" INTEGER NOT NULL,
+    "quantiteAjustee" NUMERIC(10,2) NOT NULL,
 
-    CONSTRAINT fk_personnalisation_ingredient
-        FOREIGN KEY (id_ingredient) REFERENCES ingredient(idingredient) ON DELETE RESTRICT
+    CONSTRAINT "fk_personnalisationLigne"
+        FOREIGN KEY ("idLigne") REFERENCES "ligneCommande"("idLigne") ON DELETE CASCADE,
+
+    CONSTRAINT "fk_personnalisationIngredient"
+        FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient") ON DELETE RESTRICT,
+
+    CONSTRAINT "fk_personnalisationAction"
+        FOREIGN KEY ("idActionCommande") REFERENCES "actionCommande"("idActionCommande") ON DELETE RESTRICT
 );
 
 -- Index pour accélérer les recherches par ligne de commande
-CREATE INDEX idx_personnalisation_ligne ON personnalisation_commande(id_ligne);
+CREATE INDEX "idx_personnalisationLigne" ON "personnalisationCommande"("idLigne");
 
--- Ex na ex na ex na
-SELECT c.idcommande, l.idline, i.nomingredient, p.quantiteajustee
-FROM commande c
-JOIN ligne_commande l ON c.idcommande = l.idcommande
-JOIN personnalisation_commande p ON l.idline = p.idline
-JOIN ingredient i ON p.idingredient = i.idingredient
-WHERE c.idcommande = 45;
+-- Exemple de requête
+SELECT c."idCommande", l."idLigne", i."nomIngredient", p."quantiteAjustee"
+FROM "commande" c
+JOIN "ligneCommande" l ON c."idCommande" = l."idCommande"
+JOIN "personnalisationCommande" p ON l."idLigne" = p."idLigne"
+JOIN "ingredient" i ON p."idIngredient" = i."idIngredient"
+WHERE c."idCommande" = 45;

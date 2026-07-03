@@ -38,7 +38,7 @@ public class VenteService {
         Produit produit = produitRepository.findById(ligne.getIdProduit())
                 .orElseThrow(() -> new RuntimeException("Produit introuvable"));
 
-        // Sécurise la contrainte NOT NULL de prixunitairefacture
+        // Sécurise la contrainte NOT NULL de prixUnitaireFacture
         ligne.setPrixUnitaireFacture(produit.getPrixBase());
 
         // Calcule le sous-total

@@ -4,36 +4,36 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "commande")
+@Table(name = "\"commande\"")
 public class Commande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcommande")
+    @Column(name = "\"idCommande\"")
     private Long idCommande;
 
-    @Column(name = "dateheurecommande")
+    @Column(name = "\"dateHeureCreation\"")
     private LocalDateTime dateHeureCommande = LocalDateTime.now();
 
-    @Column(name = "montanttotal")
+    @Column(name = "\"montantTotal\"")
     private Double montantTotal = 0.0;
 
-    @Column(name = "idsession")
+    @Column(name = "\"idSession\"")
     private Integer idSession;
 
-    @Column(name = "idvendeuse")
+    @Column(name = "\"idVendeuse\"")
     private Integer idVendeuse;
 
-    @Column(name = "idclient")
+    @Column(name = "\"idClient\"")
     private Integer idClient;
 
-    @Column(name = "idstatutcommande")
+    @Column(name = "\"idStatutCommande\"")
     private Integer idStatutCommande;
 
-    @Column(name = "idtypetarification")
+    @Column(name = "\"idTypeTarification\"")
     private Integer idTypeTarification;
 
-    @Column(name = "idtypecommande")
+    @Column(name = "\"idTypeCommande\"")
     private Integer idTypeCommande;
 
     public Commande() {}
