@@ -90,6 +90,9 @@
         <div class="table-container" style="margin-top: 30px;">
             <div class="table-header">
                 <h1>Liste des mouvements d'équipement</h1>
+                <a href="${pageContext.request.contextPath}/mouvements-equipement/export" class="btn-secondary" style="margin-left: 16px; padding: 8px 14px; display: inline-block; text-decoration: none;">
+                    <i class="fas fa-file-csv"></i>&nbsp;Exporter CSV
+                </a>
             </div>
 
             <table>

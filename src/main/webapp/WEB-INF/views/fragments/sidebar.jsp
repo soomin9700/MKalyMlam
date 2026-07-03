@@ -66,6 +66,11 @@
         Mouvement des équipements
     </a>
 
+    <a href="${pageContext.request.contextPath}/mouvements-equipement/etat-stock"
+    class="${activeMenu == 'etat-stock' ? 'active' : ''}">
+        État de stock
+    </a>
+
     <a href="${pageContext.request.contextPath}/recetteBase"
     class="${activeMenu == 'recetteBase' ? 'active' : ''}">
         Recette de Base

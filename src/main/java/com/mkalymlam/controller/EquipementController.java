@@ -1,13 +1,20 @@
 package com.mkalymlam.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.mkalymlam.entity.Equipement;
 import com.mkalymlam.service.EquipementService;
+import com.mkalymlam.service.ExportService;
 import com.mkalymlam.service.MethodeComptableService;
 import com.mkalymlam.service.TypeEquipementService;
 
@@ -17,15 +24,18 @@ public class EquipementController {
     private final EquipementService service;
     private final TypeEquipementService typeEquipementService;
     private final MethodeComptableService methodeComptableService;
+    private final ExportService exportService;
 
     public EquipementController(
             EquipementService service,
             TypeEquipementService typeEquipementService,
-            MethodeComptableService methodeComptableService) {
+            MethodeComptableService methodeComptableService,
+            ExportService exportService) {
 
         this.service = service;
         this.typeEquipementService = typeEquipementService;
         this.methodeComptableService = methodeComptableService;
+        this.exportService = exportService;
     }
 
     @ResponseBody
@@ -88,5 +98,17 @@ public class EquipementController {
     public String create(@ModelAttribute Equipement equipement) {
         service.save(equipement);
         return "redirect:/equipements";
+    }
+
+    @GetMapping("/equipements/export")
+    public ResponseEntity<InputStreamResource> exportCsv() throws Exception {
+        File fichier = exportService.exportCsv("equipement");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(fichier));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fichier.getName())
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .contentLength(fichier.length())
+                .body(resource);
     }
 }

@@ -1,3 +1,4 @@
+com/mkalymlam/service/ExportService.class
 com/mkalymlam/entity/TypeEquipement.class
 com/mkalymlam/entity/Equipement.class
 com/mkalymlam/repository/IngredientRepository.class
@@ -35,6 +36,7 @@ com/mkalymlam/repository/LigneCommandeRepository.class
 com/mkalymlam/entity/RecetteBaseId.class
 com/mkalymlam/repository/CommandeRepository.class
 com/mkalymlam/controller/TypeEquipementController.class
+com/mkalymlam/service/ImportService.class
 com/mkalymlam/controller/MouvementEquipementController.class
 com/mkalymlam/controller/EquipementController.class
 com/mkalymlam/controller/LigneCommandeController.class

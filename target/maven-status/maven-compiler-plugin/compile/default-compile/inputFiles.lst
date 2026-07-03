@@ -37,6 +37,8 @@
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeEquipementRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/EquipementService.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/ExportService.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/ImportService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/ItineraireService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/MethodeComptableService.java
