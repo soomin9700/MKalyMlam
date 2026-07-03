@@ -1,4 +1,19 @@
-INSERT INTO "role" ("libelle") VALUES ('ADMIN'), ('VENDEUSE'), ('CUISINIER'), ('CHAUFFEUR'), ('REMPLACANT');
+-- Réinitialisation des données de test
+DELETE FROM "utilisateur" WHERE "email" = 'admin@gmail.com';
+
+INSERT INTO "role" ("libelle")
+SELECT libelle
+FROM (VALUES
+    ('ADMIN'),
+    ('EMPLOYE'),
+    ('VENDEUSE'),
+    ('CUISINIER'),
+    ('CHAUFFEUR'),
+    ('REMPLACANT')
+) AS roles(libelle)
+WHERE NOT EXISTS (
+    SELECT 1 FROM "role" r WHERE r."libelle" = roles.libelle
+);
 
 INSERT INTO "typeConge" ("libelle") VALUES ('CONGE_PAYE'), ('ABSENCE_MALADIE'), ('ABSENCE_INJUSTIFIEE'), ('CONGE_EXCEPTIONNEL');
 
@@ -37,3 +52,13 @@ INSERT INTO "classificationSentiment" ("libelle") VALUES ('POSITIF'), ('NEGATIF'
 INSERT INTO "statutDemandeAchat" ("libelle") VALUES ('NON_APPLICABLE'), ('DEMANDE_ACHAT_ENVOYEE_A_ADMIN'), ('APPROUVEE');
 
 INSERT INTO "typeNotification" ("libelle") VALUES ('BOOST_NOUVEAU_PRODUIT'), ('ARRIVEE_POINT_DE_VENTE');
+
+INSERT INTO "utilisateur" ("nom", "prenom", "email", "motDePasse", "idRole", "statutActif")
+VALUES (
+    'Admin',
+    'Super',
+    'admin@gmail.com',
+    '$2b$10$OXY0OWLG800lJP4vQCjv6.snIN19CZlLQNshWrfHWZdN5zoSuOqfy',
+    (SELECT "idRole" FROM "role" WHERE "libelle" = 'ADMIN' ORDER BY "idRole" LIMIT 1),
+    TRUE
+);

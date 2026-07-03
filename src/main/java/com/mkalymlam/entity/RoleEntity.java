@@ -15,6 +15,13 @@ public class RoleEntity {
     @Column(name = "\"libelle\"", nullable = false, length = 50)
     private String libelle;
 
+    public RoleEntity() {
+    }
+
+    public RoleEntity(String libelle) {
+        this.libelle = libelle;
+    }
+
     // getters & setters (obligatoires)
     public Long getIdRole() { return idRole; }
     public void setIdRole(Long idRole) { this.idRole = idRole; }

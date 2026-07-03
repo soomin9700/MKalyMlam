@@ -18,8 +18,3 @@ public class JspConfig {
         return resolver;
     }
 }
-    
-
-
-
-

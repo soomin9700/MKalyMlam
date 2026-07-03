@@ -1,12 +1,20 @@
 package com.mkalymlam.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
 
-  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idUtilisateur\"")
     private Long idUtilisateur;
@@ -18,14 +26,15 @@ public class Utilisateur {
     @Column(name = "\"motDePasse\"")
     private String motDePasse;
 
+    // Correction : le type est bien RoleEntity
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idRole\"", nullable = false)
     private RoleEntity role;
 
-    @Column(name = "\"salaireBaseFixe\"")   // 👈 Annotation ajoutée
+    @Column(name = "\"salaireBaseFixe\"")
     private Double salaireBaseFixe;
 
-    @Column(name = "statut_actif")
+    @Column(name = "\"statutActif\"")
     private Boolean statutActif = true;
 
     // Constructeur

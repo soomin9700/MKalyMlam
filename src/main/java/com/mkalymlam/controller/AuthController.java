@@ -54,9 +54,9 @@ public class AuthController {
             return "redirect:/register";
         }
 
-        // Assigner un rôle par défaut (ex: VENDEUSE)
-        RoleEntity roleDefault = roleRepository.findFirstByLibelle("VENDEUSE")
-                .orElseThrow(() -> new RuntimeException("Rôle VENDEUSE introuvable"));
+        // Toute inscription publique crée un employé simple.
+        RoleEntity roleDefault = roleRepository.findFirstByLibelle("EMPLOYE")
+                .orElseGet(() -> roleRepository.save(new RoleEntity("EMPLOYE")));
         utilisateur.setRole(roleDefault);
 
         // Encoder le mot de passe
