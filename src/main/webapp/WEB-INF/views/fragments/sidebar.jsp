@@ -44,6 +44,7 @@
         Produits
     </a>
 
+    <!-- Hasina -->
     <a href="${pageContext.request.contextPath}/ingredients"
     class="${activeMenu == 'ingredients' ? 'active' : ''}">
         Ingrédients
@@ -54,6 +55,12 @@
         Équipements
     </a>
 
+    <a href="${pageContext.request.contextPath}/equipements/alertes"
+    class="${activeMenu == 'equipements-alertes' ? 'active' : ''}">
+        Alertes d'équipements
+    </a>
+
+    <!-- -->
     <a href="${pageContext.request.contextPath}/mouvements-equipement"
     class="${activeMenu == 'mouvements-equipement' ? 'active' : ''}">
         Mouvement des équipements

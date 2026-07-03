@@ -64,6 +64,13 @@ public class EquipementController {
         return service.getEquipementsEnAlerte();
     }
 
+    @GetMapping("/equipements/alertes")
+    public String alertesPage(Model model) {
+        model.addAttribute("equipements", service.getEquipementsEnAlerte());
+        model.addAttribute("activeMenu", "equipements-alertes");
+        return "equipement/equipementAlerte";
+    }
+
     @GetMapping("/equipements")
     public String listAndCreateForm(Model model) {
         model.addAttribute("equipements", service.findAll());
@@ -72,6 +79,7 @@ public class EquipementController {
         model.addAttribute("equipement", new Equipement());
         model.addAttribute("isEdit", false);
         model.addAttribute("actionUrl", "/equipements");
+        model.addAttribute("activeMenu", "equipements");
 
         return "equipement/form";
     }
