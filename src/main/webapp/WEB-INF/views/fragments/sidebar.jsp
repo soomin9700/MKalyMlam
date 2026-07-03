@@ -54,7 +54,10 @@
         Équipements
     </a>
 
-    Mouvement des équipements ( mouvementEquipement)
+    <a href="${pageContext.request.contextPath}/mouvements-equipement"
+    class="${activeMenu == 'mouvements-equipement' ? 'active' : ''}">
+        Mouvement des équipements
+    </a>
 
     <a href="${pageContext.request.contextPath}/recetteBase"
     class="${activeMenu == 'recetteBase' ? 'active' : ''}">
@@ -80,8 +83,4 @@
     class="${activeMenu == 'employes' ? 'active' : ''}">
         Employés
     </a>
-
-    
-
-
 </div>
