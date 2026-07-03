@@ -24,7 +24,6 @@ public class InventaireJournalier {
     @JoinColumn(name = "\"idTypeItem\"")
     private TypeItem typeItem;
 
-    // ✅ Ajout du champ idItem
     @Column(name = "\"idItem\"")
     private Long idItem;
 
@@ -37,7 +36,6 @@ public class InventaireJournalier {
     @Column(name = "\"ecartInventaire\"")
     private Double ecartInventaire;
 
-    // ✅ Champs transitoires pour l'affichage (non persistés en base)
     @Transient
     private String nomItem;
 

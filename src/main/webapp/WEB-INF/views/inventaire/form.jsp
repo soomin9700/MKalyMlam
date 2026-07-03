@@ -144,31 +144,29 @@
                         Item *
                     </label>
 
-                    <!-- Groupe des ingrédients -->
-                    <div id="ingredients-group" >
-                        <select name="idItem" id="idItem">
-                            <option value="">-- Choisir un ingrédient --</option>
+                    <select name="idItem" id="idItem" required>
+                        <option value="">-- Choisir un item --</option>
+                        
+                        <!-- Ingrédients -->
+                        <optgroup label="Ingrédients">
                             <c:forEach items="${ingredients}" var="ingredient">
                                 <option value="${ingredient.idIngredient}"
-                                    ${ingredient.idIngredient == inventaire.idItem ? 'selected' : ''}>
+                                    ${ingredient.idIngredient == inventaire.idItem && inventaire.typeItem.idTypeItem == 1 ? 'selected' : ''}>
                                     ${ingredient.nomIngredient} (${ingredient.uniteMesure})
                                 </option>
                             </c:forEach>
-                        </select>
-                    </div>
-
-                    <!-- Groupe des équipements -->
-                    <div id="equipements-group" >
-                        <select name="idItem" id="idItem">
-                            <option value="">-- Choisir un équipement --</option>
+                        </optgroup>
+                        
+                        <!-- Équipements -->
+                        <optgroup label="Équipements">
                             <c:forEach items="${equipements}" var="equipement">
                                 <option value="${equipement.idEquipement}"
-                                    ${equipement.idEquipement == inventaire.idItem ? 'selected' : ''}>
+                                    ${equipement.idEquipement == inventaire.idItem && inventaire.typeItem.idTypeItem == 2 ? 'selected' : ''}>
                                     ${equipement.nomEquipement}
                                 </option>
                             </c:forEach>
-                        </select>
-                    </div>
+                        </optgroup>
+                    </select>
                 </div>
 
                 <!-- Quantité Physique Constatée -->
@@ -185,25 +183,28 @@
                         value="${inventaire.quantitePhysiqueConstatee}"
                         placeholder="Ex: 25.50"
                         required>
+                    <small style="color:#6b7280;display:block;margin-top:5px;">
+                        <i class="fas fa-calculator"></i>
+                        L'écart entre la quantité physiaue et théorique sera calculé automatiquement : Quantité physique - Quantité théorique
+                    </small>
                 </div>
 
-                <!-- Quantité Théorique Système -->
                 <div class="form-group">
+                    <input type="hidden" name="quantiteTheoriqueSysteme" value="${inventaire.quantiteTheoriqueSysteme}">
                     <label for="quantiteTheoriqueSysteme">
-                        Quantité théorique système *
+                        Quantité théorique système (calculée automatiquement)
                     </label>
                     <input
                         type="number"
                         id="quantiteTheoriqueSysteme"
                         name="quantiteTheoriqueSysteme"
                         step="0.01"
-                        min="0"
                         value="${inventaire.quantiteTheoriqueSysteme}"
-                        placeholder="Ex: 25.00"
-                        required>
+                        readonly
+                        style="background-color:#f3f4f6;cursor:not-allowed;">
                     <small style="color:#6b7280;display:block;margin-top:5px;">
                         <i class="fas fa-calculator"></i>
-                        L'écart sera calculé automatiquement : Quantité physique - Quantité théorique
+                        Cette quantité est calculée automatiquement à partir des lots d'ingrédients.
                     </small>
                 </div>
 

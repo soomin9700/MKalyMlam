@@ -656,63 +656,63 @@ INSERT INTO "mouvementEquipement" ("idTypeMouvement", "idEquipement", "quantite"
 (1, 9, 250.00, '2026-06-26'),
 (2, 9, -60.00, '2026-06-29');
 
-INSERT INTO "sessionTruck" (
-    "idTruck", 
-    "idItineraire", 
-    "dateSession", 
-    "fondDeCaisseOuverture", 
-    "fondDeCaisseCloture", 
-    "chiffreAffaireTotal", 
-    "commissionTotaleEquipe", 
-    "idStatutSession"
-) VALUES 
-(
-    1,  -- idTruck: 1234 TMA
-    1,  -- idItineraire: Analakely (devant la gare)
-    '2026-06-26', 
-    50000.00,  -- fond de caisse ouverture
-    75000.00,  -- fond de caisse clôture
-    125000.00, -- chiffre d'affaire total
-    25000.00,  -- commission totale équipe
-    1          -- idStatutSession: OUVERTE
-),
-(
-    1,  -- idTruck: 1234 TMA
-    2,  -- idItineraire: Ivandry (Leader Price)
-    '2026-06-28', 
-    50000.00, 
-    82000.00, 
-    150000.00, 
-    30000.00, 
-    2          -- idStatutSession: CLOTUREE
-),
-(
-    2,  -- idTruck: 5678 TMA
-    3,  -- idItineraire: Antanimena (université)
-    '2026-06-29', 
-    40000.00, 
-    70000.00, 
-    98000.00, 
-    19600.00, 
-    1          -- idStatutSession: OUVERTE
-);
+-- INSERT INTO "sessionTruck" (
+--     "idTruck", 
+--     "idItineraire", 
+--     "dateSession", 
+--     "fondDeCaisseOuverture", 
+--     "fondDeCaisseCloture", 
+--     "chiffreAffaireTotal", 
+--     "commissionTotaleEquipe", 
+--     "idStatutSession"
+-- ) VALUES 
+-- (
+--     1,  -- idTruck: 1234 TMA
+--     1,  -- idItineraire: Analakely (devant la gare)
+--     '2026-06-26', 
+--     50000.00,  -- fond de caisse ouverture
+--     75000.00,  -- fond de caisse clôture
+--     125000.00, -- chiffre d'affaire total
+--     25000.00,  -- commission totale équipe
+--     1          -- idStatutSession: OUVERTE
+-- ),
+-- (
+--     1,  -- idTruck: 1234 TMA
+--     2,  -- idItineraire: Ivandry (Leader Price)
+--     '2026-06-28', 
+--     50000.00, 
+--     82000.00, 
+--     150000.00, 
+--     30000.00, 
+--     2          -- idStatutSession: CLOTUREE
+-- ),
+-- (
+--     2,  -- idTruck: 5678 TMA
+--     3,  -- idItineraire: Antanimena (université)
+--     '2026-06-29', 
+--     40000.00, 
+--     70000.00, 
+--     98000.00, 
+--     19600.00, 
+--     1          -- idStatutSession: OUVERTE
+-- );
 
 -- 4. Inventaires journaliers (à adapter selon vos idSession existantes)
-INSERT INTO "inventaireJournalier" ("idSession", "dateInventaire", "idTypeItem", "idItem", "quantitePhysiqueConstatee", "quantiteTheoriqueSysteme", "ecartInventaire") VALUES
-(1, '2026-06-26', 1, 1, 45.00, 45.00, 0.00),
-(1, '2026-06-26', 1, 2, 13.50, 13.50, 0.00),
-(1, '2026-06-26', 1, 5, 25.00, 24.50, 0.50),
-(2, '2026-06-28', 1, 1, 32.00, 33.00, -1.00),
-(2, '2026-06-28', 1, 2, 10.00, 10.50, -0.50),
-(2, '2026-06-28', 1, 5, 22.00, 21.80, 0.20),
-(1, '2026-06-27', 2, 1, 150.00, 150.00, 0.00),
-(1, '2026-06-27', 2, 2, 110.00, 110.00, 0.00),
-(1, '2026-06-27', 2, 8, 220.00, 220.00, 0.00),
-(1, '2026-06-27', 2, 9, 190.00, 190.00, 0.00),
-(3, '2026-06-29', 1, 1, 28.00, 29.00, -1.00),
-(3, '2026-06-29', 1, 5, 20.00, 20.50, -0.50),
-(3, '2026-06-29', 2, 1, 120.00, 120.00, 0.00),
-(3, '2026-06-29', 2, 8, 140.00, 140.00, 0.00);
+-- INSERT INTO "inventaireJournalier" ("idSession", "dateInventaire", "idTypeItem", "idItem", "quantitePhysiqueConstatee", "quantiteTheoriqueSysteme", "ecartInventaire") VALUES
+-- (1, '2026-06-26', 1, 1, 45.00, 45.00, 0.00),
+-- (1, '2026-06-26', 1, 2, 13.50, 13.50, 0.00),
+-- (1, '2026-06-26', 1, 5, 25.00, 24.50, 0.50),
+-- (2, '2026-06-28', 1, 1, 32.00, 33.00, -1.00),
+-- (2, '2026-06-28', 1, 2, 10.00, 10.50, -0.50),
+-- (2, '2026-06-28', 1, 5, 22.00, 21.80, 0.20),
+-- (1, '2026-06-27', 2, 1, 150.00, 150.00, 0.00),
+-- (1, '2026-06-27', 2, 2, 110.00, 110.00, 0.00),
+-- (1, '2026-06-27', 2, 8, 220.00, 220.00, 0.00),
+-- (1, '2026-06-27', 2, 9, 190.00, 190.00, 0.00),
+-- (3, '2026-06-29', 1, 1, 28.00, 29.00, -1.00),
+-- (3, '2026-06-29', 1, 5, 20.00, 20.50, -0.50),
+-- (3, '2026-06-29', 2, 1, 120.00, 120.00, 0.00),
+-- (3, '2026-06-29', 2, 8, 140.00, 140.00, 0.00);
 
 
 -- SELECT VERIFICATION pour module3
