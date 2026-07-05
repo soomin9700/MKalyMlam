@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.mkalymlam.entity.Produit;
+import com.mkalymlam.entity.ProduitAvecDisponibilite;
+import com.mkalymlam.repository.ProduitAvecDisponibiliteRepository;
+import com.mkalymlam.service.ProduitAvecDisponibiliteService;
 import com.mkalymlam.service.ProduitService;
 
 @Controller
@@ -17,34 +20,42 @@ import com.mkalymlam.service.ProduitService;
 public class ProduitController {
 
     private final ProduitService service;
+    private final ProduitAvecDisponibiliteRepository produitVueRepository;
 
-    public ProduitController(ProduitService service) {
+    public ProduitController(ProduitService service, 
+                             ProduitAvecDisponibiliteRepository produitVueRepository) {
         this.service = service;
+        this.produitVueRepository = produitVueRepository;
     }
 
     @GetMapping
     public String list(
-        @RequestParam(required = false) String nomProduit,
-        @RequestParam(required = false) Boolean nouveauProduit,
-        Model model) {
+            @RequestParam(required = false) String nomProduit,
+            @RequestParam(required = false) Boolean nouveauProduit,
+            @RequestParam(required = false) Boolean estDisponible,
+            Model model) {
 
-        List<Produit> produits;
+        // Utiliser directement la vue
+        List<ProduitAvecDisponibilite> produitsVue = produitVueRepository.findByCriteria(
+            nomProduit, estDisponible, nouveauProduit
+        );
 
-        // filtre par nom si il y a un produit lors de la recherche
-        if (nomProduit != null && !nomProduit.isEmpty()) {
-            produits = service.findByNomProduit(nomProduit);
-        } else {
-            produits = service.getAllNouveauxProduits();
-        }
-        
-        // si le filtre nouveauProduit est activé, on filtre les produits en nouveauProduit
-        if (nouveauProduit != null && nouveauProduit) {
-            produits = produits.stream()
-                    .filter(produit -> service.verifierEstNouveau(produit))
-                    .collect(Collectors.toList());
-        }
+        // Convertir en Produit pour garder la compatibilité avec la JSP
+        List<Produit> produits = produitsVue.stream()
+                .map(p -> {
+                    Produit produit = new Produit();
+                    produit.setIdProduit(p.getIdProduit());
+                    produit.setNomProduit(p.getNomProduit());
+                    produit.setPrixBase(p.getPrixBase());
+                    produit.setEstNouveau(p.getEstNouveau());
+                    produit.setDateCreation(p.getDateCreation());
+                    produit.setEstDisponible(p.getEstDisponible());
+                    return produit;
+                })
+                .collect(Collectors.toList());
 
         model.addAttribute("produits", produits);
+        model.addAttribute("totalProduits", produits.size());
         return "produit/list";
     }
 

@@ -88,7 +88,7 @@
                     </div>
                     
                     <!-- Filtre par disponibilité -->
-                    <!-- <div class="filter-group filter-checkbox">
+                    <div class="filter-group filter-checkbox">
                         <label for="estDisponible" class="filter-label">
                             <i class="fas fa-check-circle"></i>
                             Disponible
@@ -101,7 +101,7 @@
                             ${param.estDisponible != null ? 'checked' : ''}
                             class="filter-checkbox">
                         <span class="filter-checkbox-label">Afficher uniquement les produits disponibles</span>
-                    </div> -->
+                    </div>
 
                     <!-- Boutons d'action -->
                     <div class="filter-actions">
@@ -133,6 +133,8 @@
                     <th><i class="fas fa-euro-sign"></i> Prix</th>
 
                     <th><i class="fas fa-star"></i> Nouveau</th>
+
+                    <th><i class="fas fa-check-circle"></i> Disponible</th>
 
                     <th><i class="fas fa-calendar"></i> Date</th>
 
@@ -187,16 +189,6 @@
 
                     <tr>
 
-                        <!-- <td>
-
-                            <span class="product-id">
-
-                                ${produit.idProduit}
-
-                            </span>
-
-                        </td> -->
-
                         <td>
 
                             <strong>
@@ -222,6 +214,38 @@
                             <c:choose>
 
                                 <c:when test="${produit.estNouveau}">
+
+                                    <span class="badge-new active">
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Oui
+
+                                    </span>
+
+                                </c:when>
+
+                                <c:otherwise>
+
+                                    <span class="badge-new inactive">
+
+                                        <i class="fas fa-times-circle"></i>
+
+                                        Non
+
+                                    </span>
+
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </td>
+
+                        <td>
+
+                            <c:choose>
+
+                                <c:when test="${produit.estDisponible}">
 
                                     <span class="badge-new active">
 
