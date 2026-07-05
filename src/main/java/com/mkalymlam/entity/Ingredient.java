@@ -23,7 +23,6 @@ public class Ingredient {
     @Column(name = "\"uniteMesure\"")
     private String uniteMesure;
 
-
     public Ingredient() {
     }
 

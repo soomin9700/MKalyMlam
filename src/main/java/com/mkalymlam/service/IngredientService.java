@@ -21,6 +21,13 @@ public class IngredientService {
         return repository.findAll();
     }
 
+    public List<Ingredient> searchByNom(String recherche) {
+        if (recherche == null || recherche.isBlank()) {
+            return findAll();
+        }
+        return repository.findByNomIngredientContainingIgnoreCase(recherche.trim());
+    }
+
     // Recherche par id
     public Ingredient getById(Long id) {
         return repository.findById(id).orElse(null);

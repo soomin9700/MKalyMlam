@@ -21,8 +21,10 @@ public class IngredientController {
     // Liste des ingrédients
     // =======================
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("ingredients", service.findAll());
+    public String list(Model model,
+                       @RequestParam(required = false) String recherche) {
+        model.addAttribute("ingredients", service.searchByNom(recherche));
+        model.addAttribute("selectedRecherche", recherche);
         return "ingredient/list";
     }
 

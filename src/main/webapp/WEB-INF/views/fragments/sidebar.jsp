@@ -54,6 +54,11 @@
         Lots
     </a>
 
+    <a href="${pageContext.request.contextPath}/approvisionnements"
+    class="${activeMenu == 'approvisionnements' ? 'active' : ''}">
+        Approvisionnements
+    </a>
+
     <a href="${pageContext.request.contextPath}/recetteBase"
     class="${activeMenu == 'recetteBase' ? 'active' : ''}">
         Recette de Base

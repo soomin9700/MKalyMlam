@@ -54,6 +54,31 @@
 
             </div>
 
+            <form method="get"
+                  action="${pageContext.request.contextPath}/ingredients"
+                  style="display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:end;margin-bottom:20px;padding:16px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;">
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label for="recherche">Recherche ingrédient</label>
+                    <input type="text"
+                           id="recherche"
+                           name="recherche"
+                           value="${selectedRecherche}"
+                           placeholder="Nom de l'ingrédient">
+                </div>
+
+                <button type="submit" class="btn-success" style="height:44px;">
+                    <i class="fas fa-search"></i>
+                    Rechercher
+                </button>
+
+                <a href="${pageContext.request.contextPath}/ingredients"
+                   class="btn-secondary"
+                   style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                    Réinitialiser
+                </a>
+            </form>
+
             <!-- Tableau -->
             <table>
 

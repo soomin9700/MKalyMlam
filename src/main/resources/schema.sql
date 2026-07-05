@@ -152,9 +152,6 @@ CREATE TABLE "fichePaie" (
     "idUtilisateur" INT NOT NULL,
     "moisAnnee" VARCHAR(7) NOT NULL,
     "montantFixeBrut" NUMERIC(12, 2) NOT NULL,
-    "totalCommissions" NUMERIC(10, 2) DEFAULT 0,
-    "totalHeuresSupp" NUMERIC(10, 2) DEFAULT 0,
-    "totalDeductionsAbsences" NUMERIC(10, 2) DEFAULT 0,
     "montantNetVerse" NUMERIC(12, 2) NOT NULL,
     "datePaiement" DATE,
     FOREIGN KEY ("idUtilisateur") REFERENCES "utilisateur"("idUtilisateur")
@@ -269,7 +266,32 @@ CREATE TABLE "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
     "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-    "uniteMesure" VARCHAR(20) NOT NULL
+    "uniteMesure" VARCHAR(20) NOT NULL,
+    "statutActif" BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE "ingredientStatut" (
+    "idIngredient" INT PRIMARY KEY,
+    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+);
+
+CREATE TABLE "ingredientStatut" (
+    "idIngredient" INT PRIMARY KEY,
+    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+);
+
+CREATE TABLE "ingredientStatut" (
+    "idIngredient" INT PRIMARY KEY,
+    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+);
+
+CREATE TABLE "ingredientStatut" (
+    "idIngredient" INT PRIMARY KEY,
+    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
 CREATE TABLE "lotIngredient" (
@@ -280,6 +302,24 @@ CREATE TABLE "lotIngredient" (
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
     "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+);
+
+CREATE TABLE "approvisionnement" (
+    "idApprovisionnement" SERIAL PRIMARY KEY,
+    "dateApprovisionnement" DATE NOT NULL DEFAULT CURRENT_DATE,
+    "coutTotalEstime" NUMERIC(12,2) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE "detailApprovisionnement" (
+    "idDetailApprovisionnement" SERIAL PRIMARY KEY,
+    "idApprovisionnement" INT NOT NULL,
+    "idIngredient" INT NOT NULL,
+    "stockActuel" NUMERIC(10,2) NOT NULL,
+    "prixEstimeUnitaire" NUMERIC(10,2) NOT NULL,
+    "quantiteAAcheter" NUMERIC(10,2) NOT NULL,
+    "coutEstime" NUMERIC(12,2) NOT NULL,
+    FOREIGN KEY ("idApprovisionnement") REFERENCES "approvisionnement"("idApprovisionnement"),
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
