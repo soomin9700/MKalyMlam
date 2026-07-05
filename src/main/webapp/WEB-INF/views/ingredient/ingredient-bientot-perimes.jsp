@@ -19,7 +19,7 @@
                 <h1>Ingrédients bientôt périmés</h1>
             </div>
 
-            <form method="get" action="${pageContext.request.contextPath}/ingredients/bientot-perimes" style="margin-bottom: 20px;">
+            <form method="get" action="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes" style="margin-bottom: 20px;">
                 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
                     <div>
                         <label for="ingredientId">Ingrédient</label><br/>
@@ -65,7 +65,7 @@
                     <c:forEach var="lot" items="${lots}">
                         <tr>
                             <td>
-                                <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes/${lot.ingredient.idIngredient}">
+                                <a href="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes/${lot.ingredient.idIngredient}">
                                     ${lot.ingredient.nomIngredient}
                                 </a>
                             </td>

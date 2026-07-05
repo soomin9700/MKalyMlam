@@ -28,45 +28,29 @@
                 - ingredient-bientot-perimes.jsp
                 - ingredient-bientot-perimes-by-idIngredient.jsp
 
-    - Liste des ingredients perimes ( Date perumption < Date Now())
-    - Calcul automatique des pertes dues au perumptions : SUM ( quantite * prix ) pour les ingredients dans le stock dont ****
+    - [ok] Liste des ingredients perimes ( Date perumption < Date Now())
+
+    - [ok] Calcul automatique des pertes dues au perumptions : SUM ( quantite * prix ) pour les ingredients dans le stock dont 
     - Filtre generalisé:
         * par date de permumptions
         * par ingredient
 
 - 2- Alertes:
     - Detection automatique d'un stock faible 
-        CREATE TABLE "ingredient" (
-            "idIngredient" SERIAL PRIMARY KEY,
-            "nomIngredient" VARCHAR(100) NOT NULL,
-            "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-            "uniteMesure" VARCHAR(20) NOT NULL
-        );
-
-        CREATE TABLE "lotIngredient" (
-            "idLot" SERIAL PRIMARY KEY,
-            "idIngredient" INT NOT NULL,
-            "dateReception" DATE NOT NULL,
-            "datePeremption" DATE NOT NULL,
-            "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-            "quantiteRestante" NUMERIC(10, 2) NOT NULL,
-            "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
-            FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
-        );
         -> il n'y a pas de quantiteMin pour reference lors de gestion d'alertes selon la quantite dans le stock pour les ingredients
             - Donc on referencier juste que si quantitetotal d'un ingredient < 20 , -> retourne la lsite des ingredients en alerte 
             **** deja faites ( voir sprint-1-lotIngredeinet-Hasina )
-    - Detection automatiquement une perumption proche
+    - [ok] Detection automatiquement une perumption proche
         **** deja faite ci-dessus 
     - Detecter les ruptures de stock 
         ????
-    - Afficher les alertes sur le tableau de bord 
-        - Liste des alertes 
+    - [ok] Afficher les alertes sur le tableau de bord 
+        - Liste des alertes : les ingredients en alertes
 
 - 3- Gestion des equipements:
-    - Demande d'achat equipement 
+    - [ok] Demande d'achat equipement 
         **** deja faites ( sprint2-GestionEquipement-Hasina)
-    - Gestion des stokc 
+    - [ok] Gestion des stokc 
         **** deja faites 
 
 - 4- Calcul des pertes financieres:

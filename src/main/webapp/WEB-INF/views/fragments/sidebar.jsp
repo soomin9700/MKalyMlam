@@ -50,12 +50,12 @@
         Ingrédients
     </a>
 
-    <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes"
+    <a href="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes"
     class="${activeMenu == 'ingredients-bientot-perimes' ? 'active' : ''}">
         Ingrédients bientôt périmés
     </a>
 
-    <a href="${pageContext.request.contextPath}/ingredients/perimes"
+    <a href="${pageContext.request.contextPath}/lot/ingredients/view/perimes"
     class="${activeMenu == 'ingredients-perimes' ? 'active' : ''}">
         Ingrédients périmés
     </a>

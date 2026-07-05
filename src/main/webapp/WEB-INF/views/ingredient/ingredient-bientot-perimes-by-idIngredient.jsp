@@ -17,7 +17,7 @@
         <div class="table-container">
             <div class="table-header">
                 <h1>Lots bientôt périmés - ${ingredient.nomIngredient}</h1>
-                <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes" class="btn-edit">
+                <a href="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes" class="btn-edit">
                     Retour à la liste générale
                 </a>
             </div>

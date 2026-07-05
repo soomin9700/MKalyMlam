@@ -19,6 +19,10 @@
                 <h1>Ingrédients périmés</h1>
             </div>
 
+            <div style="margin-bottom: 15px; padding: 12px 15px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 8px;">
+                <strong>Montant total des ingrédients périmés :</strong> ${montantTotalPerime} Ar
+            </div>
+
             <!-- <form method="get" action="${pageContext.request.contextPath}/lot/ingredients/perimes" style="margin-bottom: 20px;">
                 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
                     <div>

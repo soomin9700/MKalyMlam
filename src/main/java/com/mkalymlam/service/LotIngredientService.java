@@ -65,6 +65,13 @@ public class LotIngredientService {
         return lotIngredientRepository.findByDatePeremptionBefore(LocalDate.now());
     }
 
+    public double getPerteByPeremption() {
+        return getIngredientsPerimes().stream()
+                .filter(lot -> lot.getQuantiteInitiale() != null && lot.getPrixAchatUnitaire() != null)
+                .mapToDouble(lot -> lot.getQuantiteInitiale() * lot.getPrixAchatUnitaire())
+                .sum();
+    }
+
     public List<LotIngredient> getIngredientsPerimesFiltered(LocalDate startDate, LocalDate endDate,
             Long ingredientId) {
         if (ingredientId != null && startDate != null && endDate != null) {

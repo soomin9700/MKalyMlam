@@ -1,10 +1,11 @@
 package com.mkalymlam.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import java.time.LocalDate;
-
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,38 +14,46 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
+import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.LotIngredientService;
 
-@RestController
+@Controller
 @RequestMapping("/lot")
 public class LotIngredientController {
 
     private final LotIngredientService service;
+    private final IngredientService ingredientService;
 
-    public LotIngredientController(LotIngredientService service) {
+    public LotIngredientController(LotIngredientService service, IngredientService ingredientService) {
         this.service = service;
+        this.ingredientService = ingredientService;
     }
 
     @PostMapping("/save")
+    @ResponseBody
     public LotIngredient save(@RequestBody LotIngredient lotIngredient) {
         return service.save(lotIngredient);
     }
 
     @PutMapping("/update/{id}")
+    @ResponseBody
     public LotIngredient update(@PathVariable Long id, @RequestBody LotIngredient lotIngredient) {
         return service.update(id, lotIngredient);
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseBody
     public String delete(@PathVariable Long id) {
         service.deleteById(id);
         return "Lot supprimé";
     }
 
     @GetMapping("/find")
+    @ResponseBody
     public List<LotIngredient> find(
             @RequestParam(required = false) Long idLot,
             @RequestParam(required = false) String nomIngredient) {
@@ -59,31 +68,74 @@ public class LotIngredientController {
     }
 
     @GetMapping("/findAll")
+    @ResponseBody
     public List<LotIngredient> findAll() {
         return service.getAll();
     }
 
     @GetMapping("/alertes")
+    @ResponseBody
     public List<LotIngredient> alertes() {
         return service.getAlertLots();
     }
 
     @GetMapping("/ingredients/bientot-perimes")
+    @ResponseBody
     public List<LotIngredient> getIngredientsBientotPerimes() {
         return service.getIngredientsBientotPerimes();
     }
 
     @GetMapping("/ingredients/bientot-perimes/{idIngredient}")
+    @ResponseBody
     public List<LotIngredient> getIngredientsBientotPerimesByIdIngredient(@PathVariable Long idIngredient) {
         return service.getIngredientsBientotPerimesByIdIngredient(idIngredient);
     }
 
     @GetMapping("/ingredients/perimes")
+    @ResponseBody
     public List<LotIngredient> getIngredientsPerimes() {
         return service.getIngredientsPerimes();
     }
 
+    @GetMapping("/ingredients/view/bientot-perimes")
+    public String viewIngredientsBientotPerimes(
+            @RequestParam(required = false) Long ingredientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
+            Model model) {
+        model.addAttribute("lots", service.getIngredientsBientotPerimesFiltered(dateMin, dateMax, ingredientId));
+        model.addAttribute("ingredients", ingredientService.findAll());
+        model.addAttribute("selectedIngredientId", ingredientId);
+        model.addAttribute("selectedDateMin", dateMin);
+        model.addAttribute("selectedDateMax", dateMax);
+        return "ingredient/ingredient-bientot-perimes";
+    }
+
+    @GetMapping("/ingredients/view/bientot-perimes/{idIngredient}")
+    public String viewIngredientsBientotPerimesByIngredient(@PathVariable Long idIngredient, Model model) {
+        Ingredient ingredient = ingredientService.getById(idIngredient);
+        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("lots", service.getIngredientsBientotPerimesByIdIngredient(idIngredient));
+        return "ingredient/ingredient-bientot-perimes-by-idIngredient";
+    }
+
+    @GetMapping("/ingredients/view/perimes")
+    public String viewIngredientsPerimes(
+            @RequestParam(required = false) Long ingredientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
+            Model model) {
+        model.addAttribute("lots", service.getIngredientsPerimesFiltered(dateMin, dateMax, ingredientId));
+        model.addAttribute("ingredients", ingredientService.findAll());
+        model.addAttribute("montantTotalPerime", service.getPerteByPeremption());
+        model.addAttribute("selectedIngredientId", ingredientId);
+        model.addAttribute("selectedDateMin", dateMin);
+        model.addAttribute("selectedDateMax", dateMax);
+        return "ingredient/ingredient-perimes";
+    }
+
     @GetMapping("/ingredients/filter")
+    @ResponseBody
     public List<LotIngredient> filterIngredients(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,

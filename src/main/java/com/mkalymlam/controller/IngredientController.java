@@ -1,26 +1,24 @@
 package com.mkalymlam.controller;
 
-import java.time.LocalDate;
-
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.service.IngredientService;
-import com.mkalymlam.service.LotIngredientService;
 
 @Controller
 @RequestMapping("/ingredients")
 public class IngredientController {
 
     private final IngredientService service;
-    private final LotIngredientService lotIngredientService;
 
-    public IngredientController(IngredientService service, LotIngredientService lotIngredientService) {
+    public IngredientController(IngredientService service) {
         this.service = service;
-        this.lotIngredientService = lotIngredientService;
     }
 
     // =======================
@@ -94,43 +92,6 @@ public class IngredientController {
         service.deleteById(id);
 
         return "redirect:/ingredients";
-    }
-
-    @GetMapping("/bientot-perimes")
-    public String bientotPerimes(
-            @RequestParam(required = false) Long ingredientId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
-            Model model) {
-        model.addAttribute("lots",
-                lotIngredientService.getIngredientsBientotPerimesFiltered(dateMin, dateMax, ingredientId));
-        model.addAttribute("ingredients", service.findAll());
-        model.addAttribute("selectedIngredientId", ingredientId);
-        model.addAttribute("selectedDateMin", dateMin);
-        model.addAttribute("selectedDateMax", dateMax);
-        return "ingredient/ingredient-bientot-perimes";
-    }
-
-    @GetMapping("/bientot-perimes/{idIngredient}")
-    public String bientotPerimesByIngredient(@PathVariable Long idIngredient, Model model) {
-        Ingredient ingredient = service.getById(idIngredient);
-        model.addAttribute("ingredient", ingredient);
-        model.addAttribute("lots", lotIngredientService.getIngredientsBientotPerimesByIdIngredient(idIngredient));
-        return "ingredient/ingredient-bientot-perimes-by-idIngredient";
-    }
-
-    @GetMapping("/perimes")
-    public String perimes(
-            @RequestParam(required = false) Long ingredientId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
-            Model model) {
-        model.addAttribute("lots", lotIngredientService.getIngredientsPerimesFiltered(dateMin, dateMax, ingredientId));
-        model.addAttribute("ingredients", service.findAll());
-        model.addAttribute("selectedIngredientId", ingredientId);
-        model.addAttribute("selectedDateMin", dateMin);
-        model.addAttribute("selectedDateMax", dateMax);
-        return "ingredient/ingredient-perimes";
     }
 
 }
