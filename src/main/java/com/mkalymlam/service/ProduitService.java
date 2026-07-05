@@ -41,7 +41,7 @@ public class ProduitService {
     }
 
     public List<Produit> findByNomProduit(String nomProduit) {
-        List<Produit> produits = repository.findByProduit_NomProduitContainingIgnoreCase(nomProduit);
+        List<Produit> produits = repository.findByProduit_NomContainingIgnoreCase(nomProduit);
         produits.forEach(produit -> {
             produit.setEstNouveau(verifierEstNouveau(produit));
         });

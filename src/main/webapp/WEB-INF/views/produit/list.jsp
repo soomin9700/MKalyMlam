@@ -87,6 +87,22 @@
                         <span class="filter-checkbox-label">Afficher uniquement les nouveaux poduits</span>
                     </div>
                     
+                    <!-- Filtre par disponibilité -->
+                    <!-- <div class="filter-group filter-checkbox">
+                        <label for="estDisponible" class="filter-label">
+                            <i class="fas fa-check-circle"></i>
+                            Disponible
+                        </label>
+                        <input 
+                            type="checkbox" 
+                            id="estDisponible" 
+                            name="estDisponible" 
+                            value="true"
+                            ${param.estDisponible != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label">Afficher uniquement les produits disponibles</span>
+                    </div> -->
+
                     <!-- Boutons d'action -->
                     <div class="filter-actions">
                         <button type="submit" class="btn-filter">
