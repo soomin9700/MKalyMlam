@@ -328,8 +328,6 @@
                                             <button type="submit"
                                                     class="btn-delete">
 
-                                                <i class="fas fa-trash-alt"></i>
-
                                                 Désactiver
 
                                             </button>
@@ -347,8 +345,6 @@
 
                                             <button type="submit"
                                                     class="btn-success">
-
-                                                <i class="fas fa-trash-alt"></i>
 
                                                 Activer
 
