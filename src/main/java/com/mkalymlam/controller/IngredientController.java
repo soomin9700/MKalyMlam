@@ -6,15 +6,18 @@ import org.springframework.web.bind.annotation.*;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.service.IngredientService;
+import com.mkalymlam.service.LotIngredientService;
 
 @Controller
 @RequestMapping("/ingredients")
 public class IngredientController {
 
     private final IngredientService service;
+    private final LotIngredientService lotIngredientService;
 
-    public IngredientController(IngredientService service) {
+    public IngredientController(IngredientService service, LotIngredientService lotIngredientService) {
         this.service = service;
+        this.lotIngredientService = lotIngredientService;
     }
 
     // =======================
@@ -88,6 +91,21 @@ public class IngredientController {
         service.deleteById(id);
 
         return "redirect:/ingredients";
+    }
+
+    @GetMapping("/bientot-perimes")
+    public String bientotPerimes(Model model) {
+        model.addAttribute("lots", lotIngredientService.getIngredientsBientotPerimes());
+        model.addAttribute("ingredients", service.findAll());
+        return "ingredient/ingredient-bientot-perimes";
+    }
+
+    @GetMapping("/bientot-perimes/{idIngredient}")
+    public String bientotPerimesByIngredient(@PathVariable Long idIngredient, Model model) {
+        Ingredient ingredient = service.getById(idIngredient);
+        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("lots", lotIngredientService.getIngredientsBientotPerimesByIdIngredient(idIngredient));
+        return "ingredient/ingredient-bientot-perimes-by-idIngredient";
     }
 
 }

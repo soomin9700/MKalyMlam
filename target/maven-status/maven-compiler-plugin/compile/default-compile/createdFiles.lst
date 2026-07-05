@@ -21,6 +21,7 @@ com/mkalymlam/repository/MethodeComptableRepository.class
 com/mkalymlam/repository/EquipementRepository.class
 com/mkalymlam/controller/ItineraireController.class
 com/mkalymlam/controller/RecetteBaseController.class
+com/mkalymlam/controller/LotIngredientController.class
 com/mkalymlam/controller/IngredientController.class
 com/mkalymlam/service/TypeMouvementService.class
 com/mkalymlam/service/ItineraireService.class
@@ -30,6 +31,7 @@ com/mkalymlam/controller/VendeuseController.class
 com/mkalymlam/entity/Itineraire.class
 com/mkalymlam/entity/RecetteBase.class
 com/mkalymlam/entity/Commande.class
+com/mkalymlam/service/LotIngredientService.class
 com/mkalymlam/controller/DashboardController.class
 com/mkalymlam/repository/ProduitRepository.class
 com/mkalymlam/repository/LigneCommandeRepository.class
@@ -46,7 +48,9 @@ com/mkalymlam/service/RecetteBaseService.class
 com/mkalymlam/controller/TypeMouvementController.class
 com/mkalymlam/repository/ItineraireRepository.class
 com/mkalymlam/controller/CommandeController.class
+com/mkalymlam/entity/LotIngredient.class
 com/mkalymlam/entity/LigneCommande.class
 com/mkalymlam/service/IngredientService.class
 com/mkalymlam/entity/TypeMouvement.class
 com/mkalymlam/service/EquipementService.class
+com/mkalymlam/repository/LotIngredientRepository.class

@@ -3,17 +3,30 @@
 ===================================
 ## Fonctionnalites attendues:
 - 1- Modules 'ingredients':
-    - Liste des ingredients dont la date la date de perumption - date now() >= 0 and <=3 
-        Todo:
-            - IngredientController.java:
+    - [OK] Liste des ingredients dont la date la date de perumption - date now() >= 0 and <=3 
+        [ok] backend:
+            - LotIngredientController.java:
                 - GetMapping("/ingredients/bientot-perimes") 
                 - getIngredientsBientotPerimes() 
-            - IngredientService.java:
+                - GetMapping("/ingredients/bientot-perimes/{idIngredient}")
+                - getIngredientsBientotPerimesByIdIngredient(Long idIngredient)
+            - LotIngredientService.java:
                 - getIngredientsBientotPerimes() 
-                    - retourne la lsite des ingredients dont la date de perumption - date now() >= 0 and <=3
-            - IngredientRepository.java:
+                    - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3
+                - getIngredientsBientotPerimesByIdIngredient(Long idIngredient) 
+                    - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3 et idIngredient = idIngredient
+            - LotIngredientRepository.java:
                 - findByDatePeremptionBetween(Date startDate, Date endDate) 
-                    - retourne la lsite des ingredients dont la date de perumption - date now() >= 0 and <=3
+                    - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3
+                - findByDatePeremptionBetweenAndIdIngredient(Date startDate, Date endDate, Long idIngredient) 
+                    - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3 et idIngredient = idIngredient
+        Affichage:
+            - dans fragments/sidebar.jsp / nouvelles sections :
+                - liste des Ingredients bientot perimés
+                - liste des ingredients bientot perimés par idIngredient
+            - dans ingredient/
+                - ingredient-bientot-perimes.jsp
+                - ingredient-bientot-perimes-by-idIngredient.jsp
 
     - Liste des ingredients perimes ( Date perumption < Date Now())
     - Calcul automatique des pertes dues au perumptions : SUM ( quantite * prix ) pour les ingredients dans le stock dont ****
@@ -66,7 +79,3 @@ Pertes financiers = Somme des produits qui ne sont pas vendues + Somme des equip
 
 ## qustions:
 - 1- Ahoana ny ahafantarana ny isan produits actuel ao amintsika ?
-- 2- Tsika nanao talou hoe mivarotra 11 -> 15 pour produits chaque prdouit fa ts tena tadididko izy zay , de n fanotaniko volou, pour confirmation: hoe n produits retrareta ( produit efa vita: ex Burger ) moa efa amboariana mialoha alohan anomezana anazy anle truck sa ve le ingredients ilaina rehetra fotsiny no omainana any am cuisine , de a partir ana commande amzay n fanamboarana produit ray ( selon anle specification anle client ) ? 
-    ny anton fanotaniako mantsy satria za manao calcul anle produits perimes ( de ra n fahafantarako de le produits perimes le produits efa vita fa ts nisyu nividy nefa tapitra n session ana truck ray, tapitra n journee)
-    Satria manko ra tss produits tong de efa vita fa hoe miandry ze speicification an cients , de ts tokony misu produits perimes zany 
-    Sode mba misy afaka manitsy anah ra diso ah ? de sode mb misy afak mamaly azafady , misaotra 
