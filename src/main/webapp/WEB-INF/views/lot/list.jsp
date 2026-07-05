@@ -62,10 +62,6 @@
                     
                     <!-- Filtre par alerte -->
                     <div class="filter-group filter-checkbox">
-                        <label for="alerte" class="filter-label">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            Alerte
-                        </label>
                         <input 
                             type="checkbox" 
                             id="alerte" 
@@ -73,7 +69,7 @@
                             value="true"
                             ${param.alerte != null ? 'checked' : ''}
                             class="filter-checkbox">
-                        <span class="filter-checkbox-label">Afficher uniquement les lots en alerte</span>
+                        <span class="filter-checkbox-label"><i class="fas fa-exclamation-triangle"></i> Afficher uniquement les lots en alerte</span>
                     </div>
                     
                     <!-- Boutons d'action -->

@@ -73,10 +73,6 @@
                     
                     <!-- Filtre par nouveaute -->
                     <div class="filter-group filter-checkbox">
-                        <label for="nouveauProduit" class="filter-label">
-                            <i class="fas fa-star"></i>
-                            Nouveau
-                        </label>
                         <input 
                             type="checkbox" 
                             id="nouveauProduit" 
@@ -84,15 +80,11 @@
                             value="true"
                             ${param.nouveauProduit != null ? 'checked' : ''}
                             class="filter-checkbox">
-                        <span class="filter-checkbox-label">Afficher uniquement les nouveaux poduits</span>
+                        <span class="filter-checkbox-label"><i class="fas fa-star"></i> Afficher uniquement les nouveaux poduits</span>
                     </div>
                     
                     <!-- Filtre par disponibilité -->
                     <div class="filter-group filter-checkbox">
-                        <label for="estDisponible" class="filter-label">
-                            <i class="fas fa-check-circle"></i>
-                            Disponible
-                        </label>
                         <input 
                             type="checkbox" 
                             id="estDisponible" 
@@ -100,7 +92,7 @@
                             value="true"
                             ${param.estDisponible != null ? 'checked' : ''}
                             class="filter-checkbox">
-                        <span class="filter-checkbox-label">Afficher uniquement les produits disponibles</span>
+                        <span class="filter-checkbox-label"><i class="fas fa-check-circle"></i> Afficher uniquement les produits disponibles</span>
                     </div>
 
                     <!-- Boutons d'action -->
