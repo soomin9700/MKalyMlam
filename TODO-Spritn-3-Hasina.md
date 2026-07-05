@@ -1,4 +1,4 @@
-# Sprint 3 - Rattrapage:
+# Sprint 3 - Rattrapage: TODOLISTb-Hasina
 
 ===================================
 ## Fonctionnalites attendues:
@@ -30,13 +30,27 @@
 
     - [ok] Liste des ingredients perimes ( Date perumption < Date Now())
 
-    - [ok] Calcul automatique des pertes dues au perumptions : SUM ( quantite * prix ) pour les ingredients dans le stock dont 
+    - [ok] Calcul automatique des pertes dues au perumptions : SUM ( quantite * prix ) pour les ingredients dans le stock dont la date de perumption < Date Now() 
+        - [ok] backend:
+            - LotIngredientController.java:
+                - GetMapping("/ingredients/perimes") 
+                - getIngredientsPerimes() 
+            - LotIngredientService.java:
+                - getIngredientsPerimes() 
+                    - retourne la lsite des lotingredients dont la date de perumption < Date Now()
+            - LotIngredientRepository.java:
+                - findByDatePeremptionBefore(Date date) 
+                    - retourne la lsite des lotingredients dont la date de perumption < Date Now()
+        - [ok]Affichage:
+            - dans ingredient/
+                - ingredient-perimes.jsp
+
     - Filtre generalisé:
         * par date de permumptions
         * par ingredient
 
 - 2- Alertes:
-    - Detection automatique d'un stock faible 
+    - Detection automatique d'un stock faible:
         -> il n'y a pas de quantiteMin pour reference lors de gestion d'alertes selon la quantite dans le stock pour les ingredients
             - Donc on referencier juste que si quantitetotal d'un ingredient < 20 , -> retourne la lsite des ingredients en alerte 
             **** deja faites ( voir sprint-1-lotIngredeinet-Hasina )
