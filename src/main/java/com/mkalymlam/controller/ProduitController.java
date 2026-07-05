@@ -3,6 +3,7 @@ package com.mkalymlam.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,28 @@ public class ProduitController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("produits", service.findAll());
+    public String list(
+        @RequestParam(required = false) String nomProduit,
+        @RequestParam(required = false) Boolean nouveauProduit,
+        Model model) {
+
+        List<Produit> produits;
+
+        // filtre par nom si il y a un produit lors de la recherche
+        if (nomProduit != null && !nomProduit.isEmpty()) {
+            produits = service.findByNomProduit(nomProduit);
+        } else {
+            produits = service.getAllNouveauxProduits();
+        }
+        
+        // si le filtre nouveauProduit est activé, on filtre les produits en nouveauProduit
+        if (nouveauProduit != null && nouveauProduit) {
+            produits = produits.stream()
+                    .filter(produit -> service.verifierEstNouveau(produit))
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("produits", produits);
         return "produit/list";
     }
 

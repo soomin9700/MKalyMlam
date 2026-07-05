@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_liste_prod.css">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_badge.css">
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,27 +23,6 @@
     <c:set var="activeMenu" value="produits"/>
 
     <!-- Sidebar -->
-
-    <%-- <div class="sidebar">
-
-        <h2>ADMIN PANEL</h2>
-
-        <a href="#">Dashboard</a>
-
-        <a href="#" class="active" style="color: var(--secondary);">
-            Produits
-        </a>
-
-        <a href="#">Commandes</a>
-        <a href="#">Employés</a>
-        <a href="#">Clients</a>
-        <a href="#">Statistiques</a>
-
-        <a href="./ingredients">
-            Ingrédients
-        </a>
-
-    </div> --%>
 
     <jsp:include page="/WEB-INF/views/fragments/sidebar.jsp" />
 
@@ -73,6 +52,56 @@
 
             </div>
 
+            <!-- Filtres -->
+            <div class="filters-container">
+                <form action="${pageContext.request.contextPath}/produits" method="get" class="filters-form">
+                    
+                    <!-- Filtre par nom d'ingrédient -->
+                    <div class="filter-group">
+                        <label for="nomProduit" class="filter-label">
+                            <i class="fas fa-search"></i>
+                            Rechercher
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nomIngredient" 
+                            name="nomIngredient" 
+                            value="${param.nomIngredient}" 
+                            placeholder="Nom de l'ingrédient..."
+                            class="filter-input">
+                    </div>
+                    
+                    <!-- Filtre par nouveaute -->
+                    <div class="filter-group filter-checkbox">
+                        <label for="nouveauProduit" class="filter-label">
+                            <i class="fas fa-star"></i>
+                            Nouveau
+                        </label>
+                        <input 
+                            type="checkbox" 
+                            id="nouveauProduit" 
+                            name="nouveauProduit" 
+                            value="true"
+                            ${param.nouveauProduit != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label">Afficher uniquement les nouveaux poduits</span>
+                    </div>
+                    
+                    <!-- Boutons d'action -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-filter"></i>
+                            Filtrer
+                        </button>
+                        <a href="${pageContext.request.contextPath}/produits" class="btn-filter-reset">
+                            <i class="fas fa-undo"></i>
+                            Réinitialiser
+                        </a>
+                    </div>
+                    
+                </form>
+            </div>
+
             <!-- Tableau -->
 
             <table>
@@ -81,7 +110,7 @@
 
                 <tr>
 
-                    <th><i class="fas fa-hashtag"></i> ID</th>
+                    <!-- <th><i class="fas fa-hashtag"></i> ID</th> -->
 
                     <th><i class="fas fa-tag"></i> Nom</th>
 
@@ -142,7 +171,7 @@
 
                     <tr>
 
-                        <td>
+                        <!-- <td>
 
                             <span class="product-id">
 
@@ -150,7 +179,7 @@
 
                             </span>
 
-                        </td>
+                        </td> -->
 
                         <td>
 

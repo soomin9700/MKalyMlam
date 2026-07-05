@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.entity.Produit;
 import com.mkalymlam.repository.ProduitRepository;
 
@@ -30,5 +31,28 @@ public class ProduitService {
 
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public boolean verifierEstNouveau(Produit produit) {
+        if (produit.getEstNouveau() == true) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<Produit> findByNomProduit(String nomProduit) {
+        List<Produit> produits = repository.findByProduit_NomProduitContainingIgnoreCase(nomProduit);
+        produits.forEach(produit -> {
+            produit.setEstNouveau(verifierEstNouveau(produit));
+        });
+        return produits;
+    }
+
+     public List<Produit> getAllNouveauxProduits() {
+        List<Produit> produits = repository.findAll();
+        produits.forEach(produit -> {
+            produit.setEstNouveau(verifierEstNouveau(produit));
+        });
+        return produits;
     }
 }
