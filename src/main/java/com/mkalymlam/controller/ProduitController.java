@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.mkalymlam.entity.DisponibiliteProduit;
 import com.mkalymlam.entity.Produit;
 import com.mkalymlam.entity.ProduitAvecDisponibilite;
 import com.mkalymlam.repository.ProduitAvecDisponibiliteRepository;
+import com.mkalymlam.service.DisponibiliteService;
 import com.mkalymlam.service.ProduitAvecDisponibiliteService;
 import com.mkalymlam.service.ProduitService;
 
@@ -21,11 +23,15 @@ public class ProduitController {
 
     private final ProduitService service;
     private final ProduitAvecDisponibiliteRepository produitVueRepository;
+    private final DisponibiliteService disponibiliteService;
 
-    public ProduitController(ProduitService service, 
-                             ProduitAvecDisponibiliteRepository produitVueRepository) {
+    
+
+    public ProduitController(ProduitService service, ProduitAvecDisponibiliteRepository produitVueRepository,
+            DisponibiliteService disponibiliteService) {
         this.service = service;
         this.produitVueRepository = produitVueRepository;
+        this.disponibiliteService = disponibiliteService;
     }
 
     @GetMapping
@@ -41,7 +47,7 @@ public class ProduitController {
         if (estIndisponible != null && estIndisponible) {
             estDisponible = false;
         }
-        
+
         List<ProduitAvecDisponibilite> produitsVue = produitVueRepository.findByCriteria(
             nomProduit, estDisponible, nouveauProduit
         );
@@ -144,6 +150,22 @@ public class ProduitController {
     public String delete(@PathVariable Long id) {
 
         service.deleteById(id);
+
+        return "redirect:/produits";
+    }
+
+    @PostMapping("/{id}/activate")
+    public String activate(@PathVariable Long id) {
+
+        disponibiliteService.activateProduct(id);
+
+        return "redirect:/produits";
+    }
+
+    @PostMapping("/{id}/deactivate")
+    public String deactivate(@PathVariable Long id) {
+
+        disponibiliteService.deactivateProduct(id);
 
         return "redirect:/produits";
     }

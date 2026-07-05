@@ -314,6 +314,52 @@
 
                                 </form>
 
+                                <!-- Activer ou desactiver -->
+
+                                <c:choose>
+
+                                    <c:when test="${produit.estDisponible}">
+
+                                        <form action="${pageContext.request.contextPath}/produits/${produit.idProduit}/deactivate"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver ce produit ?');">
+
+                                            <button type="submit"
+                                                    class="btn-delete">
+
+                                                <i class="fas fa-trash-alt"></i>
+
+                                                Désactiver
+
+                                            </button>
+
+                                        </form>
+
+                                    </c:when>
+
+                                    <c:otherwise>
+
+                                        <form action="${pageContext.request.contextPath}/produits/${produit.idProduit}/activate"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir activer ce produit ?');">
+
+                                            <button type="submit"
+                                                    class="btn-success">
+
+                                                <i class="fas fa-trash-alt"></i>
+
+                                                Activer
+
+                                            </button>
+
+                                        </form>
+
+                                    </c:otherwise>
+
+                                </c:choose>
+
                             </div>
 
                         </td>
