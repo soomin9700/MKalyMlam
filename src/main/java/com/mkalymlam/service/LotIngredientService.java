@@ -46,8 +46,38 @@ public class LotIngredientService {
                 idIngredient);
     }
 
+    public List<LotIngredient> getIngredientsBientotPerimesFiltered(LocalDate startDate, LocalDate endDate,
+            Long idIngredient) {
+        if (idIngredient != null && startDate != null && endDate != null) {
+            return lotIngredientRepository.findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
+                    idIngredient);
+        }
+        if (startDate != null && endDate != null) {
+            return lotIngredientRepository.findByDatePeremptionBetween(startDate, endDate);
+        }
+        if (idIngredient != null) {
+            return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient);
+        }
+        return getIngredientsBientotPerimes();
+    }
+
     public List<LotIngredient> getIngredientsPerimes() {
         return lotIngredientRepository.findByDatePeremptionBefore(LocalDate.now());
+    }
+
+    public List<LotIngredient> getIngredientsPerimesFiltered(LocalDate startDate, LocalDate endDate,
+            Long ingredientId) {
+        if (ingredientId != null && startDate != null && endDate != null) {
+            return lotIngredientRepository.findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
+                    ingredientId);
+        }
+        if (startDate != null && endDate != null) {
+            return lotIngredientRepository.findByDatePeremptionBetween(startDate, endDate);
+        }
+        if (ingredientId != null) {
+            return lotIngredientRepository.findByIngredient_IdIngredient(ingredientId);
+        }
+        return getIngredientsPerimes();
     }
 
     public List<LotIngredient> filterIngredients(LocalDate startDate, LocalDate endDate, Long ingredientId) {

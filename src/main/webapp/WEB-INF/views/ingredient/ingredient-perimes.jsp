@@ -4,22 +4,22 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ingrédients bientôt périmés</title>
+    <title>Ingrédients périmés</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
 </head>
 <body>
 <div class="dashboard">
-    <c:set var="activeMenu" value="ingredients"/>
+    <c:set var="activeMenu" value="ingredients-perimes"/>
     <jsp:include page="/WEB-INF/views/fragments/sidebar.jsp" />
 
     <div class="main">
         <div class="table-container">
             <div class="table-header">
-                <h1>Ingrédients bientôt périmés</h1>
+                <h1>Ingrédients périmés</h1>
             </div>
 
-            <form method="get" action="${pageContext.request.contextPath}/ingredients/bientot-perimes" style="margin-bottom: 20px;">
+            <!-- <form method="get" action="${pageContext.request.contextPath}/lot/ingredients/perimes" style="margin-bottom: 20px;">
                 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
                     <div>
                         <label for="ingredientId">Ingrédient</label><br/>
@@ -44,10 +44,10 @@
                         <button type="submit" class="btn-edit">Filtrer</button>
                     </div>
                 </div>
-            </form>
+            </form> -->
 
             <c:if test="${empty lots}">
-                <p>Aucun lot bientôt périmé.</p>
+                <p>Aucun ingrédient périmé.</p>
             </c:if>
 
             <c:if test="${not empty lots}">
@@ -64,11 +64,7 @@
                     <tbody>
                     <c:forEach var="lot" items="${lots}">
                         <tr>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes/${lot.ingredient.idIngredient}">
-                                    ${lot.ingredient.nomIngredient}
-                                </a>
-                            </td>
+                            <td>${lot.ingredient.nomIngredient}</td>
                             <td>${lot.dateReception}</td>
                             <td>${lot.datePeremption}</td>
                             <td>${lot.quantiteInitiale}</td>

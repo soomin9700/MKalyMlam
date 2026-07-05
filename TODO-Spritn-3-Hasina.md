@@ -20,7 +20,7 @@
                     - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3
                 - findByDatePeremptionBetweenAndIdIngredient(Date startDate, Date endDate, Long idIngredient) 
                     - retourne la lsite des lotingredients dont la date de perumption - date now() >= 0 and <=3 et idIngredient = idIngredient
-        Affichage:
+        [ok]Affichage:
             - dans fragments/sidebar.jsp / nouvelles sections :
                 - liste des Ingredients bientot perimés
                 - liste des ingredients bientot perimés par idIngredient

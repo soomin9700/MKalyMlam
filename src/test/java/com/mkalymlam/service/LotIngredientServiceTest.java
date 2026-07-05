@@ -43,6 +43,25 @@ class LotIngredientServiceTest {
     }
 
     @Test
+    void getIngredientsBientotPerimesFilteredShouldUseIngredientAndDateCriteria() {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(3);
+        Long ingredientId = 5L;
+        LotIngredient lot = new LotIngredient();
+
+        when(lotIngredientRepository.findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
+                ingredientId))
+                .thenReturn(List.of(lot));
+
+        List<LotIngredient> result = lotIngredientService.getIngredientsBientotPerimesFiltered(startDate, endDate,
+                ingredientId);
+
+        assertEquals(1, result.size());
+        verify(lotIngredientRepository).findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
+                ingredientId);
+    }
+
+    @Test
     void getIngredientsPerimesShouldReturnExpiredLots() {
         LocalDate today = LocalDate.now();
         LotIngredient lot = new LotIngredient();

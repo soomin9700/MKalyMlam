@@ -1,5 +1,8 @@
 package com.mkalymlam.controller;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +76,7 @@ public class IngredientController {
     // =======================
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
-                         @ModelAttribute Ingredient ingredient) {
+            @ModelAttribute Ingredient ingredient) {
 
         ingredient.setIdIngredient(id);
 
@@ -94,9 +97,17 @@ public class IngredientController {
     }
 
     @GetMapping("/bientot-perimes")
-    public String bientotPerimes(Model model) {
-        model.addAttribute("lots", lotIngredientService.getIngredientsBientotPerimes());
+    public String bientotPerimes(
+            @RequestParam(required = false) Long ingredientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
+            Model model) {
+        model.addAttribute("lots",
+                lotIngredientService.getIngredientsBientotPerimesFiltered(dateMin, dateMax, ingredientId));
         model.addAttribute("ingredients", service.findAll());
+        model.addAttribute("selectedIngredientId", ingredientId);
+        model.addAttribute("selectedDateMin", dateMin);
+        model.addAttribute("selectedDateMax", dateMax);
         return "ingredient/ingredient-bientot-perimes";
     }
 
@@ -106,6 +117,20 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredient);
         model.addAttribute("lots", lotIngredientService.getIngredientsBientotPerimesByIdIngredient(idIngredient));
         return "ingredient/ingredient-bientot-perimes-by-idIngredient";
+    }
+
+    @GetMapping("/perimes")
+    public String perimes(
+            @RequestParam(required = false) Long ingredientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
+            Model model) {
+        model.addAttribute("lots", lotIngredientService.getIngredientsPerimesFiltered(dateMin, dateMax, ingredientId));
+        model.addAttribute("ingredients", service.findAll());
+        model.addAttribute("selectedIngredientId", ingredientId);
+        model.addAttribute("selectedDateMin", dateMin);
+        model.addAttribute("selectedDateMax", dateMax);
+        return "ingredient/ingredient-perimes";
     }
 
 }

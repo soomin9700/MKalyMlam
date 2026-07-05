@@ -55,6 +55,11 @@
         Ingrédients bientôt périmés
     </a>
 
+    <a href="${pageContext.request.contextPath}/ingredients/perimes"
+    class="${activeMenu == 'ingredients-perimes' ? 'active' : ''}">
+        Ingrédients périmés
+    </a>
+
     <a href="${pageContext.request.contextPath}/equipements"
     class="${activeMenu == 'equipements' ? 'active' : ''}">
         Équipements
