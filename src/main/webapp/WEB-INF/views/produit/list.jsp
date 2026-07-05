@@ -95,6 +95,18 @@
                         <span class="filter-checkbox-label"><i class="fas fa-check-circle"></i> Afficher uniquement les produits disponibles</span>
                     </div>
 
+                    <!-- Filtre par indisponibilité -->
+                    <div class="filter-group filter-checkbox">
+                        <input 
+                            type="checkbox" 
+                            id="estIndisponible" 
+                            name="estIndisponible" 
+                            value="true"
+                            ${param.estIndisponible != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label"><i class="fas fa-times-circle"></i> Afficher uniquement les produits indisponibles</span>
+                    </div>
+
                     <!-- Boutons d'action -->
                     <div class="filter-actions">
                         <button type="submit" class="btn-filter">
@@ -160,8 +172,6 @@
 
                                 <a href="${pageContext.request.contextPath}/produits/new"
                                    class="btn-add">
-
-                                    <i class="fas fa-plus"></i>
 
                                     Ajouter le premier produit
 

@@ -33,9 +33,15 @@ public class ProduitController {
             @RequestParam(required = false) String nomProduit,
             @RequestParam(required = false) Boolean nouveauProduit,
             @RequestParam(required = false) Boolean estDisponible,
+            @RequestParam(required = false) Boolean estIndisponible,
             Model model) {
 
         // Utiliser directement la vue
+
+        if (estIndisponible != null && estIndisponible) {
+            estDisponible = false;
+        }
+        
         List<ProduitAvecDisponibilite> produitsVue = produitVueRepository.findByCriteria(
             nomProduit, estDisponible, nouveauProduit
         );
