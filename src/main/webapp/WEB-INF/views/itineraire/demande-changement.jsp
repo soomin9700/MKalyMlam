@@ -42,7 +42,7 @@
 
     <div class="main">
 
-        <a href="${pageContext.request.contextPath}/changement-itineraire"
+        <a href="${pageContext.request.contextPath}/changement-itineraire/liste"
            class="back-link">
 
             <i class="fas fa-arrow-left"></i>
@@ -138,7 +138,7 @@
 
                     <select
                             id="demandeur"
-                            name="demandeur.id"
+                            name="demandeur.idUtilisateur"
                             required>
 
                         <option value="">
@@ -148,13 +148,13 @@
                         <c:forEach items="${utilisateurs}" var="utilisateur">
 
                             <option
-                                    value="${utilisateur.id}"
+                                    value="${utilisateur.idUtilisateur}"
 
-                                    <c:if test="${demande.demandeur != null && demande.demandeur.id == utilisateur.id}">
+                                    <c:if test="${demande.demandeur != null && demande.demandeur.idUtilisateur == utilisateur.idUtilisateur}">
                                         selected
                                     </c:if>>
 
-                                ${utilisateur.nom}
+                                ${utilisateur.nom} ${utilisateur.prenom}
 
                             </option>
 

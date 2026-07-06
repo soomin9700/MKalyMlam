@@ -22,7 +22,7 @@ public class UtilisateurService {
     }
 
     public Utilisateur getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id.intValue()).orElse(null);
     }
 
     public Utilisateur save(Utilisateur Utilisateur) {
@@ -30,6 +30,6 @@ public class UtilisateurService {
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        repository.deleteById(id.intValue());
     }
 }

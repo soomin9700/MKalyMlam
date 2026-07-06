@@ -99,4 +99,9 @@
         Équipe
     </a>
 
+    <a href="${pageContext.request.contextPath}/changement-itineraire/nouveau"
+    class="${activeMenu == 'changementItineraire' ? 'active' : ''}">
+        Demandes de changement d'itinéraire
+    </a>
+
 </div>

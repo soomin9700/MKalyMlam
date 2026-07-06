@@ -93,6 +93,18 @@ public class DemandeChangementItineraireController {
 
         demandeService.demanderChangementItineraire(demande);
 
+        System.out.println("===========");
+        System.out.println(demande);
+        System.out.println("Demandeur = " + demande.getDemandeur());
+
+        if (demande.getDemandeur() != null) {
+                System.out.println("Id = " + demande.getDemandeur().getIdUtilisateur());
+        }
+
+        System.out.println("Session = " + demande.getSessionTruck());
+        System.out.println("Itineraire = " + demande.getItinerairePropose());
+        System.out.println("===========");
+
         return "redirect:/changement-itineraire/liste";
     }
 
