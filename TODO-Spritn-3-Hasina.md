@@ -45,13 +45,13 @@
             - dans ingredient/
                 - ingredient-perimes.jsp
 
-    - Filtre generalisé:
+    - [ok] Filtre generalisé:
         * par date de permumptions
         * par ingredient
 
 - 2- Alertes:
     - [ok] Detection automatique d'un stock faible:
-            **** deja faites ( voir sprint-1-lotIngredeinet-Hasina )
+            **** deja faites ( voir sprint-1-lotIngredient-Hasina )
   
     - [ok] Detection automatiquement une perumption proche
         **** deja faite ci-dessus 
@@ -72,7 +72,8 @@
     - Calculer les pertes globales
 
 Pertes financiers = Somme des produits qui ne sont pas vendues + Somme des equipements remplaces + somme des ingredients permies
-
+    - Somme des produits qui ne sont pas vendues : 0 car on fabrique un produit seuleent lorsqu'il y a une commande
+    - Somme des equipement remplaces: 
 
 ## qustions:
 - 1- Ahoana ny ahafantarana ny isan produits actuel ao amintsika ?

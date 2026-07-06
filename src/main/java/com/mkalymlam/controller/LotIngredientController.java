@@ -140,12 +140,20 @@ public class LotIngredientController {
     }
 
     @GetMapping("/ingredients/new")
-    public String createLotIngredientForm(Model model) {
+    public String createLotIngredientForm(
+            @RequestParam(required = false) Long ingredientId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
+            Model model) {
         model.addAttribute("lotIngredient", new LotIngredient());
         model.addAttribute("ingredients", ingredientService.findAll());
         model.addAttribute("typeMouvements", typeMouvementService.findAll());
         model.addAttribute("actionUrl", "/lot/ingredients");
         model.addAttribute("activeMenu", "lot-ingredients");
+        model.addAttribute("ingredientId", ingredientId);
+        model.addAttribute("dateMin", dateMin);
+        model.addAttribute("dateMax", dateMax);
+        model.addAttribute("lots", service.filterIngredients(dateMin, dateMax, ingredientId));
         return "ingredient/lotIngredientForm";
     }
 

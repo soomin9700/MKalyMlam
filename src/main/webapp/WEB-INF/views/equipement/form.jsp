@@ -111,6 +111,41 @@
                 </a>
             </div>
 
+            <div class="filter-section" style="margin-bottom: 20px;">
+                <form action="${pageContext.request.contextPath}/equipements" method="get" style="display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end;">
+                    <div class="form-group" style="min-width: 220px;">
+                        <label for="filterTypeEquipement">Type d'équipement</label>
+                        <select id="filterTypeEquipement" name="typeEquipementId">
+                            <option value="">Tous les types</option>
+                            <c:forEach items="${typeEquipements}" var="typeEquipement">
+                                <option value="${typeEquipement.idTypeEquipement}"
+                                        <c:if test="${typeEquipement.idTypeEquipement == selectedTypeEquipementId}">selected</c:if>>
+                                    ${typeEquipement.libelle}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="min-width: 220px;">
+                        <label for="filterMethodeComptable">Méthode comptable</label>
+                        <select id="filterMethodeComptable" name="methodeComptableId">
+                            <option value="">Toutes les méthodes</option>
+                            <c:forEach items="${methodesComptables}" var="methode">
+                                <option value="${methode.idMethodeComptable}"
+                                        <c:if test="${methode.idMethodeComptable == selectedMethodeComptableId}">selected</c:if>>
+                                    ${methode.libelle}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-top: 24px;">
+                        <button type="submit" class="btn-primary">Filtrer</button>
+                        <a href="${pageContext.request.contextPath}/equipements" class="btn-secondary">Réinitialiser</a>
+                    </div>
+                </form>
+            </div>
+
             <table>
                 <thead>
                 <tr>
