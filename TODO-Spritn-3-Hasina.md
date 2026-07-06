@@ -50,10 +50,9 @@
         * par ingredient
 
 - 2- Alertes:
-    - Detection automatique d'un stock faible:
-        -> il n'y a pas de quantiteMin pour reference lors de gestion d'alertes selon la quantite dans le stock pour les ingredients
-            - Donc on referencier juste que si quantitetotal d'un ingredient < 20 , -> retourne la lsite des ingredients en alerte 
+    - [ok] Detection automatique d'un stock faible:
             **** deja faites ( voir sprint-1-lotIngredeinet-Hasina )
+  
     - [ok] Detection automatiquement une perumption proche
         **** deja faite ci-dessus 
     - Detecter les ruptures de stock 

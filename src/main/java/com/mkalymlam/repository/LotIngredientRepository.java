@@ -28,7 +28,11 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
 
     List<LotIngredient> findByDatePeremptionBefore(LocalDate date);
 
-    @Query("SELECT COALESCE(SUM(l.quantiteRestante), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
-    Double sumQuantiteRestanteByIdIngredient(@Param("idIngredient") Long idIngredient);
+    @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
+    Double sumQuantiteInitialeByIngredient(@Param("idIngredient") Long idIngredient);
+
+    @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient AND l.typeMouvement.idTypeMouvement = :typeMouvementId")
+    Double sumQuantiteInitialeByIngredientAndTypeMouvement(@Param("idIngredient") Long idIngredient,
+            @Param("typeMouvementId") Long typeMouvementId);
 
 }

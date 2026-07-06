@@ -36,3 +36,22 @@ CREATE TABLE "equipement" (
     FOREIGN KEY ("idTypeEquipement") REFERENCES "typeEquipement"("idTypeEquipement"),
     FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable")
 );
+
+
+-- ajout de colonne typeMouvement dans la table lotIngredient
+-- suppression de la colonne quanttieRestante
+ALTER TABLE "lotIngredient" ALTER COLUMN "quantiteRestante" DROP NOT NULL;
+ALTER TABLE "lotIngredient" DROP COLUMN "quantiteRestante";
+ALTER TABLE "lotIngredient" ADD COLUMN "idTypeMouvement" INT;
+
+CREATE TABLE "lotIngredient" (
+    "idLot" SERIAL PRIMARY KEY,
+    "idIngredient" INT NOT NULL,
+    "dateReception" DATE NOT NULL,
+    "datePeremption" DATE NOT NULL,
+    "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
+    "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+    "idTypeMouvement" INT NOT NULL,
+    FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+);

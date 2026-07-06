@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
+import com.mkalymlam.entity.TypeMouvement;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
 
@@ -16,11 +17,14 @@ public class LotIngredientService {
 
     private final LotIngredientRepository lotIngredientRepository;
     private final IngredientRepository ingredientRepository;
+    private final TypeMouvementService typeMouvementService;
 
     public LotIngredientService(LotIngredientRepository lotIngredientRepository,
-            IngredientRepository ingredientRepository) {
+            IngredientRepository ingredientRepository,
+            TypeMouvementService typeMouvementService) {
         this.lotIngredientRepository = lotIngredientRepository;
         this.ingredientRepository = ingredientRepository;
+        this.typeMouvementService = typeMouvementService;
     }
 
     public List<LotIngredient> getAll() {
@@ -115,8 +119,10 @@ public class LotIngredientService {
         if (lotIngredient.getDateReception() == null) {
             lotIngredient.setDateReception(LocalDate.now());
         }
-        if (lotIngredient.getQuantiteRestante() == null) {
-            lotIngredient.setQuantiteRestante(lotIngredient.getQuantiteInitiale());
+        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
+            TypeMouvement typeMouvement = typeMouvementService
+                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
+            lotIngredient.setTypeMouvement(typeMouvement);
         }
         return lotIngredientRepository.save(lotIngredient);
     }
@@ -133,6 +139,11 @@ public class LotIngredientService {
                     .orElse(null);
             existing.setIngredient(ingredient);
         }
+        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
+            TypeMouvement typeMouvement = typeMouvementService
+                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
+            existing.setTypeMouvement(typeMouvement);
+        }
         if (lotIngredient.getDateReception() != null) {
             existing.setDateReception(lotIngredient.getDateReception());
         }
@@ -141,9 +152,6 @@ public class LotIngredientService {
         }
         if (lotIngredient.getQuantiteInitiale() != null) {
             existing.setQuantiteInitiale(lotIngredient.getQuantiteInitiale());
-        }
-        if (lotIngredient.getQuantiteRestante() != null) {
-            existing.setQuantiteRestante(lotIngredient.getQuantiteRestante());
         }
         if (lotIngredient.getPrixAchatUnitaire() != null) {
             existing.setPrixAchatUnitaire(lotIngredient.getPrixAchatUnitaire());
@@ -157,26 +165,54 @@ public class LotIngredientService {
         lotIngredientRepository.deleteById(id);
     }
 
-    public List<LotIngredient> getAlertLots() {
-        return lotIngredientRepository.findAll().stream()
-                .filter(lot -> lot.getIngredient() != null && lot.getIngredient().getSeuilAlerteQuantite() != null
-                        && lot.getQuantiteRestante() != null
-                        && lot.getQuantiteRestante() <= lot.getIngredient().getSeuilAlerteQuantite())
+    public List<Ingredient> getAlertLots() {
+        return ingredientRepository.findAll().stream()
+                .filter(ingredient -> ingredient.getSeuilAlerteQuantite() != null)
+                .filter(ingredient -> getStockActuelIngredient(ingredient) <= ingredient.getSeuilAlerteQuantite())
                 .toList();
     }
 
-    public boolean verifierAlerte(LotIngredient lotIngredient) {
-        if (lotIngredient.getIngredient() != null && lotIngredient.getQuantiteRestante() != null) {
-            Double seuilAlerte = lotIngredient.getIngredient().getSeuilAlerteQuantite();
-            if (seuilAlerte != null && lotIngredient.getQuantiteRestante() <= seuilAlerte) {
-                return true;
-            }
-        }
-        return false;
+    public List<Ingredient> getIngredientsAlerte() {
+        return getAlertLots();
     }
 
-    public double quantiteLotIngredientActuelleByIngredient(Long idIngredient) {
-        Double quantiteActuelle = lotIngredientRepository.sumQuantiteRestanteByIdIngredient(idIngredient);
-        return quantiteActuelle != null ? quantiteActuelle : 0.0;
+    public java.util.Map<Long, Double> getQuantiteTotaleParIngredientMap() {
+        return ingredientRepository.findAll().stream()
+                .filter(ingredient -> ingredient.getIdIngredient() != null)
+                .collect(java.util.stream.Collectors.toMap(
+                        Ingredient::getIdIngredient,
+                        this::getStockActuelIngredient));
+    }
+
+    private double getStockActuelIngredient(Ingredient ingredient) {
+        if (ingredient == null || ingredient.getIdIngredient() == null) {
+            return 0.0;
+        }
+        double totalEntrees = calculerTotalEntreesNonPerimees(ingredient.getIdIngredient());
+        double totalSorties = calculerTotalSorties(ingredient.getIdIngredient());
+        return totalEntrees - totalSorties;
+    }
+
+    private double calculerTotalEntreesNonPerimees(Long idIngredient) {
+        java.time.LocalDate today = LocalDate.now();
+        return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
+                .filter(lot -> lot != null && lot.getTypeMouvement() != null
+                        && lot.getTypeMouvement().getIdTypeMouvement() != null
+                        && lot.getTypeMouvement().getIdTypeMouvement().equals(1L)
+                        && lot.getQuantiteInitiale() != null
+                        && lot.getDatePeremption() != null
+                        && !lot.getDatePeremption().isBefore(today))
+                .mapToDouble(LotIngredient::getQuantiteInitiale)
+                .sum();
+    }
+
+    private double calculerTotalSorties(Long idIngredient) {
+        return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
+                .filter(lot -> lot != null && lot.getTypeMouvement() != null
+                        && lot.getTypeMouvement().getIdTypeMouvement() != null
+                        && lot.getTypeMouvement().getIdTypeMouvement().equals(2L)
+                        && lot.getQuantiteInitiale() != null)
+                .mapToDouble(LotIngredient::getQuantiteInitiale)
+                .sum();
     }
 }

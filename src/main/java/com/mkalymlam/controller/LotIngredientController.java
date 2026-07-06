@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.LotIngredientService;
+import com.mkalymlam.service.TypeMouvementService;
 
 @Controller
 @RequestMapping("/lot")
@@ -27,10 +29,13 @@ public class LotIngredientController {
 
     private final LotIngredientService service;
     private final IngredientService ingredientService;
+    private final TypeMouvementService typeMouvementService;
 
-    public LotIngredientController(LotIngredientService service, IngredientService ingredientService) {
+    public LotIngredientController(LotIngredientService service, IngredientService ingredientService,
+            TypeMouvementService typeMouvementService) {
         this.service = service;
         this.ingredientService = ingredientService;
+        this.typeMouvementService = typeMouvementService;
     }
 
     @PostMapping("/save")
@@ -75,7 +80,7 @@ public class LotIngredientController {
 
     @GetMapping("/alertes")
     @ResponseBody
-    public List<LotIngredient> alertes() {
+    public List<Ingredient> alertes() {
         return service.getAlertLots();
     }
 
@@ -132,6 +137,30 @@ public class LotIngredientController {
         model.addAttribute("selectedDateMin", dateMin);
         model.addAttribute("selectedDateMax", dateMax);
         return "ingredient/ingredient-perimes";
+    }
+
+    @GetMapping("/ingredients/new")
+    public String createLotIngredientForm(Model model) {
+        model.addAttribute("lotIngredient", new LotIngredient());
+        model.addAttribute("ingredients", ingredientService.findAll());
+        model.addAttribute("typeMouvements", typeMouvementService.findAll());
+        model.addAttribute("actionUrl", "/lot/ingredients");
+        model.addAttribute("activeMenu", "lot-ingredients");
+        return "ingredient/lotIngredientForm";
+    }
+
+    @PostMapping("/ingredients")
+    public String createLotIngredient(@ModelAttribute LotIngredient lotIngredient) {
+        service.save(lotIngredient);
+        return "redirect:/lot/ingredients/new";
+    }
+
+    @GetMapping("/ingredients/alertes")
+    public String viewLotIngredientAlertes(Model model) {
+        model.addAttribute("ingredientsAlerte", service.getIngredientsAlerte());
+        model.addAttribute("quantitesParIngredient", service.getQuantiteTotaleParIngredientMap());
+        model.addAttribute("activeMenu", "lot-ingredients-alertes");
+        return "ingredient/ingredient-alertes";
     }
 
     @GetMapping("/ingredients/filter")

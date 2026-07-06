@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.LotIngredientService;
+import com.mkalymlam.service.TypeMouvementService;
 
 @WebMvcTest(LotIngredientController.class)
 class LotIngredientControllerTest {
@@ -29,6 +30,9 @@ class LotIngredientControllerTest {
 
     @MockBean
     private IngredientService ingredientService;
+
+    @MockBean
+    private TypeMouvementService typeMouvementService;
 
     @Test
     void bientotPerimesEndpointShouldReturnJsonPayload() throws Exception {
