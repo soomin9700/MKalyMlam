@@ -192,6 +192,13 @@
                                     </span>
                                 </c:if>
 
+                                <a href="${pageContext.request.contextPath}/session/suivi/${session.id}"
+                                   class="btn-add"
+                                   style="background:#2563EB;font-size:13px;padding:6px 12px;">
+                                    <i class="fas fa-chart-line"></i>
+                                    Suivi
+                                </a>
+
                             </div>
 
                         </td>

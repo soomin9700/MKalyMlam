@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import com.mkalymlam.repository.EquipeSessionRepository;
 import com.mkalymlam.repository.ItineraireRepository;
 import com.mkalymlam.repository.UtilisateurRepository;
 import com.mkalymlam.service.SessionTruckService;
+import com.mkalymlam.service.SuiviSessionService;
 import com.mkalymlam.service.TruckService;
 
 @Controller
@@ -31,17 +33,20 @@ public class SessionTruckController {
     private final ItineraireRepository itineraireRepository;
     private final UtilisateurRepository utilisateurRepository;
     private final EquipeSessionRepository equipeSessionRepository;
+    private final SuiviSessionService suiviSessionService;
 
     public SessionTruckController(SessionTruckService sessionTruckService,
                                   TruckService truckService,
                                   ItineraireRepository itineraireRepository,
                                   UtilisateurRepository utilisateurRepository,
-                                  EquipeSessionRepository equipeSessionRepository) {
+                                  EquipeSessionRepository equipeSessionRepository,
+                                  SuiviSessionService suiviSessionService) {
         this.sessionTruckService = sessionTruckService;
         this.truckService = truckService;
         this.itineraireRepository = itineraireRepository;
         this.utilisateurRepository = utilisateurRepository;
         this.equipeSessionRepository = equipeSessionRepository;
+        this.suiviSessionService = suiviSessionService;
     }
 
     @GetMapping("/ouvrir")
@@ -102,5 +107,22 @@ public class SessionTruckController {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/session/liste";
+    }
+
+    @GetMapping("/suivi/{idSession}")
+    public String suivi(@PathVariable Long idSession, Model model) {
+        SessionTruck session = sessionTruckService.find(idSession);
+
+        List<EquipeSession> equipe = equipeSessionRepository.findBySessionTruck(session);
+
+        model.addAttribute("session", session);
+        model.addAttribute("equipe", equipe);
+        model.addAttribute("chiffreAffaire", suiviSessionService.getChiffreAffaire(idSession));
+        model.addAttribute("nombreVentes", suiviSessionService.getNombreVentesRealisees(idSession));
+        model.addAttribute("commandes", suiviSessionService.getCommandes(idSession));
+        model.addAttribute("totalDepenses", suiviSessionService.getTotalDepenses(idSession));
+        model.addAttribute("depenses", suiviSessionService.getDepenses(idSession));
+
+        return "session/suiviSession";
     }
 }
