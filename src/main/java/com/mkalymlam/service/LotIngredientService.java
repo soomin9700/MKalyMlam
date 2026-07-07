@@ -131,7 +131,8 @@ public class LotIngredientService {
         return ingredientRepository.findAll();
     }
 
-    // ✅ NOUVEAU : Récupérer les statistiques des stocks
+    // statistiques
+
     public StockStatisticsDTO getStockStatistics() {
         Long totalIngredients = ingredientRepository.count();
         Long ingredientsDisponibles = lotIngredientRepository.countIngredientsDisponibles();
@@ -148,12 +149,10 @@ public class LotIngredientService {
         );
     }
 
-    // ✅ NOUVEAU : Récupérer tous les ingrédients avec leur stock
     public List<IngredientStockDTO> getAllIngredientsWithStock() {
         return lotIngredientRepository.findAllIngredientsWithStock();
     }
 
-    // ✅ NOUVEAU : Récupérer les ingrédients disponibles
     public List<IngredientStockDTO> getIngredientsDisponibles() {
         return lotIngredientRepository.findAllIngredientsWithStock()
             .stream()
@@ -161,7 +160,6 @@ public class LotIngredientService {
             .collect(Collectors.toList());
     }
 
-    // ✅ NOUVEAU : Récupérer les ingrédients en rupture
     public List<IngredientStockDTO> getIngredientsEnRupture() {
         return lotIngredientRepository.findAllIngredientsWithStock()
             .stream()
@@ -169,7 +167,6 @@ public class LotIngredientService {
             .collect(Collectors.toList());
     }
 
-    // ✅ NOUVEAU : Récupérer les ingrédients en alerte
     public List<IngredientStockDTO> getIngredientsEnAlerte() {
         return lotIngredientRepository.findAllIngredientsWithStock()
             .stream()
@@ -177,7 +174,6 @@ public class LotIngredientService {
             .collect(Collectors.toList());
     }
 
-    // ✅ NOUVEAU : Récupérer le stock actuel d'un ingrédient spécifique
     public IngredientStockDTO getStockByIngredientId(Long ingredientId) {
         return lotIngredientRepository.findAllIngredientsWithStock()
             .stream()
@@ -186,7 +182,6 @@ public class LotIngredientService {
             .orElse(null);
     }
 
-    // ✅ NOUVEAU : Rechercher des ingrédients par nom avec leur stock
     public List<IngredientStockDTO> searchIngredientsWithStock(String nomIngredient) {
         if (nomIngredient == null || nomIngredient.trim().isEmpty()) {
             return getAllIngredientsWithStock();

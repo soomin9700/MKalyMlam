@@ -24,7 +24,6 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
     @Query("SELECT COALESCE(SUM(l.quantiteRestante), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
     Double sumQuantiteRestanteByIdIngredient(@Param("idIngredient") Long idIngredient);
 
-    // ✅ NOUVEAU : Récupérer les quantités totales par ingrédient
     @Query("""
         SELECT NEW com.mkalymlam.dto.IngredientStockDTO(
             i.idIngredient,
@@ -40,7 +39,6 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
         """)
     List<IngredientStockDTO> findAllIngredientsWithStock();
 
-    // ✅ NOUVEAU : Compter les ingrédients disponibles (quantité > 0)
     @Query("""
         SELECT COUNT(DISTINCT i.idIngredient)
         FROM Ingredient i
@@ -51,7 +49,6 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
         """)
     Long countIngredientsDisponibles();
 
-    // ✅ NOUVEAU : Compter les ingrédients en rupture (quantité = 0 ou null)
     @Query("""
         SELECT COUNT(DISTINCT i.idIngredient)
         FROM Ingredient i
@@ -62,7 +59,6 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
         """)
     Long countIngredientsEnRupture();
 
-    // ✅ NOUVEAU : Compter les ingrédients en alerte (quantité > 0 ET quantité <= seuil)
     @Query("""
         SELECT COUNT(DISTINCT i.idIngredient)
         FROM Ingredient i
@@ -76,7 +72,6 @@ public interface LotIngredientRepository extends JpaRepository<LotIngredient, Lo
         """)
     Long countIngredientsEnAlerte();
 
-    // ✅ NOUVEAU : Calculer la valeur totale des stocks
     @Query("SELECT COALESCE(SUM(l.quantiteRestante * l.prixAchatUnitaire), 0) FROM LotIngredient l")
     Double calculerValeurTotaleStock();
 }
