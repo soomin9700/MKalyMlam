@@ -44,6 +44,7 @@
         Produits
     </a>
 
+    <!-- Hasina -->
     <a href="${pageContext.request.contextPath}/ingredients"
     class="${activeMenu == 'ingredients' ? 'active' : ''}">
         Ingrédients
@@ -52,6 +53,25 @@
     <a href="${pageContext.request.contextPath}/lot/findAll"
     class="${activeMenu == 'lots' ? 'active' : ''}">
         Lots
+    <a href="${pageContext.request.contextPath}/equipements"
+    class="${activeMenu == 'equipements' ? 'active' : ''}">
+        Équipements
+    </a>
+
+    <a href="${pageContext.request.contextPath}/equipements/alertes"
+    class="${activeMenu == 'equipements-alertes' ? 'active' : ''}">
+        Alertes d'équipements
+    </a>
+
+    <!-- -->
+    <a href="${pageContext.request.contextPath}/mouvements-equipement"
+    class="${activeMenu == 'mouvements-equipement' ? 'active' : ''}">
+        Mouvement des équipements
+    </a>
+
+    <a href="${pageContext.request.contextPath}/mouvements-equipement/etat-stock"
+    class="${activeMenu == 'etat-stock' ? 'active' : ''}">
+        État de stock
     </a>
 
     <a href="${pageContext.request.contextPath}/recetteBase"
