@@ -2,6 +2,7 @@ package com.mkalymlam.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,8 @@ import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
+import com.mkalymlam.dto.IngredientStockDTO;
+import com.mkalymlam.dto.StockStatisticsDTO;
 
 @Service
 public class LotIngredientService {
@@ -126,5 +129,72 @@ public class LotIngredientService {
 
     public List<Ingredient> getAllIngredients() {
         return ingredientRepository.findAll();
+    }
+
+    // ✅ NOUVEAU : Récupérer les statistiques des stocks
+    public StockStatisticsDTO getStockStatistics() {
+        Long totalIngredients = ingredientRepository.count();
+        Long ingredientsDisponibles = lotIngredientRepository.countIngredientsDisponibles();
+        Long ingredientsEnRupture = lotIngredientRepository.countIngredientsEnRupture();
+        Long ingredientsEnAlerte = lotIngredientRepository.countIngredientsEnAlerte();
+        Double valeurTotaleStock = lotIngredientRepository.calculerValeurTotaleStock();
+
+        return new StockStatisticsDTO(
+            totalIngredients,
+            ingredientsDisponibles,
+            ingredientsEnRupture,
+            ingredientsEnAlerte,
+            valeurTotaleStock
+        );
+    }
+
+    // ✅ NOUVEAU : Récupérer tous les ingrédients avec leur stock
+    public List<IngredientStockDTO> getAllIngredientsWithStock() {
+        return lotIngredientRepository.findAllIngredientsWithStock();
+    }
+
+    // ✅ NOUVEAU : Récupérer les ingrédients disponibles
+    public List<IngredientStockDTO> getIngredientsDisponibles() {
+        return lotIngredientRepository.findAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "DISPONIBLE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    // ✅ NOUVEAU : Récupérer les ingrédients en rupture
+    public List<IngredientStockDTO> getIngredientsEnRupture() {
+        return lotIngredientRepository.findAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "RUPTURE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    // ✅ NOUVEAU : Récupérer les ingrédients en alerte
+    public List<IngredientStockDTO> getIngredientsEnAlerte() {
+        return lotIngredientRepository.findAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "ALERTE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    // ✅ NOUVEAU : Récupérer le stock actuel d'un ingrédient spécifique
+    public IngredientStockDTO getStockByIngredientId(Long ingredientId) {
+        return lotIngredientRepository.findAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> dto.getIdIngredient().equals(ingredientId))
+            .findFirst()
+            .orElse(null);
+    }
+
+    // ✅ NOUVEAU : Rechercher des ingrédients par nom avec leur stock
+    public List<IngredientStockDTO> searchIngredientsWithStock(String nomIngredient) {
+        if (nomIngredient == null || nomIngredient.trim().isEmpty()) {
+            return getAllIngredientsWithStock();
+        }
+        return lotIngredientRepository.findAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> dto.getNomIngredient().toLowerCase()
+                .contains(nomIngredient.toLowerCase()))
+            .collect(Collectors.toList());
     }
 }
