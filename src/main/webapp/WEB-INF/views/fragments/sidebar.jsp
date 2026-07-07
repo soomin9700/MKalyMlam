@@ -39,6 +39,11 @@
         Dashboard
     </a>
 
+    <a href="${pageContext.request.contextPath}/inventaire/findAll"
+    class="${activeMenu == 'dashboard' ? 'active' : ''}">
+        Inventaires
+    </a>
+
     <a href="${pageContext.request.contextPath}/produits"
     class="${activeMenu == 'produits' ? 'active' : ''}">
         Produits

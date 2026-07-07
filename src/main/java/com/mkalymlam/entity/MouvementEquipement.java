@@ -27,6 +27,7 @@ public class MouvementEquipement {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idEquipement\"")
+
     private Equipement equipement;
 
     @Column(name = "\"quantite\"")

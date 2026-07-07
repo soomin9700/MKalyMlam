@@ -39,13 +39,7 @@ public class Equipement {
     public Equipement() {
     }
 
-    public Equipement(
-            String nomEquipement,
-            TypeEquipement typeEquipement,
-            MethodeComptable methodeComptable,
-            Double prixUnitaire,
-            Double quantiteMin) {
-
+    public Equipement( String nomEquipement, TypeEquipement typeEquipement, MethodeComptable methodeComptable, Double prixUnitaire, Double quantiteMin) {
         this.nomEquipement = nomEquipement;
         this.typeEquipement = typeEquipement;
         this.methodeComptable = methodeComptable;
