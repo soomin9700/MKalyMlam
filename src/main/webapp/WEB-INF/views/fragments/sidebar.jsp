@@ -117,6 +117,19 @@
     <a href="${pageContext.request.contextPath}/fiches-paie"
     class="${activeMenu == 'fiches-paie' ? 'active' : ''}">
         Fiches de paie
+    <a href="${pageContext.request.contextPath}/retour/avis"
+    class="${activeMenu == 'retourAvis' ? 'active' : ''}">
+        Avis
+    </a>
+
+    <a href="${pageContext.request.contextPath}/retour/demandes"
+    class="${activeMenu == 'retourDemandes' ? 'active' : ''}">
+        Demandes
+    </a>
+
+    <a href="${pageContext.request.contextPath}/retour"
+    class="${activeMenu == 'retours' ? 'active' : ''}">
+        Écrire un avis
     </a>
 
     <a href="${pageContext.request.contextPath}/equipe/list_equipe"
