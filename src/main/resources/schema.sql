@@ -266,26 +266,7 @@ CREATE TABLE "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
     "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-    "uniteMesure" VARCHAR(20) NOT NULL,
-    "statutActif" BOOLEAN DEFAULT TRUE
-);
-
-CREATE TABLE "ingredientStatut" (
-    "idIngredient" INT PRIMARY KEY,
-    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
-);
-
-CREATE TABLE "ingredientStatut" (
-    "idIngredient" INT PRIMARY KEY,
-    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
-);
-
-CREATE TABLE "ingredientStatut" (
-    "idIngredient" INT PRIMARY KEY,
-    "statutActif" BOOLEAN NOT NULL DEFAULT TRUE,
-    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+    "uniteMesure" VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE "ingredientStatut" (
@@ -322,6 +303,7 @@ CREATE TABLE "detailApprovisionnement" (
     FOREIGN KEY ("idApprovisionnement") REFERENCES "approvisionnement"("idApprovisionnement"),
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
+
 
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,

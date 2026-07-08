@@ -56,7 +56,7 @@
 
             <form method="get"
                   action="${pageContext.request.contextPath}/ingredients"
-                  style="display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:end;margin-bottom:20px;padding:16px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;">
+                  style="display:grid;grid-template-columns:1fr auto auto auto;gap:14px;align-items:end;margin-bottom:20px;padding:16px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;">
 
                 <div class="form-group" style="margin-bottom:0;">
                     <label for="recherche">Recherche ingrédient</label>
@@ -65,6 +65,15 @@
                            name="recherche"
                            value="${selectedRecherche}"
                            placeholder="Nom de l'ingrédient">
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label for="statut">Statut</label>
+                    <select id="statut" name="statut" style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;">
+                        <option value="">Tous</option>
+                        <option value="actif" ${selectedStatut == 'actif' ? 'selected' : ''}>Actif</option>
+                        <option value="inactif" ${selectedStatut == 'inactif' ? 'selected' : ''}>Inactif</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-success" style="height:44px;">
@@ -89,6 +98,7 @@
                     <th><i class="fas fa-tag"></i> Nom</th>
                     <th><i class="fas fa-exclamation-triangle"></i> Seuil d'alerte</th>
                     <th><i class="fas fa-ruler"></i> Unité</th>
+                    <th><i class="fas fa-toggle-on"></i> Statut</th>
                     <th><i class="fas fa-cog"></i> Actions</th>
                 </tr>
 
@@ -101,7 +111,7 @@
                 <c:if test="${empty ingredients}">
                     <tr>
 
-                        <td colspan="5">
+                        <td colspan="6">
 
                             <div class="empty-state">
 
@@ -128,6 +138,8 @@
                 <!-- Liste des ingrédients -->
 
                 <c:forEach var="i" items="${ingredients}">
+
+                    <c:set var="estActif" value="${statutActif[i.idIngredient] != null ? statutActif[i.idIngredient] : true}"/>
 
                     <tr>
 
@@ -174,6 +186,23 @@
                         </td>
 
                         <td>
+                            <c:choose>
+                                <c:when test="${estActif}">
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i>
+                                        Actif
+                                    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle"></i>
+                                        Inactif
+                                    </span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td>
 
                             <div class="actions">
 
@@ -187,20 +216,26 @@
 
                                 </a>
 
-                                <!-- Supprimer -->
+                                <!-- Activer / Désactiver -->
 
-                                <form action="${pageContext.request.contextPath}/ingredients/${i.idIngredient}/delete"
+                                <form action="${pageContext.request.contextPath}/ingredients/${i.idIngredient}/toggle"
                                       method="post"
-                                      style="display:inline;"
-                                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet ingrédient ?');">
+                                      style="display:inline;">
 
-                                    <button type="submit"
-                                            class="btn-delete">
-
-                                        <i class="fas fa-trash-alt"></i>
-                                        Supprimer
-
-                                    </button>
+                                    <c:choose>
+                                        <c:when test="${estActif}">
+                                            <button type="submit" class="btn-delete">
+                                                <i class="fas fa-ban"></i>
+                                                Désactiver
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button type="submit" class="btn-success">
+                                                <i class="fas fa-check"></i>
+                                                Activer
+                                            </button>
+                                        </c:otherwise>
+                                    </c:choose>
 
                                 </form>
 

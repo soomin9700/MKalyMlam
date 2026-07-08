@@ -1,5 +1,9 @@
 package com.mkalymlam.controller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +26,20 @@ public class IngredientController {
     // =======================
     @GetMapping
     public String list(Model model,
-                       @RequestParam(required = false) String recherche) {
-        model.addAttribute("ingredients", service.searchByNom(recherche));
+                       @RequestParam(required = false) String recherche,
+                       @RequestParam(required = false) String statut) {
+        List<Ingredient> ingredients;
+        if (recherche != null && !recherche.isBlank()) {
+            ingredients = service.searchByNom(recherche);
+        } else {
+            ingredients = service.findAllWithStatut(statut);
+        }
+        Map<Long, Boolean> statutActif = ingredients.stream()
+                .collect(Collectors.toMap(Ingredient::getIdIngredient, i -> service.isActif(i.getIdIngredient())));
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("statutActif", statutActif);
         model.addAttribute("selectedRecherche", recherche);
+        model.addAttribute("selectedStatut", statut);
         return "ingredient/list";
     }
 
@@ -82,13 +97,11 @@ public class IngredientController {
     }
 
     // =======================
-    // Suppression
+    // Activer / Désactiver
     // =======================
-    @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-
-        service.deleteById(id);
-
+    @PostMapping("/{id}/toggle")
+    public String toggle(@PathVariable Long id) {
+        service.toggleStatut(id);
         return "redirect:/ingredients";
     }
 
