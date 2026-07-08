@@ -1,4 +1,5 @@
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/ActionAmeliorationController.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
@@ -24,6 +25,7 @@
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/TypeMouvementController.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/VendeuseController.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/AbsenceConge.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/ActionAmelioration.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/ClassificationSentiment.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/ClassificationSentimentLookup.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Commande.java
@@ -45,6 +47,7 @@
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/RetourClient.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Role.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/SessionTruck.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDemandeAchat.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDisponibilite.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutSession.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutValidation.java
@@ -56,6 +59,7 @@
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeRetourLookup.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Utilisateur.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/AbsenceCongeRepository.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/ActionAmeliorationRepository.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/ClassificationSentimentLookupRepository.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/DemandeChangementItineraireRepository.java
@@ -83,6 +87,7 @@
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeRetourLookupRepository.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
+/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/ActionAmeliorationService.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/CongeService.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/DemandeChangementItineraireService.java
 /home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/EmployeService.java
