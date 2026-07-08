@@ -31,12 +31,16 @@
 
             <div class="table-header">
 
-                <h1>
-                    <i class="fas fa-cash-register"
-                       style="color:var(--primary);margin-right:10px;"></i>
+    <h1>
+        <i class="fas fa-cash-register"
+           style="color:var(--primary);margin-right:10px;"></i>
+        Nouvelle vente
+    </h1>
 
-                    Nouvelle vente
-                </h1>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <button class="btn-add" onclick="nouvelleCommande()">
+            Nouvelle commande
+        </button>
 
                 <button
                         class="btn-add"
@@ -48,7 +52,18 @@
                 </button>
 
             </div>
+        <!-- Boutons d'export (ne cassent rien) -->
+        <a href="${pageContext.request.contextPath}/commandes/export/csv"
+           class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+            <i class="fas fa-file-csv"></i> CSV
+        </a>
+        <a href="${pageContext.request.contextPath}/commandes/export/pdf" target="_blank"
+           class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+            <i class="fas fa-file-pdf"></i> PDF
+        </a>
+    </div>
 
+</div>
             <h2 style="margin:25px 0;">
                 Commande N°
                 <span id="cmdId">-</span>
