@@ -17,7 +17,8 @@ public class LotIngredientService {
     private final LotIngredientRepository lotIngredientRepository;
     private final IngredientRepository ingredientRepository;
 
-    public LotIngredientService(LotIngredientRepository lotIngredientRepository, IngredientRepository ingredientRepository) {
+    public LotIngredientService(LotIngredientRepository lotIngredientRepository,
+                                IngredientRepository ingredientRepository) {
         this.lotIngredientRepository = lotIngredientRepository;
         this.ingredientRepository = ingredientRepository;
     }
@@ -125,6 +126,8 @@ public class LotIngredientService {
     }
 
     public List<Ingredient> getAllIngredients() {
-        return ingredientRepository.findAll();
+        return ingredientRepository.findAll().stream()
+                .filter(i -> Boolean.TRUE.equals(i.getActif()))
+                .toList();
     }
 }

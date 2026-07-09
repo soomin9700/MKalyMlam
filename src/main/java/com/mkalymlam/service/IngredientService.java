@@ -6,19 +6,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.Ingredient;
-import com.mkalymlam.entity.IngredientStatut;
 import com.mkalymlam.repository.IngredientRepository;
-import com.mkalymlam.repository.IngredientStatutRepository;
 
 @Service
 public class IngredientService {
 
     private final IngredientRepository repository;
-    private final IngredientStatutRepository statutRepository;
 
-    public IngredientService(IngredientRepository repository, IngredientStatutRepository statutRepository) {
+    public IngredientService(IngredientRepository repository) {
         this.repository = repository;
-        this.statutRepository = statutRepository;
     }
 
     public List<Ingredient> findAll() {
@@ -38,37 +34,23 @@ public class IngredientService {
 
     @Transactional
     public Ingredient save(Ingredient ingredient) {
-        Ingredient saved = repository.save(ingredient);
-        if (!statutRepository.findByIdIngredient(saved.getIdIngredient()).isPresent()) {
-            IngredientStatut statut = new IngredientStatut(saved, true);
-            statutRepository.save(statut);
+        if (ingredient.getActif() == null) {
+            ingredient.setActif(true);
         }
-        return saved;
+        return repository.save(ingredient);
     }
 
     public void deleteById(Long id) {
-        statutRepository.findByIdIngredient(id).ifPresent(statutRepository::delete);
         repository.deleteById(id);
-    }
-
-    public boolean isActif(Long idIngredient) {
-        return statutRepository.findByIdIngredient(idIngredient)
-                .map(IngredientStatut::getStatutActif)
-                .orElse(true);
     }
 
     @Transactional
     public boolean toggleStatut(Long idIngredient) {
-        IngredientStatut statut = statutRepository.findByIdIngredient(idIngredient)
-                .orElseGet(() -> {
-                    Ingredient ingredient = repository.findById(idIngredient).orElse(null);
-                    if (ingredient == null) return null;
-                    return new IngredientStatut(ingredient, true);
-                });
-        if (statut == null) return false;
-        statut.setStatutActif(!Boolean.TRUE.equals(statut.getStatutActif()));
-        statutRepository.save(statut);
-        return statut.getStatutActif();
+        Ingredient ingredient = repository.findById(idIngredient).orElse(null);
+        if (ingredient == null) return false;
+        ingredient.setActif(!Boolean.TRUE.equals(ingredient.getActif()));
+        repository.save(ingredient);
+        return ingredient.getActif();
     }
 
     public List<Ingredient> findAllWithStatut(String filtreStatut) {
@@ -76,7 +58,7 @@ public class IngredientService {
         if (filtreStatut == null || filtreStatut.isBlank()) return all;
         boolean filterActif = "actif".equalsIgnoreCase(filtreStatut);
         return all.stream()
-                .filter(i -> isActif(i.getIdIngredient()) == filterActif)
+                .filter(i -> Boolean.TRUE.equals(i.getActif()) == filterActif)
                 .toList();
     }
 }

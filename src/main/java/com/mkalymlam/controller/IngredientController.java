@@ -1,8 +1,6 @@
 package com.mkalymlam.controller;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +32,7 @@ public class IngredientController {
         } else {
             ingredients = service.findAllWithStatut(statut);
         }
-        Map<Long, Boolean> statutActif = ingredients.stream()
-                .collect(Collectors.toMap(Ingredient::getIdIngredient, i -> service.isActif(i.getIdIngredient())));
         model.addAttribute("ingredients", ingredients);
-        model.addAttribute("statutActif", statutActif);
         model.addAttribute("selectedRecherche", recherche);
         model.addAttribute("selectedStatut", statut);
         return "ingredient/list";

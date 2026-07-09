@@ -39,6 +39,7 @@ public class ApprovisionnementService {
     public List<BesoinApprovisionnement> calculerBesoins() {
         return ingredientRepository.findAll().stream()
                 .filter(ingredient -> ingredient.getSeuilAlerteQuantite() != null)
+                .filter(ingredient -> Boolean.TRUE.equals(ingredient.getActif()))
                 .map(this::calculerBesoin)
                 .filter(besoin -> besoin.getStockActuel() < besoin.getSeuilStock())
                 .toList();

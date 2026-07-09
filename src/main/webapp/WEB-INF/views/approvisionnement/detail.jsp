@@ -35,10 +35,26 @@
                     Approvisionnement N° ${approvisionnement.idApprovisionnement}
                 </h1>
 
-                <div style="font-weight:600;color:#374151;">
-                    ${approvisionnement.dateApprovisionnement}
-                    -
-                    Total : ${approvisionnement.coutTotalEstime}
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <div style="font-weight:600;color:#374151;">
+                        ${approvisionnement.dateApprovisionnement}
+                        -
+                        Total : ${approvisionnement.coutTotalEstime}
+                    </div>
+
+                    <a href="${pageContext.request.contextPath}/approvisionnements/${approvisionnement.idApprovisionnement}/export/csv"
+                       class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-csv"></i>
+                        CSV
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/approvisionnements/${approvisionnement.idApprovisionnement}/export/pdf"
+                       class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </a>
                 </div>
             </div>
 

@@ -75,7 +75,7 @@
                             <td colspan="6">
                                 <div class="empty-state">
                                     <i class="fas fa-check-circle" style="font-size:48px;color:#10b981;margin-bottom:15px;display:block;"></i>
-                                    <p>Aucun ingrédient sous le seuil pour le moment.</p>
+                                    <p>Aucun ingrédient actif sous le seuil pour le moment.</p>
                                 </div>
                             </td>
                         </tr>
@@ -125,6 +125,7 @@
                     <i class="fas fa-clock-rotate-left" style="color:var(--primary);margin-right:10px;"></i>
                     Historique des approvisionnements
                 </h1>
+
             </div>
 
             <table>

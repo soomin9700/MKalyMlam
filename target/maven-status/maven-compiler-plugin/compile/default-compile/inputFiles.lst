@@ -23,7 +23,6 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSession.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/IngredientStatut.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
@@ -42,7 +41,6 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
-/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientStatutRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/LotIngredientRepository.java

@@ -28,7 +28,6 @@ com/mkalymlam/service/SessionTruckService.class
 com/mkalymlam/controller/RecetteBaseController.class
 com/mkalymlam/repository/StatutSessionRepository.class
 com/mkalymlam/repository/SessionTruckRepository.class
-com/mkalymlam/repository/IngredientStatutRepository.class
 com/mkalymlam/controller/LotIngredientController.class
 com/mkalymlam/controller/IngredientController.class
 com/mkalymlam/entity/Role.class
@@ -54,7 +53,6 @@ com/mkalymlam/service/RecetteBaseService.class
 com/mkalymlam/repository/ApprovisionnementRepository.class
 com/mkalymlam/entity/StatutSession.class
 com/mkalymlam/repository/ItineraireRepository.class
-com/mkalymlam/entity/IngredientStatut.class
 com/mkalymlam/repository/RoleRepository.class
 com/mkalymlam/controller/CommandeController.class
 com/mkalymlam/entity/LotIngredient.class

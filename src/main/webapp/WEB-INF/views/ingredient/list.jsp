@@ -139,7 +139,7 @@
 
                 <c:forEach var="i" items="${ingredients}">
 
-                    <c:set var="estActif" value="${statutActif[i.idIngredient] != null ? statutActif[i.idIngredient] : true}"/>
+                    <c:set var="estActif" value="${i.actif != null ? i.actif : true}"/>
 
                     <tr>
 
