@@ -37,3 +37,17 @@ INSERT INTO "classificationSentiment" ("libelle") VALUES ('POSITIF'), ('NEGATIF'
 INSERT INTO "statutDemandeAchat" ("libelle") VALUES ('NON_APPLICABLE'), ('DEMANDE_ACHAT_ENVOYEE_A_ADMIN'), ('APPROUVEE');
 
 INSERT INTO "typeNotification" ("libelle") VALUES ('BOOST_NOUVEAU_PRODUIT'), ('ARRIVEE_POINT_DE_VENTE');
+
+-- Données de test pour les sessions
+INSERT INTO "truck" ("immatriculation", "idStatutDisponibilite") VALUES
+('1234 TBT', 1),
+('5678 TBT', 2);
+
+INSERT INTO "utilisateur" ("nom", "prenom", "email", "motDePasse", "idRole", "salaireBaseFixe", "statutActif") VALUES
+('Admin', 'Super', 'admin@foodtruck.mg', 'admin123', 1, 2000000, true),
+('Rakoto', 'Jean', 'jean@foodtruck.mg', 'pass123', 4, 1500000, true),
+('Rabe', 'Marie', 'marie@foodtruck.mg', 'pass123', 2, 1000000, true);
+
+INSERT INTO "itineraire" ("nomZone", "lieuExact", "heureDebutPrevue", "heureFinPrevue", "jourSemaine") VALUES
+('Centre-ville', 'Place de l''Indépendance', '08:00:00', '14:00:00', 'LUNDI'),
+('Ankorondrano', 'Devant le marché', '10:00:00', '16:00:00', 'MARDI');
