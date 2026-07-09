@@ -57,7 +57,7 @@
                         <th>Ingrédient</th>
                         <th>Date de réception</th>
                         <th>Date de péremption</th>
-                        <th>Quantité</th>
+                        <th>Quantité restante</th>
                         <th>Prix unitaire</th>
                     </tr>
                     </thead>
@@ -71,7 +71,7 @@
                             </td>
                             <td>${lot.dateReception}</td>
                             <td>${lot.datePeremption}</td>
-                            <td>${lot.quantiteInitiale}</td>
+                            <td>${quantitesRestantes[lot.idLot] != null ? quantitesRestantes[lot.idLot] : lot.quantiteInitiale}</td>
                             <td>${lot.prixAchatUnitaire}</td>
                         </tr>
                     </c:forEach>

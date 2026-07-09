@@ -108,11 +108,18 @@ public class LotIngredientController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
             Model model) {
-        model.addAttribute("lots", service.getIngredientsBientotPerimesFiltered(dateMin, dateMax, ingredientId));
+        java.util.List<LotIngredient> lots = service.getIngredientsBientotPerimesFiltered(dateMin, dateMax,
+                ingredientId);
+        model.addAttribute("lots", lots);
         model.addAttribute("ingredients", ingredientService.findAll());
         model.addAttribute("selectedIngredientId", ingredientId);
         model.addAttribute("selectedDateMin", dateMin);
         model.addAttribute("selectedDateMax", dateMax);
+        java.util.Map<Long, Double> quantitesRestantes = new java.util.HashMap<>();
+        for (LotIngredient lot : lots) {
+            quantitesRestantes.put(lot.getIdLot(), service.getQuantiteRestantePourLot(lot));
+        }
+        model.addAttribute("quantitesRestantes", quantitesRestantes);
         return "ingredient/ingredient-bientot-perimes";
     }
 
@@ -120,7 +127,13 @@ public class LotIngredientController {
     public String viewIngredientsBientotPerimesByIngredient(@PathVariable Long idIngredient, Model model) {
         Ingredient ingredient = ingredientService.getById(idIngredient);
         model.addAttribute("ingredient", ingredient);
-        model.addAttribute("lots", service.getIngredientsBientotPerimesByIdIngredient(idIngredient));
+        java.util.List<LotIngredient> lots = service.getIngredientsBientotPerimesByIdIngredient(idIngredient);
+        model.addAttribute("lots", lots);
+        java.util.Map<Long, Double> quantitesRestantes = new java.util.HashMap<>();
+        for (LotIngredient lot : lots) {
+            quantitesRestantes.put(lot.getIdLot(), service.getQuantiteRestantePourLot(lot));
+        }
+        model.addAttribute("quantitesRestantes", quantitesRestantes);
         return "ingredient/ingredient-bientot-perimes-by-idIngredient";
     }
 
@@ -130,9 +143,16 @@ public class LotIngredientController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMin,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateMax,
             Model model) {
-        model.addAttribute("lots", service.getIngredientsPerimesFiltered(dateMin, dateMax, ingredientId));
         model.addAttribute("ingredients", ingredientService.findAll());
         model.addAttribute("montantTotalPerime", service.getPerteByPeremption());
+        // calculer les quantités restantes par lot pour l'affichage
+        java.util.List<LotIngredient> lots = service.getIngredientsPerimesFiltered(dateMin, dateMax, ingredientId);
+        model.addAttribute("lots", lots);
+        java.util.Map<Long, Double> quantitesRestantes = new java.util.HashMap<>();
+        for (LotIngredient lot : lots) {
+            quantitesRestantes.put(lot.getIdLot(), service.getQuantiteRestantePourLot(lot));
+        }
+        model.addAttribute("quantitesRestantes", quantitesRestantes);
         model.addAttribute("selectedIngredientId", ingredientId);
         model.addAttribute("selectedDateMin", dateMin);
         model.addAttribute("selectedDateMax", dateMax);

@@ -8,6 +8,7 @@
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/LotIngredientController.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/MethodeComptableController.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementEquipementController.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementLotIngredientController.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/RecetteBaseController.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueController.java
@@ -22,6 +23,7 @@
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/MethodeComptable.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementEquipement.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementLotIngredient.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
@@ -35,6 +37,7 @@
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/LotIngredientRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/MethodeComptableRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementEquipementRepository.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementLotIngredientRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeEquipementRepository.java
@@ -47,6 +50,7 @@
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/LotIngredientService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/MethodeComptableService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementEquipementService.java
+/home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementLotIngredientService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
 /home/hasina/Documents/MKalyMlam/src/main/java/com/mkalymlam/service/StatistiqueService.java

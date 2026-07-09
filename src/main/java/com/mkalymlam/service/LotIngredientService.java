@@ -11,6 +11,7 @@ import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.entity.TypeMouvement;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
+import com.mkalymlam.repository.MouvementLotIngredientRepository;
 
 @Service
 public class LotIngredientService {
@@ -18,13 +19,16 @@ public class LotIngredientService {
     private final LotIngredientRepository lotIngredientRepository;
     private final IngredientRepository ingredientRepository;
     private final TypeMouvementService typeMouvementService;
+    private final MouvementLotIngredientRepository mouvementRepository;
 
     public LotIngredientService(LotIngredientRepository lotIngredientRepository,
             IngredientRepository ingredientRepository,
-            TypeMouvementService typeMouvementService) {
+            TypeMouvementService typeMouvementService,
+            MouvementLotIngredientRepository mouvementRepository) {
         this.lotIngredientRepository = lotIngredientRepository;
         this.ingredientRepository = ingredientRepository;
         this.typeMouvementService = typeMouvementService;
+        this.mouvementRepository = mouvementRepository;
     }
 
     public List<LotIngredient> getAll() {
@@ -71,8 +75,8 @@ public class LotIngredientService {
 
     public double getPerteByPeremption() {
         return getIngredientsPerimes().stream()
-                .filter(lot -> lot.getQuantiteInitiale() != null && lot.getPrixAchatUnitaire() != null)
-                .mapToDouble(lot -> lot.getQuantiteInitiale() * lot.getPrixAchatUnitaire())
+                .filter(lot -> lot.getPrixAchatUnitaire() != null)
+                .mapToDouble(lot -> getQuantiteRestantePourLot(lot) * lot.getPrixAchatUnitaire())
                 .sum();
     }
 
@@ -195,7 +199,7 @@ public class LotIngredientService {
 
     private double calculerTotalEntreesNonPerimees(Long idIngredient) {
         java.time.LocalDate today = LocalDate.now();
-        return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
+        double initialEntries = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
                 .filter(lot -> lot != null && lot.getTypeMouvement() != null
                         && lot.getTypeMouvement().getIdTypeMouvement() != null
                         && lot.getTypeMouvement().getIdTypeMouvement().equals(1L)
@@ -204,15 +208,35 @@ public class LotIngredientService {
                         && !lot.getDatePeremption().isBefore(today))
                 .mapToDouble(LotIngredient::getQuantiteInitiale)
                 .sum();
+
+        Double mouvementsEntrees = mouvementRepository.sumQuantiteByIngredientAndType(idIngredient, 1L);
+        double entreesMouv = mouvementsEntrees == null ? 0.0 : mouvementsEntrees;
+        return initialEntries + entreesMouv;
+    }
+
+    public double getQuantiteRestantePourLot(LotIngredient lot) {
+        if (lot == null || lot.getIdLot() == null) {
+            return 0.0;
+        }
+        double initial = lot.getQuantiteInitiale() == null ? 0.0 : lot.getQuantiteInitiale();
+        Double entrees = mouvementRepository.sumQuantiteByLotAndType(lot.getIdLot(), 1L);
+        Double sorties = mouvementRepository.sumQuantiteByLotAndType(lot.getIdLot(), 2L);
+        double e = entrees == null ? 0.0 : entrees;
+        double s = sorties == null ? 0.0 : sorties;
+        return initial + e - s;
     }
 
     private double calculerTotalSorties(Long idIngredient) {
-        return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
+        double legacySorties = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
                 .filter(lot -> lot != null && lot.getTypeMouvement() != null
                         && lot.getTypeMouvement().getIdTypeMouvement() != null
                         && lot.getTypeMouvement().getIdTypeMouvement().equals(2L)
                         && lot.getQuantiteInitiale() != null)
                 .mapToDouble(LotIngredient::getQuantiteInitiale)
                 .sum();
+
+        Double mouvementsSorties = mouvementRepository.sumQuantiteByIngredientAndType(idIngredient, 2L);
+        double sortiesMouv = mouvementsSorties == null ? 0.0 : mouvementsSorties;
+        return legacySorties + sortiesMouv;
     }
 }

@@ -61,8 +61,9 @@
                         <th>Ingrédient</th>
                         <th>Date de réception</th>
                         <th>Date de péremption</th>
-                        <th>Quantité</th>
+                        <th>Quantité restante</th>
                         <th>Prix unitaire</th>
+                        <th>Perte (Qté * Prix)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,8 +72,18 @@
                             <td>${lot.ingredient.nomIngredient}</td>
                             <td>${lot.dateReception}</td>
                             <td>${lot.datePeremption}</td>
-                            <td>${lot.quantiteInitiale}</td>
+                            <td>${quantitesRestantes[lot.idLot] != null ? quantitesRestantes[lot.idLot] : lot.quantiteInitiale}</td>
                             <td>${lot.prixAchatUnitaire}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${lot.prixAchatUnitaire != null}">
+                                        ${ (quantitesRestantes[lot.idLot] != null ? quantitesRestantes[lot.idLot] : lot.quantiteInitiale) * lot.prixAchatUnitaire }
+                                    </c:when>
+                                    <c:otherwise>
+                                        0
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
