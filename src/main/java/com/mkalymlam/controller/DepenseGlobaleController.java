@@ -1,5 +1,6 @@
 package com.mkalymlam.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ public class DepenseGlobaleController {
     public String liste(@RequestParam(required = false) Long idTypeDepense,
                         @RequestParam(required = false) Long idStatut,
                         @RequestParam(required = false) Long idSession,
+                        @RequestParam(required = false) LocalDate dateDebut,
+                        @RequestParam(required = false) LocalDate dateFin,
                         Model model) {
         List<Depense> depenses = depenseService.getAllDepenses();
 
@@ -47,6 +50,19 @@ public class DepenseGlobaleController {
                     .filter(d -> d.getSession().getId().equals(idSession))
                     .toList();
         }
+        if (dateDebut != null) {
+            depenses = depenses.stream()
+                    .filter(d -> !d.getDateDepense().isBefore(dateDebut))
+                    .toList();
+        }
+        if (dateFin != null) {
+            depenses = depenses.stream()
+                    .filter(d -> !d.getDateDepense().isAfter(dateFin))
+                    .toList();
+        }
+
+        double totalFiltre = depenses.stream()
+                .mapToDouble(Depense::getMontantDepense).sum();
 
         model.addAttribute("depenses", depenses);
         model.addAttribute("types", depenseService.getAllTypes());
@@ -55,6 +71,10 @@ public class DepenseGlobaleController {
         model.addAttribute("selectedType", idTypeDepense);
         model.addAttribute("selectedStatut", idStatut);
         model.addAttribute("selectedSession", idSession);
+        model.addAttribute("dateDebut", dateDebut);
+        model.addAttribute("dateFin", dateFin);
+        model.addAttribute("totalFiltre", totalFiltre);
+
         return "depense/all";
     }
 }

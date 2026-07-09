@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
+
+    <style>
+        .cartes {
+            display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;
+        }
+        .carte {
+            padding:20px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;
+        }
+        .carte .label { font-size:13px;color:#6b7280;margin-bottom:4px; }
+        .carte .valeur { font-size:26px;font-weight:700;color:var(--primary);margin:0; }
+    </style>
 </head>
 <body>
 
@@ -30,13 +41,36 @@
                 </h1>
             </div>
 
+            <div class="cartes">
+                <div class="carte">
+                    <div class="label"><i class="fas fa-euro-sign"></i> Total filtre</div>
+                    <p class="valeur">${totalFiltre} €</p>
+                </div>
+                <div class="carte">
+                    <div class="label"><i class="fas fa-receipt"></i> Depenses</div>
+                    <p class="valeur">${depenses.size()}</p>
+                </div>
+            </div>
+
             <form method="get" action="${pageContext.request.contextPath}/depenses"
-                  style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:14px;align-items:end;margin-bottom:20px;padding:16px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;">
+                  style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr auto;gap:12px;align-items:end;margin-bottom:20px;padding:16px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;">
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label for="dateDebut">Du</label>
+                    <input type="date" id="dateDebut" name="dateDebut" value="${dateDebut}"
+                           style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;width:100%;">
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label for="dateFin">Au</label>
+                    <input type="date" id="dateFin" name="dateFin" value="${dateFin}"
+                           style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;width:100%;">
+                </div>
 
                 <div class="form-group" style="margin-bottom:0;">
                     <label for="idSession">Session</label>
                     <select id="idSession" name="idSession" style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;width:100%;">
-                        <option value="">Toutes les sessions</option>
+                        <option value="">Toutes</option>
                         <c:forEach items="${sessions}" var="s">
                             <option value="${s.id}" ${selectedSession == s.id ? 'selected' : ''}>
                                 #${s.id} - ${s.truck.immatriculation} - ${s.dateSession}
@@ -46,9 +80,9 @@
                 </div>
 
                 <div class="form-group" style="margin-bottom:0;">
-                    <label for="idTypeDepense">Type de depense</label>
+                    <label for="idTypeDepense">Type</label>
                     <select id="idTypeDepense" name="idTypeDepense" style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;width:100%;">
-                        <option value="">Tous les types</option>
+                        <option value="">Tous</option>
                         <c:forEach items="${types}" var="t">
                             <option value="${t.id}" ${selectedType == t.id ? 'selected' : ''}>${t.libelle}</option>
                         </c:forEach>
@@ -58,7 +92,7 @@
                 <div class="form-group" style="margin-bottom:0;">
                     <label for="idStatut">Statut</label>
                     <select id="idStatut" name="idStatut" style="height:44px;padding:0 12px;border:1px solid #d1d5db;border-radius:10px;background:white;width:100%;">
-                        <option value="">Tous les statuts</option>
+                        <option value="">Tous</option>
                         <c:forEach items="${statuts}" var="s">
                             <option value="${s.id}" ${selectedStatut == s.id ? 'selected' : ''}>${s.libelle}</option>
                         </c:forEach>
