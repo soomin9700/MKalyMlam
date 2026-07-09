@@ -184,7 +184,7 @@
 
                             <td>
                                 <c:choose>
-                                    <c:when test="${lot.quantiteRestante == 0}">
+                                    <c:when test="${lot.quantiteRestante <= 0}">
                                         <span class="badge bg-danger">
                                             <i class="fas fa-times-circle"></i>
                                             Épuisé
@@ -216,6 +216,13 @@
                                         <i class="fas fa-edit"></i>
                                         Modifier
 
+                                    </a>
+
+                                    <!-- Sortie de stock -->
+                                    <a href="${pageContext.request.contextPath}/mouvements/sortie/${lot.idLot}"
+                                       class="btn-warning">
+                                        <i class="fas fa-minus"></i>
+                                        Sortie
                                     </a>
 
                                     <!-- Supprimer -->

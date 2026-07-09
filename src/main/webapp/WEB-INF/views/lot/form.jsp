@@ -93,54 +93,20 @@
 
                 </div>
 
-                <!-- Quantité reçue -->
                 <div class="form-group">
 
-                    <c:choose>
-                        <c:when test="${isEdit}">
-                            <label for="quantiteInitiale">
-                                Quantité reçue
-                            </label>
+                    <label for="quantiteInitiale">
+                        Quantité reçue
+                    </label>
 
-                            <input
-                                    type="number"
-                                    id="quantiteInitiale"
-                                    name="quantiteInitiale"
-                                    step="0.01"
-                                    min="0"
-                                    value="${lot.quantiteInitiale}"
-                                    placeholder="Ex: 5">
-
-                            <!-- quantiteRestante -->
-                            <label for="quantiteRestante">
-                                Quantité restante 
-                            </label>
-
-                            <input
-                                    type="number"
-                                    id="quantiteRestante"
-                                    name="quantiteRestante"
-                                    step="0.01"
-                                    min="0"
-                                    value="${lot.quantiteRestante}"
-                                    placeholder="Ex: 5">
-                        </c:when>
-
-                        <c:otherwise>
-                            <label for="quantiteInitiale">
-                                Quantité reçue
-                            </label>
-
-                            <input
-                                    type="number"
-                                    id="quantiteInitiale"
-                                    name="quantiteInitiale"
-                                    step="0.01"
-                                    min="0"
-                                    value="${lot.quantiteInitiale}"
-                                    placeholder="Ex: 5">
-                        </c:otherwise>
-                    </c:choose>
+                    <input
+                            type="number"
+                            id="quantiteInitiale"
+                            name="quantiteInitiale"
+                            step="0.01"
+                            min="0"
+                            value="${lot.quantiteInitiale}"
+                            placeholder="Ex: 5">
 
                 </div>
 

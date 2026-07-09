@@ -17,6 +17,7 @@ import com.mkalymlam.repository.ApprovisionnementRepository;
 import com.mkalymlam.repository.DetailApprovisionnementRepository;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
+import com.mkalymlam.service.LotIngredientService;
 
 @Service
 public class ApprovisionnementService {
@@ -25,15 +26,18 @@ public class ApprovisionnementService {
     private final DetailApprovisionnementRepository detailApprovisionnementRepository;
     private final IngredientRepository ingredientRepository;
     private final LotIngredientRepository lotIngredientRepository;
+    private final LotIngredientService lotIngredientService;
 
     public ApprovisionnementService(ApprovisionnementRepository approvisionnementRepository,
                                     DetailApprovisionnementRepository detailApprovisionnementRepository,
                                     IngredientRepository ingredientRepository,
-                                    LotIngredientRepository lotIngredientRepository) {
+                                    LotIngredientRepository lotIngredientRepository,
+                                    LotIngredientService lotIngredientService) {
         this.approvisionnementRepository = approvisionnementRepository;
         this.detailApprovisionnementRepository = detailApprovisionnementRepository;
         this.ingredientRepository = ingredientRepository;
         this.lotIngredientRepository = lotIngredientRepository;
+        this.lotIngredientService = lotIngredientService;
     }
 
     public List<BesoinApprovisionnement> calculerBesoins() {
@@ -97,8 +101,7 @@ public class ApprovisionnementService {
     }
 
     private BesoinApprovisionnement calculerBesoin(Ingredient ingredient) {
-        double stockActuel = value(lotIngredientRepository
-                .sumQuantiteRestanteByIdIngredient(ingredient.getIdIngredient()));
+        double stockActuel = lotIngredientService.quantiteLotIngredientActuelleByIngredient(ingredient.getIdIngredient());
         double seuil = value(ingredient.getSeuilAlerteQuantite());
         double prix = lotIngredientRepository
                 .findFirstByIngredient_IdIngredientOrderByDateReceptionDescIdLotDesc(ingredient.getIdIngredient())

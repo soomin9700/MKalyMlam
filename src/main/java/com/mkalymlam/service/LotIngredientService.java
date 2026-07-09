@@ -1,6 +1,7 @@
 package com.mkalymlam.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,41 +9,82 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
+import com.mkalymlam.entity.MouvementLotIngredient;
+import com.mkalymlam.entity.TypeMouvement;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
+import com.mkalymlam.repository.MouvementLotIngredientRepository;
+import com.mkalymlam.repository.TypeMouvementRepository;
 
 @Service
 public class LotIngredientService {
 
     private final LotIngredientRepository lotIngredientRepository;
     private final IngredientRepository ingredientRepository;
+    private final MouvementLotIngredientRepository mouvementRepository;
+    private final TypeMouvementRepository typeMouvementRepository;
 
     public LotIngredientService(LotIngredientRepository lotIngredientRepository,
-                                IngredientRepository ingredientRepository) {
+                                IngredientRepository ingredientRepository,
+                                MouvementLotIngredientRepository mouvementRepository,
+                                TypeMouvementRepository typeMouvementRepository) {
         this.lotIngredientRepository = lotIngredientRepository;
         this.ingredientRepository = ingredientRepository;
+        this.mouvementRepository = mouvementRepository;
+        this.typeMouvementRepository = typeMouvementRepository;
     }
 
     public List<LotIngredient> getAll() {
-        return lotIngredientRepository.findAllByOrderByDateReceptionAsc();
+        List<LotIngredient> lots = lotIngredientRepository.findAllByOrderByDateReceptionAsc();
+        lots.forEach(this::setQuantiteRestanteAndAlerte);
+        return lots;
     }
 
     public List<LotIngredient> findByIngredientId(Long ingredientId) {
-        return lotIngredientRepository.findByIngredient_IdIngredient(ingredientId);
+        List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(ingredientId);
+        lots.forEach(this::setQuantiteRestanteAndAlerte);
+        return lots;
     }
 
     public List<LotIngredient> findByIngredientName(String nomIngredient) {
         List<LotIngredient> lots = lotIngredientRepository.findByIngredient_NomIngredientContainingIgnoreCase(nomIngredient);
-        lots.forEach(lot -> {
-            lot.setAlerte(verifierAlerte(lot));
-        });
+        lots.forEach(this::setQuantiteRestanteAndAlerte);
         return lots;
     }
 
     public LotIngredient getById(Long id) {
-        return lotIngredientRepository.findById(id).orElse(null);
+        LotIngredient lot = lotIngredientRepository.findById(id).orElse(null);
+        if (lot != null) {
+            setQuantiteRestanteAndAlerte(lot);
+        }
+        return lot;
     }
 
+    public double calculQuantiteRestante(Long idLot) {
+        List<MouvementLotIngredient> mouvements = mouvementRepository.findByLot_IdLot(idLot);
+        double entree = 0.0;
+        double sortie = 0.0;
+        for (MouvementLotIngredient m : mouvements) {
+            if ("ENTREE".equals(m.getTypeMouvement().getLibelle())) {
+                entree += m.getQuantite();
+            } else if ("SORTIE".equals(m.getTypeMouvement().getLibelle())) {
+                sortie += m.getQuantite();
+            }
+        }
+        return entree - sortie;
+    }
+
+    public boolean estPerime(Long idLot) {
+        LotIngredient lot = lotIngredientRepository.findById(idLot).orElse(null);
+        if (lot == null || lot.getDatePeremption() == null) return false;
+        return lot.getDatePeremption().isBefore(LocalDate.now());
+    }
+
+    private void setQuantiteRestanteAndAlerte(LotIngredient lot) {
+        double qte = calculQuantiteRestante(lot.getIdLot());
+        lot.setQuantiteRestante(qte);
+        lot.setAlerte(verifierAlerte(lot));
+    }
 
     @Transactional
     public LotIngredient save(LotIngredient lotIngredient) {
@@ -54,12 +96,18 @@ public class LotIngredientService {
         if (lotIngredient.getDateReception() == null) {
             lotIngredient.setDateReception(LocalDate.now());
         }
-        if (lotIngredient.getQuantiteRestante() == null) {
-            lotIngredient.setQuantiteRestante(lotIngredient.getQuantiteInitiale());
-        }
-        return lotIngredientRepository.save(lotIngredient);
-    }
+        LotIngredient saved = lotIngredientRepository.save(lotIngredient);
 
+        TypeMouvement typeEntree = typeMouvementRepository.findByLibelle("ENTREE")
+                .orElseThrow(() -> new RuntimeException("Type de mouvement ENTREE introuvable"));
+
+        MouvementLotIngredient mouvement = new MouvementLotIngredient(
+                saved, typeEntree, saved.getQuantiteInitiale());
+        mouvement.setDateMouvement(LocalDateTime.now());
+        mouvementRepository.save(mouvement);
+
+        return saved;
+    }
 
     @Transactional
     public LotIngredient update(Long id, LotIngredient lotIngredient) {
@@ -82,9 +130,6 @@ public class LotIngredientService {
         if (lotIngredient.getQuantiteInitiale() != null) {
             existing.setQuantiteInitiale(lotIngredient.getQuantiteInitiale());
         }
-        if (lotIngredient.getQuantiteRestante() != null) {
-            existing.setQuantiteRestante(lotIngredient.getQuantiteRestante());
-        }
         if (lotIngredient.getPrixAchatUnitaire() != null) {
             existing.setPrixAchatUnitaire(lotIngredient.getPrixAchatUnitaire());
         }
@@ -92,42 +137,61 @@ public class LotIngredientService {
         return lotIngredientRepository.save(existing);
     }
 
-
     @Transactional
     public void deleteById(Long id) {
         lotIngredientRepository.deleteById(id);
     }
 
     public List<LotIngredient> getAlertLots() {
-        return lotIngredientRepository.findAll().stream().filter(lot -> lot.getIngredient() != null  && lot.getIngredient().getSeuilAlerteQuantite() != null && lot.getQuantiteRestante() != null && lot.getQuantiteRestante() <= lot.getIngredient().getSeuilAlerteQuantite()) .toList();
+        return getAll().stream()
+                .filter(lot -> lot.getQuantiteRestante() != null
+                        && lot.getQuantiteRestante() <= lot.getIngredient().getSeuilAlerteQuantite())
+                .toList();
     }
 
     public boolean verifierAlerte(LotIngredient lotIngredient) {
         if (lotIngredient.getIngredient() != null && lotIngredient.getQuantiteRestante() != null) {
             Double seuilAlerte = lotIngredient.getIngredient().getSeuilAlerteQuantite();
-            if( seuilAlerte != null && lotIngredient.getQuantiteRestante() <= seuilAlerte){ 
+            if (seuilAlerte != null && lotIngredient.getQuantiteRestante() <= seuilAlerte) {
                 return true;
             }
         }
         return false;
     }
 
-    public double quantiteLotIngredientActuelleByIngredient(Long idIngredient ){
-        Double quantiteActuelle = lotIngredientRepository.sumQuantiteRestanteByIdIngredient(idIngredient);
-        return quantiteActuelle != null ? quantiteActuelle : 0.0;
+    public double quantiteLotIngredientActuelleByIngredient(Long idIngredient) {
+        List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient);
+        return lots.stream()
+                .filter(lot -> !estPerime(lot.getIdLot()))
+                .mapToDouble(lot -> calculQuantiteRestante(lot.getIdLot()))
+                .sum();
     }
 
     public List<LotIngredient> getAllWithAlertStatus() {
-        List<LotIngredient> lots = lotIngredientRepository.findAll();
-        lots.forEach(lot -> {
-            lot.setAlerte(verifierAlerte(lot));
-        });
-        return lots;
+        return getAll();
     }
 
     public List<Ingredient> getAllIngredients() {
         return ingredientRepository.findAll().stream()
                 .filter(i -> Boolean.TRUE.equals(i.getActif()))
                 .toList();
+    }
+
+    @Transactional
+    public MouvementLotIngredient ajouterSortie(Long idLot, Double quantite) {
+        LotIngredient lot = lotIngredientRepository.findById(idLot)
+                .orElseThrow(() -> new IllegalArgumentException("Lot introuvable"));
+
+        TypeMouvement typeSortie = typeMouvementRepository.findByLibelle("SORTIE")
+                .orElseThrow(() -> new RuntimeException("Type de mouvement SORTIE introuvable"));
+
+        double restant = calculQuantiteRestante(idLot);
+        if (quantite > restant) {
+            throw new IllegalArgumentException("Quantité insuffisante. Restant: " + restant);
+        }
+
+        MouvementLotIngredient mouvement = new MouvementLotIngredient(lot, typeSortie, quantite);
+        mouvement.setDateMouvement(LocalDateTime.now());
+        return mouvementRepository.save(mouvement);
     }
 }

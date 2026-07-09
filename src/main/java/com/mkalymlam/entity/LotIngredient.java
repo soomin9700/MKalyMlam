@@ -35,19 +35,19 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
-    @Column(name = "\"quantiteRestante\"")
-    private Double quantiteRestante;
-
     @Column(name = "\"prixAchatUnitaire\"")
     private Double prixAchatUnitaire;
 
-    @Transient  // Ne pas persister en base
+    @Transient
     private boolean alerte;
-    
+
+    @Transient
+    private Double quantiteRestante;
+
     public boolean isAlerte() {
         return alerte;
     }
-    
+
     public void setAlerte(boolean alerte) {
         this.alerte = alerte;
     }
@@ -56,12 +56,11 @@ public class LotIngredient {
     }
 
     public LotIngredient(Ingredient ingredient, LocalDate dateReception, LocalDate datePeremption,
-            Double quantiteInitiale, Double quantiteRestante, Double prixAchatUnitaire) {
+            Double quantiteInitiale, Double prixAchatUnitaire) {
         this.ingredient = ingredient;
         this.dateReception = dateReception;
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
-        this.quantiteRestante = quantiteRestante;
         this.prixAchatUnitaire = prixAchatUnitaire;
     }
 
@@ -105,19 +104,19 @@ public class LotIngredient {
         this.quantiteInitiale = quantiteInitiale;
     }
 
-    public Double getQuantiteRestante() {
-        return quantiteRestante;
-    }
-
-    public void setQuantiteRestante(Double quantiteRestante) {
-        this.quantiteRestante = quantiteRestante;
-    }
-
     public Double getPrixAchatUnitaire() {
         return prixAchatUnitaire;
     }
 
     public void setPrixAchatUnitaire(Double prixAchatUnitaire) {
         this.prixAchatUnitaire = prixAchatUnitaire;
+    }
+
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
     }
 }

@@ -6,15 +6,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.Ingredient;
+import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.repository.IngredientRepository;
+import com.mkalymlam.repository.LotIngredientRepository;
 
 @Service
 public class IngredientService {
 
     private final IngredientRepository repository;
+    private final LotIngredientRepository lotIngredientRepository;
+    private final LotIngredientService lotIngredientService;
 
-    public IngredientService(IngredientRepository repository) {
+    public IngredientService(IngredientRepository repository,
+                             LotIngredientRepository lotIngredientRepository,
+                             LotIngredientService lotIngredientService) {
         this.repository = repository;
+        this.lotIngredientRepository = lotIngredientRepository;
+        this.lotIngredientService = lotIngredientService;
     }
 
     public List<Ingredient> findAll() {
@@ -60,5 +68,16 @@ public class IngredientService {
         return all.stream()
                 .filter(i -> Boolean.TRUE.equals(i.getActif()) == filterActif)
                 .toList();
+    }
+
+    public double calculStock(Long idIngredient) {
+        List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient);
+        double stock = 0;
+        for (LotIngredient lot : lots) {
+            if (!lotIngredientService.estPerime(lot.getIdLot())) {
+                stock += lotIngredientService.calculQuantiteRestante(lot.getIdLot());
+            }
+        }
+        return stock;
     }
 }
