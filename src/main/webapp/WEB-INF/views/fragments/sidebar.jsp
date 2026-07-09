@@ -58,6 +58,26 @@
     <a href="${pageContext.request.contextPath}/lot/findAll"
     class="${activeMenu == 'lots' ? 'active' : ''}">
         Lots
+    <a href="${pageContext.request.contextPath}/lot/ingredients/new"
+    class="${activeMenu == 'lot-ingredients' ? 'active' : ''}">
+        Créer un lot ingrédient
+    </a>
+
+    <a href="${pageContext.request.contextPath}/lot/ingredients/alertes"
+    class="${activeMenu == 'lot-ingredients-alertes' ? 'active' : ''}">
+        Alertes ingrédients
+    </a>
+
+    <a href="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes"
+    class="${activeMenu == 'ingredients-bientot-perimes' ? 'active' : ''}">
+        Ingrédients bientôt périmés
+    </a>
+
+    <a href="${pageContext.request.contextPath}/lot/ingredients/view/perimes"
+    class="${activeMenu == 'ingredients-perimes' ? 'active' : ''}">
+        Ingrédients périmés
+    </a>
+
     <a href="${pageContext.request.contextPath}/equipements"
     class="${activeMenu == 'equipements' ? 'active' : ''}">
         Équipements

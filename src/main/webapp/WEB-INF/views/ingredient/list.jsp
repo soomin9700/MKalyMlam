@@ -59,6 +59,12 @@
         <i class="fas fa-print"></i> Imprimer
     </a>
 </div>
+
+                <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes"
+                   class="btn-edit" style="margin-left:10px;">
+                    Voir bientôt périmés
+                </a>
+
             </div>
 
             <!-- Tableau -->

@@ -82,14 +82,19 @@ public class EquipementController {
     }
 
     @GetMapping("/equipements")
-    public String listAndCreateForm(Model model) {
-        model.addAttribute("equipements", service.findAll());
+    public String listAndCreateForm(
+            @RequestParam(required = false) Long typeEquipementId,
+            @RequestParam(required = false) Long methodeComptableId,
+            Model model) {
+        model.addAttribute("equipements", service.findFilteredEquipements(typeEquipementId, methodeComptableId));
         model.addAttribute("typeEquipements", typeEquipementService.findAll());
         model.addAttribute("methodesComptables", methodeComptableService.findAll());
         model.addAttribute("equipement", new Equipement());
         model.addAttribute("isEdit", false);
         model.addAttribute("actionUrl", "/equipements");
         model.addAttribute("activeMenu", "equipements");
+        model.addAttribute("selectedTypeEquipementId", typeEquipementId);
+        model.addAttribute("selectedMethodeComptableId", methodeComptableId);
 
         return "equipement/form";
     }

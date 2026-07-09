@@ -23,7 +23,6 @@ public class EquipementService {
         this.mouvementRepository = mouvementRepository;
     }
 
-
     public Equipement save(Equipement equipement) {
         return equipementRepository.save(equipement);
     }
@@ -45,64 +44,73 @@ public class EquipementService {
         return equipementRepository.findAll();
     }
 
+    public List<Equipement> findFilteredEquipements(Long typeEquipementId, Long methodeComptableId) {
+        return equipementRepository.findAll().stream()
+                .filter(e -> typeEquipementId == null || (e.getTypeEquipement() != null
+                        && e.getTypeEquipement().getIdTypeEquipement() != null
+                        && e.getTypeEquipement().getIdTypeEquipement().equals(typeEquipementId)))
+                .filter(e -> methodeComptableId == null || (e.getMethodeComptable() != null
+                        && e.getMethodeComptable().getIdMethodeComptable() != null
+                        && e.getMethodeComptable().getIdMethodeComptable().equals(methodeComptableId)))
+                .toList();
+    }
+
     public Double getQuantiteStock(Long idEquipement) {
         List<MouvementEquipement> mouvements = getMouvementsEquipement(idEquipement);
-        Double totalEntrees =  calculerTotalEntrees(mouvements);
-        Double totalSorties =  calculerTotalSorties(mouvements);
+        Double totalEntrees = calculerTotalEntrees(mouvements);
+        Double totalSorties = calculerTotalSorties(mouvements);
         return totalEntrees - totalSorties;
     }
 
-
-    private List<MouvementEquipement> getMouvementsEquipement( Long idEquipement) {
-        return mouvementRepository.findByEquipement_IdEquipementOrderByDateMouvementAsc( idEquipement);
+    private List<MouvementEquipement> getMouvementsEquipement(Long idEquipement) {
+        return mouvementRepository.findByEquipement_IdEquipementOrderByDateMouvementAsc(idEquipement);
     }
 
-    private Double calculerTotalEntrees( List<MouvementEquipement> mouvements) {
+    private Double calculerTotalEntrees(List<MouvementEquipement> mouvements) {
         return mouvements.stream()
-                .filter(m -> m.getTypeMouvement() .getIdTypeMouvement() .equals(1L))
+                .filter(m -> m.getTypeMouvement().getIdTypeMouvement().equals(1L))
                 .mapToDouble(MouvementEquipement::getQuantite)
                 .sum();
     }
 
-    private Double calculerTotalSorties(  List<MouvementEquipement> mouvements) {
+    private Double calculerTotalSorties(List<MouvementEquipement> mouvements) {
         return mouvements.stream()
-            .filter(m -> m.getTypeMouvement() .getIdTypeMouvement() .equals(2L))
-            .mapToDouble(MouvementEquipement::getQuantite)
-            .sum();
+                .filter(m -> m.getTypeMouvement().getIdTypeMouvement().equals(2L))
+                .mapToDouble(MouvementEquipement::getQuantite)
+                .sum();
     }
 
     public List<Equipement> getEquipementsEnAlerte() {
         return equipementRepository.findAll()
                 .stream()
-                .filter(e -> getQuantiteStock(  e.getIdEquipement()) <= e.getQuantiteMin())
+                .filter(e -> getQuantiteStock(e.getIdEquipement()) <= e.getQuantiteMin())
                 .toList();
     }
 
-    //CUMP 
-    private Double calculerValeurEntrees( List<MouvementEquipement> mouvements) {
+    // CUMP
+    private Double calculerValeurEntrees(List<MouvementEquipement> mouvements) {
         return mouvements.stream()
-                .filter(m -> m.getTypeMouvement().getIdTypeMouvement() .equals(1L))
+                .filter(m -> m.getTypeMouvement().getIdTypeMouvement().equals(1L))
                 .mapToDouble(m -> m.getQuantite() * m.getEquipement().getPrixUnitaire())
                 .sum();
     }
 
-    private Double calculerValeurSorties( List<MouvementEquipement> mouvements) {
+    private Double calculerValeurSorties(List<MouvementEquipement> mouvements) {
         return mouvements.stream()
-                .filter(m ->  m.getTypeMouvement() .getIdTypeMouvement()  .equals(2L))
+                .filter(m -> m.getTypeMouvement().getIdTypeMouvement().equals(2L))
                 .mapToDouble(m -> m.getQuantite() * m.getEquipement().getPrixUnitaire())
                 .sum();
     }
 
-    private Double calculerNumerateurCump(  List<MouvementEquipement> mouvements) {
+    private Double calculerNumerateurCump(List<MouvementEquipement> mouvements) {
         return calculerValeurEntrees(mouvements) - calculerValeurSorties(mouvements);
     }
 
-    private Double calculerDenominateurCump(  List<MouvementEquipement> mouvements) {
-        return calculerTotalEntrees(mouvements)- calculerTotalSorties(mouvements);
+    private Double calculerDenominateurCump(List<MouvementEquipement> mouvements) {
+        return calculerTotalEntrees(mouvements) - calculerTotalSorties(mouvements);
     }
 
-
-    public Double calculerCump( Long idEquipement) {
+    public Double calculerCump(Long idEquipement) {
         List<MouvementEquipement> mouvements = getMouvementsEquipement(idEquipement);
         Double numerateur = calculerNumerateurCump(mouvements);
         Double denominateur = calculerDenominateurCump(mouvements);

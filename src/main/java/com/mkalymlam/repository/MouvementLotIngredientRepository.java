@@ -10,15 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.mkalymlam.entity.MouvementLotIngredient;
 
 @Repository
-public interface MouvementLotIngredientRepository extends JpaRepository<MouvementLotIngredient, Integer> {
-    
-    List<MouvementLotIngredient> findByLotIngredientIdLot(Long idLot);
-    
-    List<MouvementLotIngredient> findByLotIngredientIdLotOrderByDateMouvementDesc(Long idLot);
-    
-    @Query("SELECT SUM(m.quantite) FROM MouvementLotIngredient m WHERE m.lotIngredient.idLot = :idLot AND m.typeMouvement.idTypeMouvement = 1")
-    Double sumEntreeByLot(@Param("idLot") Long idLot);
-    
-    @Query("SELECT SUM(m.quantite) FROM MouvementLotIngredient m WHERE m.lotIngredient.idLot = :idLot AND m.typeMouvement.idTypeMouvement = 2")
-    Double sumSortieByLot(@Param("idLot") Long idLot);
+public interface MouvementLotIngredientRepository extends JpaRepository<MouvementLotIngredient, Long> {
+
+    @Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MouvementLotIngredient m WHERE m.lot.idLot = :lotId AND m.typeMouvement.idTypeMouvement = :typeId")
+    Double sumQuantiteByLotAndType(@Param("lotId") Long lotId, @Param("typeId") Long typeId);
+
+    @Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MouvementLotIngredient m WHERE m.lot.ingredient.idIngredient = :ingredientId AND m.typeMouvement.idTypeMouvement = :typeId")
+    Double sumQuantiteByIngredientAndType(@Param("ingredientId") Long ingredientId, @Param("typeId") Long typeId);
 }
