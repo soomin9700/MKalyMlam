@@ -2,6 +2,8 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/ApprovisionnementController.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/DepenseController.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/DepenseGlobaleController.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/FichePaieController.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/controller/ItineraireController.java
@@ -20,6 +22,7 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/dto/DetailApprovisionnementForm.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Approvisionnement.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Commande.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Depense.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/DetailApprovisionnement.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSession.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
@@ -35,11 +38,14 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/SessionTruck.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDisponibilite.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutSession.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutValidationAdmin.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Truck.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeDepense.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeMouvement.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/entity/Utilisateur.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/ApprovisionnementRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/DepenseRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/DetailApprovisionnementRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
@@ -54,10 +60,13 @@
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/SessionTruckRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutDisponibiliteRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutSessionRepository.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutValidationAdminRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/TruckRepository.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeDepenseRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/ApprovisionnementService.java
+/home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/DepenseService.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/FichePaieService.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
 /home/asus/Documents/s4/baovola/MKalyMlam/src/main/java/com/mkalymlam/service/ItineraireService.java
