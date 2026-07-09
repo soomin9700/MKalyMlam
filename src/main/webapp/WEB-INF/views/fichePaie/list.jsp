@@ -85,7 +85,7 @@
                     <select id="idUtilisateur" name="idUtilisateur">
                         <option value="">Tous les employés</option>
                         <c:forEach items="${employes}" var="utilisateur">
-                            <option value="${utilisateur.id}" <c:if test="${selectedUtilisateur == utilisateur.id}">selected</c:if>>
+                            <option value="${utilisateur.idUtilisateur}" <c:if test="${selectedUtilisateur == utilisateur.idUtilisateur}">selected</c:if>>
                                 ${utilisateur.nom} ${utilisateur.prenom}
                             </option>
                         </c:forEach>

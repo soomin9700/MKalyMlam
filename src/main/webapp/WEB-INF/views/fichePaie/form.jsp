@@ -52,7 +52,7 @@
                     <select name="idUtilisateur" id="idUtilisateur">
                         <option value="" selected>Tous les employés</option>
                         <c:forEach items="${utilisateurs}" var="utilisateur">
-                            <option value="${utilisateur.id}">
+                            <option value="${utilisateur.idUtilisateur}">
                                 ${utilisateur.nom} ${utilisateur.prenom} - ${utilisateur.salaireBaseFixe}
                             </option>
                         </c:forEach>
