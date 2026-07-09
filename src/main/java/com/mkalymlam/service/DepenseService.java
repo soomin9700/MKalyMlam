@@ -107,4 +107,27 @@ public class DepenseService {
 
         depenseRepository.deleteById(id);
     }
+
+    public List<Depense> getEnAttente() {
+        return depenseRepository.findByStatutValidationAdmin_LibelleOrderByIdDesc("EN_ATTENTE");
+    }
+
+    @Transactional
+    public Depense valider(Long id) {
+        Depense depense = depenseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Depense introuvable"));
+        StatutValidationAdmin statut = statutValidationAdminRepository.findByLibelle("VALIDE_ADMIN");
+        depense.setStatutValidationAdmin(statut);
+        return depenseRepository.save(depense);
+    }
+
+    @Transactional
+    public Depense refuser(Long id, String commentaire) {
+        Depense depense = depenseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Depense introuvable"));
+        StatutValidationAdmin statut = statutValidationAdminRepository.findByLibelle("REFUSE_ADMIN");
+        depense.setStatutValidationAdmin(statut);
+        depense.setCommentaireAdminRetour(commentaire);
+        return depenseRepository.save(depense);
+    }
 }

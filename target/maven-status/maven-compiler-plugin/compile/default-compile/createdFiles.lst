@@ -45,6 +45,7 @@ com/mkalymlam/repository/IngredientRepository.class
 com/mkalymlam/controller/DepenseController.class
 com/mkalymlam/repository/DetailApprovisionnementRepository.class
 com/mkalymlam/view/ViewController.class
+com/mkalymlam/controller/AdminDepenseController.class
 com/mkalymlam/service/VenteService.class
 com/mkalymlam/service/ProduitService.class
 com/mkalymlam/controller/StatistiqueController.class

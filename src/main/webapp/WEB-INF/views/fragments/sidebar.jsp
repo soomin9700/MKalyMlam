@@ -94,6 +94,11 @@
         Depenses
     </a>
 
+    <a href="${pageContext.request.contextPath}/admin/depenses"
+    class="${activeMenu == 'validation' ? 'active' : ''}">
+        Validation
+    </a>
+
     <a href="${pageContext.request.contextPath}/fiches-paie"
     class="${activeMenu == 'fiches-paie' ? 'active' : ''}">
         Fiches de paie

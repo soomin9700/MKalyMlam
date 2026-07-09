@@ -13,4 +13,6 @@ public interface DepenseRepository extends JpaRepository<Depense, Long> {
     List<Depense> findBySession_IdOrderByIdDesc(Long idSession);
 
     List<Depense> findAllByOrderByDateDepenseDesc();
+
+    List<Depense> findByStatutValidationAdmin_LibelleOrderByIdDesc(String libelle);
 }
