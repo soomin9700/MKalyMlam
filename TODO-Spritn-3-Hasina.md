@@ -110,3 +110,28 @@ exemple
         - montantPerte = quantitePerime * prixAchatUnitaire
     1- Si on est 6 juillet 2026, donc 
     Comment va t-on gerer les ingredients perimes dans le stock 
+
+
+
+=======================================================================================================================
+# RESTRUCTURATION ET REPERAGE A FAIRE POUR LE SPRINT 3
+## LotIngredients bientot perimes:
+    - Table: lotIngredient
+    - principe: 
+        - retourne la liste des lotIngredients dont la date de perumption - date now() >= 0 and <=3
+        - quantite restante > 0 
+        - objectif, avoir:
+            - Nom de l'ingredient 
+            - sa quantite restante
+            - sa date de peremption
+
+## LotIngredient perimes:
+    - Table: lotIngredient
+    - principe:
+        - Sortie de lotIngredient impossible Si :
+            - date de peremption < date now()
+            - quantite restante > 0
+        - retourne la liste des lotIngredients dont la date de peremption < date now()
+        - quantite restante > 0
+        - objectif, avoir:
+            
