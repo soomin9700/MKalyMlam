@@ -58,16 +58,16 @@ public class InventaireJournalierService {
             return 0.0;
         }
 
-        // INGREDIENT
-        if (inventaire.getTypeItem().getIdTypeItem() == 1) {
-            List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(
-                inventaire.getIdItem()
-            );
+        // // INGREDIENT
+        // if (inventaire.getTypeItem().getIdTypeItem() == 1) {
+        //     List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(
+        //         inventaire.getIdItem()
+        //     );
             
-            return lots.stream()
-                .mapToDouble(LotIngredient::getQuantiteRestante)
-                .sum();
-        }
+        //     return lots.stream()
+        //         .mapToDouble(LotIngredient::getQuantiteRestante)
+        //         .sum();
+        // }
         
         // EQUIPEMENT
         if (inventaire.getTypeItem().getIdTypeItem() == 2) {

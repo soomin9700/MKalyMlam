@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -18,11 +21,24 @@ public class Commande {
     @Column(name = "\"idCommande\"")
     private Long idCommande;
     @Column(name = "\"idSession\"")
-    private Long idSession;
-    @Column(name = "\"idVendeuse\"")
-    private Long idVendeuse;
-    @Column(name = "\"idTypeCommande\"")
-    private Long idTypeCommande;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idSession")
+    private SessionTruck sessionTruck;
+
+    // private Long idSession;
+    // @Column(name = "\"idVendeuse\"")
+    // private Long idVendeuse;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idVendeuse")
+    private Utilisateur vendeuse;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idTypeCommande")
+    private TypeCommande typeCommande;
+    
+        // @Column(name = "\"idTypeCommande\"")
+        // private Long idTypeCommande;
     @Column(name = "\"dateHeureCreation\"")
     private LocalDateTime dateHeureCreation;
     @Column(name = "\"heureRecuperationPrevue\"")
@@ -48,22 +64,22 @@ public class Commande {
         this.idCommande = idCommande;
     }
 
-    public Long getIdVendeuse() {
-        return idVendeuse;
-    }
+    // public Long getIdVendeuse() {
+    //     return idVendeuse;
+    // }
 
-    public void setIdVendeuse(Long idVendeuse) {
-        this.idVendeuse = idVendeuse;
-    }
+    // public void setIdVendeuse(Long idVendeuse) {
+    //     this.idVendeuse = idVendeuse;
+    // }
 
 
-    public Long getIdTypeCommande() {
-        return idTypeCommande;
-    }
+    // public Long getIdTypeCommande() {
+    //     return idTypeCommande;
+    // }
 
-    public void setIdTypeCommande(Long idTypeCommande) {
-        this.idTypeCommande = idTypeCommande;
-    }
+    // public void setIdTypeCommande(Long idTypeCommande) {
+    //     this.idTypeCommande = idTypeCommande;
+    // }
 
 
     public double getMontantTotal() {
@@ -82,13 +98,13 @@ public class Commande {
         this.dateHeureCreation = dateHeureCreation;
     }
 
-    public Long getIdSession() {
-        return idSession;
-    }
+    // public Long getIdSession() {
+    //     return idSession;
+    // }
 
-    public void setIdSession(Long idSession) {
-        this.idSession = idSession;
-    }
+    // public void setIdSession(Long idSession) {
+    //     this.idSession = idSession;
+    // }
 
 
     public LocalDateTime getHeureRecuperationPrevue() {
@@ -125,6 +141,36 @@ public class Commande {
 
     public void setIdTypeTarification(LocalDateTime idTypeTarification) {
         this.idTypeTarification = idTypeTarification;
+    }
+
+
+    public SessionTruck getSessionTruck() {
+        return sessionTruck;
+    }
+
+
+    public void setSessionTruck(SessionTruck sessionTruck) {
+        this.sessionTruck = sessionTruck;
+    }
+
+
+    public Utilisateur getVendeuse() {
+        return vendeuse;
+    }
+
+
+    public void setVendeuse(Utilisateur vendeuse) {
+        this.vendeuse = vendeuse;
+    }
+
+
+    public TypeCommande getTypeCommande() {
+        return typeCommande;
+    }
+
+
+    public void setTypeCommande(TypeCommande typeCommande) {
+        this.typeCommande = typeCommande;
     }
     
 }
