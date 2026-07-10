@@ -23,15 +23,15 @@ public class Commande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idCommande\"")
     private Long idCommande;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idSession\"")
     private SessionTruck sessionTruck;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idVendeuse\"")
     private Utilisateur vendeuse;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idTypeCommande\"")
     private TypeCommande typeCommande;
 
@@ -43,7 +43,7 @@ public class Commande {
     private LocalDateTime lieuRecuperationPrevu;
     @Column(name = "\"montantTotal\"")
     private double montantTotal;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"idStatutCommande\"")
     private StatutCommande statutCommande;
     @Column(name = "\"idTypeTarification\"")
