@@ -1,5 +1,7 @@
 package com.mkalymlam.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Time;
 
 import jakarta.persistence.Column;
@@ -11,6 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "itineraire")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Itineraire {
 
     @Id

@@ -35,15 +35,26 @@ public class VenteService {
     // Ajouter une nouvelle commande
     @Transactional
     public Commande ajouterCommande(Commande commande, Long idTruck) {
-        
+
         // 1. Récupérer le truck
-        Truck truck = truckRepository.findById(idTruck)
-                .orElseThrow(() -> new RuntimeException("Truck introuvable avec l'id : " + idTruck));
+        final Long truckId;
+        if (idTruck != null) {
+            truckId = idTruck;
+        } else {
+            List<SessionTruck> sessionsOuvertes = sessionTruckRepository.findByStatutSession_Libelle("OUVERTE");
+            if (sessionsOuvertes.isEmpty()) {
+                throw new RuntimeException("Aucune session ouverte disponible");
+            }
+            truckId = sessionsOuvertes.get(0).getTruck().getId();
+        }
+
+        Truck truck = truckRepository.findById(truckId)
+                .orElseThrow(() -> new RuntimeException("Truck introuvable avec l'id : " + truckId));
         
         // 2. Récupérer la session ouverte de ce truck
         SessionTruck sessionOuverte = sessionTruckRepository
-                .findByTruck_IdTruckAndStatutSession_Libelle(idTruck, "OUVERTE")
-                .orElseThrow(() -> new RuntimeException("Aucune session ouverte pour le truck " + idTruck));
+                .findByTruck_IdAndStatutSession_Libelle(truckId, "OUVERTE")
+                .orElseThrow(() -> new RuntimeException("Aucune session ouverte pour le truck " + truckId));
         
         // 3. Associer la session à la commande
         commande.setSessionTruck(sessionOuverte);

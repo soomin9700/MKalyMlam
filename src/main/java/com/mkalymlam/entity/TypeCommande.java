@@ -1,17 +1,20 @@
 package com.mkalymlam.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "typeCommande")
+@Table(name = "\"typeCommande\"")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TypeCommande {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTypeCommande")
+    @Column(name = "\"idTypeCommande\"")
     private Long idTypeCommande;
     
-    @Column(name = "libelle")
+    @Column(name = "\"libelle\"")
     private String libelle;
     
     public TypeCommande() {

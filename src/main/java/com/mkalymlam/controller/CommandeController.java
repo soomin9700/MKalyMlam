@@ -31,7 +31,8 @@ public class CommandeController {
     // }
 
     @PostMapping("/ajouter")
-    public Commande ajouter(@RequestBody Commande commande, @RequestParam Long idTruck) {
+    public Commande ajouter(@RequestBody Commande commande,
+                            @RequestParam(required = false) Long idTruck) {
 
         commande.setDateHeureCreation(LocalDateTime.now());
 
@@ -46,10 +47,5 @@ public class CommandeController {
     @PostMapping("/valider")
     public Commande valider(@RequestParam Long idCommande, @RequestBody List<LigneCommande> lignes) {
         return venteService.validerCommande(idCommande, lignes);
-    }
-
-    @PostMapping("/changerStatut")
-    public Commande changerStatut(@RequestParam Long idCommande, @RequestParam String statut) {
-        return venteService.changerStatut(idCommande, statut);
     }
 }
