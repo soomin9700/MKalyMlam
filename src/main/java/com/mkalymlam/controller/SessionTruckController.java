@@ -48,7 +48,9 @@ public class SessionTruckController {
     public String formulaireOuvrir(Model model) {
         List<Truck> trucksDisponibles = truckService.findDisponibles();
         List<Itineraire> itineraires = itineraireRepository.findAll();
-        List<Utilisateur> chauffeurs = utilisateurRepository.findByRoleLibelle("CHAUFFEUR");
+        List<Utilisateur> chauffeurs = utilisateurRepository.findAll().stream()
+                .filter(u -> u.getIdRole() == 4)
+                .toList();
 
         model.addAttribute("trucks", trucksDisponibles);
         model.addAttribute("itineraires", itineraires);
@@ -67,6 +69,7 @@ public class SessionTruckController {
             redirectAttributes.addFlashAttribute("success", "Session ouverte avec succès");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+            throw e;
         }
         return "redirect:/session/liste";
     }

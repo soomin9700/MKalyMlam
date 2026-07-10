@@ -1,53 +1,127 @@
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/ItineraireController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/LigneCommandeController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/LotIngredientController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/RecetteBaseController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/SessionTruckController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueViewController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/TruckController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/controller/VendeuseController.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Commande.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSession.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Role.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/SessionTruck.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDisponibilite.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutSession.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Truck.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/entity/Utilisateur.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/LotIngredientRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/RoleRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/SessionTruckRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutDisponibiliteRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutSessionRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/TruckRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/ItineraireService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/LotIngredientService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/SessionTruckService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/StatistiqueService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/TruckService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/service/VenteService.java
-/home/itu/Documents/Miantsa/S4/Mme Baovola/code/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ActionAmeliorationController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeExportController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeListController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DemandeChangementItineraireController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/EmployeController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/EquipeSessionController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/EquipementController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/FichePaieController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/InventaireController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ItineraireController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LigneCommandeController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LotIngredientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MethodeComptableController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementEquipementController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementLotIngredientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/RecetteBaseController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/RetourClientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/SessionTruckController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueViewController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/TruckController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/TypeEquipementController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/TypeMouvementController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/VendeuseController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/AbsenceConge.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ActionAmelioration.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ClassificationSentiment.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ClassificationSentimentLookup.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Commande.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/DemandeChangementItineraire.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSession.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSessionId.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Equipement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/InventaireJournalier.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MethodeComptable.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementEquipement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementLotIngredient.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RetourClient.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Role.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/SessionTruck.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutCommande.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDemandeAchat.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDisponibilite.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutSession.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutValidation.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Truck.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeCommande.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeEquipement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeItem.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeMouvement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeRetour.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeRetourLookup.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Utilisateur.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/AbsenceCongeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ActionAmeliorationRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ClassificationSentimentLookupRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/DemandeChangementItineraireRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/InventaireJournalierRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/LotIngredientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MethodeComptableRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementEquipementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementLotIngredientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RetourClientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RoleRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/SessionTruckRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutCommandeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutDisponibiliteRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutSessionRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutValidationRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TruckRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeCommandeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeEquipementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeItemRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeRetourLookupRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ActionAmeliorationService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/CongeService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/DemandeChangementItineraireService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EmployeService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipeSessionService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipementService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ExportService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/FichePaieService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ImportService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/InventaireJournalierService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ItineraireService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/LotIngredientService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MethodeComptableService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementEquipementService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementLotIngredientService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RetourClientService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/SessionTruckService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/StatistiqueService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/StatutValidationService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TruckService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TypeEquipementService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TypeMouvementService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/UtilisateurService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/VenteService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java
