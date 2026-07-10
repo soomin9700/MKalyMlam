@@ -59,7 +59,7 @@ public class VenteService {
         commande.setStatutCommande(statutEnAttente);
         
         // 6. Initialiser le montant total à 0 si pas défini
-        if (commande.getMontantTotal() == null) {
+        if (commande.getMontantTotal() == 0) {
             commande.setMontantTotal(0.0);
         }
         
@@ -83,6 +83,21 @@ public class VenteService {
     
     // Récupérer toutes les commandes
     public List<Commande> getAllCommandes() {
+        return commandeRepository.findAll();
+    }
+
+    // Lister les commandes avec filtres optionnels
+    public List<Commande> listerCommandesFiltrees(String statut, String type) {
+        boolean hasStatut = statut != null && !statut.isEmpty();
+        boolean hasType = type != null && !type.isEmpty();
+
+        if (hasStatut && hasType) {
+            return commandeRepository.findByStatutCommande_LibelleAndTypeCommande_Libelle(statut, type);
+        } else if (hasStatut) {
+            return commandeRepository.findByStatutCommande_Libelle(statut);
+        } else if (hasType) {
+            return commandeRepository.findByTypeCommande_Libelle(type);
+        }
         return commandeRepository.findAll();
     }
     
@@ -128,7 +143,7 @@ public class VenteService {
     }
     
     public double getMontantCommande(Long id) {
-        return getCommande(id).getMontantTotal() != null ? getCommande(id).getMontantTotal() : 0.0;
+        return getCommande(id).getMontantTotal();
     }
     
     public List<LigneCommande> getLignesByCommande(Long idCommande) {
@@ -138,10 +153,17 @@ public class VenteService {
     private void recalculerMontantCommande(Long idCommande) {
         List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
         double total = lignes.stream()
-                .mapToDouble(l -> l.getSousTotal() != null ? l.getSousTotal() : 0.0)
+                .mapToDouble(LigneCommande::getSousTotal)
                 .sum();
         Commande commande = getCommande(idCommande);
         commande.setMontantTotal(total);
         commandeRepository.save(commande);
+    }
+
+    public double getMontantLignes(Long idCommande) {
+        List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
+        return lignes.stream()
+                .mapToDouble(LigneCommande::getSousTotal)
+                .sum();
     }
 }

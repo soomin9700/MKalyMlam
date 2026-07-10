@@ -39,17 +39,9 @@
 
     <div style="display:flex; gap:10px; align-items:center;">
         <button class="btn-add" onclick="nouvelleCommande()">
+            <i class="fas fa-plus"></i>
             Nouvelle commande
         </button>
-
-                <button
-                        class="btn-add"
-                        onclick="nouvelleCommande()">
-
-                    <i class="fas fa-plus"></i>
-                    Nouvelle commande
-
-                </button>
 
             </div>
         <!-- Boutons d'export (ne cassent rien) -->
@@ -329,9 +321,7 @@ function nouvelleCommande(){
     .then(c=>{
         cmdId=c.idCommande;
         document.getElementById("cmdId").textContent=cmdId;
-        lignesLocales=[];
-        afficherLignes();
-        document.getElementById("total").textContent="0 Ar";
+        document.getElementById("total").textContent=c.montantTotal+" Ar";
     });
 }
 
@@ -401,7 +391,11 @@ function validerCommande(){
     })
     .then(r=>r.json())
     .then(c=>{
-        nouvelleCommande();
+        cmdId=null;
+        document.getElementById("cmdId").textContent="-";
+        document.getElementById("total").textContent="0 Ar";
+        lignesLocales=[];
+        afficherLignes();
     });
 }
 

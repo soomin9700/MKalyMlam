@@ -2,6 +2,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ActionAmeliorationController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeExportController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeListController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DemandeChangementItineraireController.java
@@ -51,11 +52,13 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RetourClient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Role.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/SessionTruck.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDemandeAchat.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutDisponibilite.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutSession.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/StatutValidation.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Truck.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeEquipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeItem.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeMouvement.java
@@ -83,10 +86,12 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RetourClientRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RoleRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/SessionTruckRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutCommandeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutDisponibiliteRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutSessionRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/StatutValidationRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TruckRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeCommandeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeEquipementRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeItemRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java

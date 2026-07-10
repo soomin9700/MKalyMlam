@@ -19,4 +19,6 @@ public interface SessionTruckRepository extends JpaRepository<SessionTruck, Long
     List<SessionTruck> findByStatutSession_Libelle(String libelle);
     
     Optional<SessionTruck> findByTruck_IdTruckAndStatutSession_Libelle(Long idTruck, String libelle);
+
+    boolean existsByTruckAndStatutSession(Truck truck, StatutSession statutSession);
 }
