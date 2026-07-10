@@ -41,7 +41,6 @@ public class LotIngredientController {
 
     private final LotIngredientService service;
 
-    //nox debugg
     @Autowired
     public LotIngredientController(LotIngredientService service) {
         this.service = service;

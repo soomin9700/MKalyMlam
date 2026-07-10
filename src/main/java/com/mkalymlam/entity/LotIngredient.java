@@ -36,9 +36,10 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
-    //nox debugg
-    @Column(name = "\"quantiteRestante\"")  // ← AJOUTER
+    @Column(name = "\"quantiteRestante\"") 
     private Double quantiteRestante; 
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idTypeMouvement\"")
