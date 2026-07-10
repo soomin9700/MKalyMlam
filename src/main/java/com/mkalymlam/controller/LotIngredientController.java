@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,8 +41,11 @@ public class LotIngredientController {
 
     private final LotIngredientService service;
 
+    @Autowired
     public LotIngredientController(LotIngredientService service) {
         this.service = service;
+        this.ingredientService = null;
+        this.typeMouvementService = null;
     }
 
     
@@ -60,7 +64,7 @@ public class LotIngredientController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("lot", new LotIngredient());
-        model.addAttribute("ingredients", service.getAllIngredients());
+        model.addAttribute("ingredients", service.getAll());
         model.addAttribute("isEdit", false);
         model.addAttribute("actionUrl", "/lot/save");
         return "lot/form";
@@ -143,7 +147,7 @@ public class LotIngredientController {
 
     @GetMapping("/alertes")
     @ResponseBody
-    public List<LotIngredient> alertes() {
+    public List<Ingredient> alertes() {
         return service.getAlertLots();
     }
 

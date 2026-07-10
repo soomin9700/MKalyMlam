@@ -48,7 +48,7 @@ INSERT INTO "itineraire" ("nomZone", "lieuExact", "heureDebutPrevue", "heureFinP
 
 
 
-======donnees============
+-- ======donnees============
 INSERT INTO "utilisateur" ("nom", "prenom", "email", "motDePasse", "idRole", "salaireBaseFixe", "statutActif") VALUES
 ('Dubois', 'Pierre', 'pierre.dubois@foodtruck.fr', 'hashed_password', 1, 2800.00, true),
 ('Martin', 'Sophie', 'sophie.martin@foodtruck.fr', 'hashed_password', 2, 1950.00, true),

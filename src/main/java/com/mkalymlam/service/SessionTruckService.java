@@ -110,10 +110,8 @@ public class SessionTruckService {
         if (id == null) {
             throw new IllegalArgumentException("Id session null");
         }
-        if (!sessionTruckRepository.existsById(id)) {
-            throw new IllegalArgumentException("Session " + id + " introuvable");
-        }
-        return sessionTruckRepository.findById(id).orElse(null);
+        return sessionTruckRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Session " + id + " introuvable"));
     }
 
     public List<SessionTruck> findSessionsDuJour() {
@@ -140,30 +138,24 @@ public class SessionTruckService {
         if (idTruck == null) {
             throw new IllegalArgumentException("Id truck null");
         }
-        if (!truckRepository.existsById(idTruck)) {
-            throw new IllegalArgumentException("Truck " + idTruck + " introuvable");
-        }
-        return truckRepository.findById(idTruck).orElse(null);
+        return truckRepository.findById(idTruck)
+                .orElseThrow(() -> new IllegalArgumentException("Truck " + idTruck + " introuvable"));
     }
 
     private Itineraire findItineraire(Long idItineraire) {
         if (idItineraire == null) {
             throw new IllegalArgumentException("Id itineraire null");
         }
-        if (!itineraireRepository.existsById(idItineraire)) {
-            throw new IllegalArgumentException("Itineraire " + idItineraire + " introuvable");
-        }
-        return itineraireRepository.findById(idItineraire).orElse(null);
+        return itineraireRepository.findById(idItineraire)
+                .orElseThrow(() -> new IllegalArgumentException("Itineraire " + idItineraire + " introuvable"));
     }
 
     private Utilisateur findUtilisateur(Integer idUtilisateur) {
         if (idUtilisateur == null) {
             throw new IllegalArgumentException("Id chauffeur null");
         }
-        if (!utilisateurRepository.existsById(idUtilisateur)) {
-            throw new IllegalArgumentException("Chauffeur " + idUtilisateur + " introuvable");
-        }
-        return utilisateurRepository.findById(idUtilisateur).orElse(null);
+        return utilisateurRepository.findById(idUtilisateur)
+                .orElseThrow(() -> new IllegalArgumentException("Chauffeur " + idUtilisateur + " introuvable"));
     }
 
     private StatutSession findStatutSession(String libelle) {

@@ -31,11 +31,12 @@ public class CommandeController {
     // }
 
     @PostMapping("/ajouter")
-    public Commande ajouter(@RequestBody Commande commande) {
+    public Commande ajouter(@RequestBody Commande commande,
+                            @RequestParam(required = false) Long idTruck) {
 
         commande.setDateHeureCreation(LocalDateTime.now());
 
-        return venteService.ajouterCommande(commande);
+        return venteService.ajouterCommande(commande, idTruck);
     }
 
     @GetMapping("/montant")
