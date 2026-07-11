@@ -1,9 +1,5 @@
 package com.mkalymlam.entity;
 
-// import java.beans.Transient;
-
-// import org.springframework.data.annotation.Transient;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,64 +8,63 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-
 @Entity
 @Table(name = "\"ligneCommande\"")
 public class LigneCommande {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idLigne\"")
     private Long idLigneCommande;
+    
     @Column(name = "\"idCommande\"")
     private Long idCommande;
+    
     @Column(name = "\"idProduit\"")
     private Long idProduit;
+    
     @Column(name = "quantite")
-    private int quantite;
-    // @Column(name = "\"sousTotal\"")
+    private Integer quantite;  // ✅ Changé int → Integer
+    
+    @Column(name = "\"prixUnitaireFacture\"")
+    private Double prixUnitaireFacture;  // ✅ Ajouté
+    
     @Transient
-    private double sousTotal;
+    private Double sousTotal;
 
-    public LigneCommande() {
-    }
+    // Constructeurs
+    public LigneCommande() {}
 
-    public Long getIdLigneCommande() {
-        return idLigneCommande;
-    }
-
-    public void setIdLigneCommande(Long idLigneCommande) {
-        this.idLigneCommande = idLigneCommande;
-    }
-
-    public Long getIdCommande() {
-        return idCommande;
-    }
-
-    public void setIdCommande(Long idCommande) {
+    public LigneCommande(Long idCommande, Long idProduit, Integer quantite, Double prixUnitaireFacture) {
         this.idCommande = idCommande;
-    }
-
-    public Long getIdProduit() {
-        return idProduit;
-    }
-
-    public void setIdProduit(Long idProduit) {
         this.idProduit = idProduit;
-    }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(int quantite) {
         this.quantite = quantite;
+        this.prixUnitaireFacture = prixUnitaireFacture;
+        this.sousTotal = quantite * prixUnitaireFacture;
     }
 
-    public double getSousTotal() {
-        return sousTotal;
-    }
+    // Getters et Setters
+    public Long getIdLigneCommande() { return idLigneCommande; }
+    public void setIdLigneCommande(Long idLigneCommande) { this.idLigneCommande = idLigneCommande; }
 
-    public void setSousTotal(double sousTotal) {
-        this.sousTotal = sousTotal;
+    public Long getIdCommande() { return idCommande; }
+    public void setIdCommande(Long idCommande) { this.idCommande = idCommande; }
+
+    public Long getIdProduit() { return idProduit; }
+    public void setIdProduit(Long idProduit) { this.idProduit = idProduit; }
+
+    public Integer getQuantite() { return quantite; }
+    public void setQuantite(Integer quantite) { this.quantite = quantite; }
+
+    public Double getPrixUnitaireFacture() { return prixUnitaireFacture; }
+    public void setPrixUnitaireFacture(Double prixUnitaireFacture) { this.prixUnitaireFacture = prixUnitaireFacture; }
+
+    public Double getSousTotal() { 
+        if (sousTotal == null && prixUnitaireFacture != null && quantite != null) {
+            sousTotal = prixUnitaireFacture * quantite;
+        }
+        return sousTotal; 
     }
+    
+    public void setSousTotal(Double sousTotal) { this.sousTotal = sousTotal; }
 }

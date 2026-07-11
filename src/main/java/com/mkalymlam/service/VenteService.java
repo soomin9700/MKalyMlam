@@ -11,6 +11,8 @@ import com.mkalymlam.repository.CommandeRepository;
 import com.mkalymlam.repository.LigneCommandeRepository;
 import com.mkalymlam.repository.ProduitRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class VenteService {
 
@@ -31,18 +33,24 @@ public class VenteService {
         return commandeRepository.save(commande);
     }
 
+    @Transactional
     public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
         Produit produit = produitRepository.findById(ligne.getIdProduit())
-                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
-        double sousTotal = produit.getPrixBase() * ligne.getQuantite();
+                .orElseThrow(() -> new RuntimeException("Produit introuvable avec l'ID: " + ligne.getIdProduit()));
+        
+        if (ligne.getPrixUnitaireFacture() == null || ligne.getPrixUnitaireFacture() == 0) {
+            ligne.setPrixUnitaireFacture(produit.getPrixBase());
+        }
+        
+        double sousTotal = ligne.getPrixUnitaireFacture() * ligne.getQuantite();
         ligne.setSousTotal(sousTotal);
+        
         LigneCommande saved = ligneCommandeRepository.save(ligne);
-
+        
         recalculerMontantCommande(ligne.getIdCommande());
-
+        
         return saved;
     }
-
     public double getMontantLignes(Long idCommande) {
         List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
         return lignes.stream().mapToDouble(LigneCommande::getSousTotal).sum();

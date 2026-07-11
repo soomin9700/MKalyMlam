@@ -69,6 +69,11 @@
         Statistiques
     </a>
 
+    <a href="${pageContext.request.contextPath}/performances" 
+    class="${activeMenu == 'performances' ? 'active' : ''}">
+        Performances
+    </a>
+
     <a href="${pageContext.request.contextPath}/clients"
     class="${activeMenu == 'clients' ? 'active' : ''}">
         Clients
