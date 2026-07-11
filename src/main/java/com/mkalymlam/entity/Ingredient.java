@@ -18,21 +18,27 @@ public class Ingredient {
 
     @Column(name = "\"nomIngredient\"")
     private String nomIngredient;
+
     @Column(name = "\"seuilAlerteQuantite\"")
     private Double seuilAlerteQuantite;
+
     @Column(name = "\"uniteMesure\"")
     private String uniteMesure;
+    
+    @Column(name = "\"actif\"")
+    private Boolean actif;
 
-
-    public Ingredient() {
-    }
-
-    public Ingredient(String nomIngredient, Double seuilAlerteQuantite, String uniteMesure) {
+    public Ingredient(Long idIngredient, String nomIngredient, Double seuilAlerteQuantite, String uniteMesure,
+            Boolean actif) {
+        this.idIngredient = idIngredient;
         this.nomIngredient = nomIngredient;
         this.seuilAlerteQuantite = seuilAlerteQuantite;
         this.uniteMesure = uniteMesure;
+        this.actif = actif;
     }
 
+    public Ingredient() {
+    }
 
     public Long getIdIngredient() {
         return idIngredient;
@@ -65,4 +71,15 @@ public class Ingredient {
     public void setUniteMesure(String uniteMesure) {
         this.uniteMesure = uniteMesure;
     }
+
+    public Boolean getActif() {
+        return actif;
+    }
+
+    public void setActif(Boolean actif) {
+        this.actif = actif;
+    }
+
+
+    
 }

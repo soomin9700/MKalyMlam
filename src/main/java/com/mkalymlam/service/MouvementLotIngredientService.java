@@ -27,19 +27,19 @@ public class MouvementLotIngredientService {
     }
     
     public MouvementLotIngredient enregistrerMouvement(
-            Long idMouvementLotIngredient, 
+            Long idmouvementLot, 
             TypeMouvement typeMouvement, 
             Double quantite, 
             LocalDate dateMouvement) {
         
         MouvementLotIngredient mouvement = new MouvementLotIngredient();
-            mouvement.setIdMouvementLotIngredient(idMouvementLotIngredient);
+            mouvement.setidmouvementLot(idmouvementLot);
             mouvement.setTypeMouvement(typeMouvement);
             mouvement.setQuantite(quantite);
             mouvement.setDateMouvement(dateMouvement);
         
         // màj le stock du lot
-        LotIngredient lot = lotService.getById(idMouvementLotIngredient);
+        LotIngredient lot = lotService.getById(idmouvementLot);
         if (typeMouvement.getIdTypeMouvement() == 2) { // SORTIE
             Double nouvelleQuantite = lot.getQuantiteRestante() + quantite;
             if (nouvelleQuantite < 0) {
@@ -49,18 +49,18 @@ public class MouvementLotIngredientService {
         } else { // ENTREE
             lot.setQuantiteRestante(lot.getQuantiteRestante() + quantite);
         }
-        lotService.update(idMouvementLotIngredient, lot);
+        lotService.update(idmouvementLot, lot);
         
         return mouvementRepository.save(mouvement);
     }
     
-    public List<MouvementLotIngredient> getMouvementsByLot(Long idMouvementLotIngredient) {
-        return mouvementRepository.findByLotIngredientIdLotOrderByDateMouvementDesc(idMouvementLotIngredient);
+    public List<MouvementLotIngredient> getMouvementsByLot(Long idmouvementLot) {
+        return mouvementRepository.findByLotIngredientIdLotOrderByDateMouvementDesc(idmouvementLot);
     }
     
-    public Double getStockReel(Long idMouvementLotIngredient) {
-        Double entree = mouvementRepository.sumEntreeByLot(idMouvementLotIngredient);
-        Double sortie = mouvementRepository.sumSortieByLot(idMouvementLotIngredient);
+    public Double getStockReel(Long idmouvementLot) {
+        Double entree = mouvementRepository.sumEntreeByLot(idmouvementLot);
+        Double sortie = mouvementRepository.sumSortieByLot(idmouvementLot);
         return (entree != null ? entree : 0) - (sortie != null ? sortie : 0);
     }
 }

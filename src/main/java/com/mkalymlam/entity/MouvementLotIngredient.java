@@ -10,8 +10,8 @@ public class MouvementLotIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"idMouvementLotIngredient\"")
-    private Long idMouvementLotIngredient;
+    @Column(name = "\"idmouvementLot\"")
+    private Long idmouvementLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idTypeMouvement\"")
@@ -27,9 +27,9 @@ public class MouvementLotIngredient {
     @Column(name = "\"dateMouvement\"")
     private LocalDate dateMouvement;
 
-    public MouvementLotIngredient(Long idMouvementLotIngredient, TypeMouvement typeMouvement,
+    public MouvementLotIngredient(Long idmouvementLot, TypeMouvement typeMouvement,
             LotIngredient lotIngredient, Double quantite, LocalDate dateMouvement) {
-        this.idMouvementLotIngredient = idMouvementLotIngredient;
+        this.idmouvementLot = idmouvementLot;
         this.typeMouvement = typeMouvement;
         this.lotIngredient = lotIngredient;
         this.quantite = quantite;
@@ -39,12 +39,12 @@ public class MouvementLotIngredient {
     public MouvementLotIngredient() {
     }
 
-    public Long getIdMouvementLotIngredient() {
-        return idMouvementLotIngredient;
+    public Long getidmouvementLot() {
+        return idmouvementLot;
     }
 
-    public void setIdMouvementLotIngredient(Long idMouvementLotIngredient) {
-        this.idMouvementLotIngredient = idMouvementLotIngredient;
+    public void setidmouvementLot(Long idmouvementLot) {
+        this.idmouvementLot = idmouvementLot;
     }
 
     public TypeMouvement getTypeMouvement() {

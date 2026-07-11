@@ -23,48 +23,58 @@ public class LotIngredient {
     private Long idLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idIngredient\"")
+    @JoinColumn(name = "\"idIngredient\"", nullable = false)  
     private Ingredient ingredient;
 
-    @Column(name = "\"dateReception\"")
+    @Column(name = "\"dateReception\"", nullable = false)  
     private LocalDate dateReception;
 
-    @Column(name = "\"datePeremption\"")
+    @Column(name = "\"datePeremption\"", nullable = false)  
     private LocalDate datePeremption;
 
-    @Column(name = "\"quantiteInitiale\"")
+    @Column(name = "\"quantiteInitiale\"", nullable = false)  
     private Double quantiteInitiale;
 
-    @Column(name = "\"quantiteRestante\"")
-    private Double quantiteRestante;
-
-    @Column(name = "\"prixAchatUnitaire\"")
+    @Column(name = "\"prixAchatUnitaire\"", nullable = false)  
     private Double prixAchatUnitaire;
 
-    @Transient  // Ne pas persister en base
+    //  Ajout de quantiteRestante (calculée)
+    @Transient
+    private Double quantiteRestante;
+
+    @Transient
     private boolean alerte;
-    
+
     public boolean isAlerte() {
         return alerte;
     }
-    
+
     public void setAlerte(boolean alerte) {
         this.alerte = alerte;
+    }
+
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
     }
 
     public LotIngredient() {
     }
 
     public LotIngredient(Ingredient ingredient, LocalDate dateReception, LocalDate datePeremption,
-            Double quantiteInitiale, Double quantiteRestante, Double prixAchatUnitaire) {
+            Double quantiteInitiale, Double prixAchatUnitaire) {
         this.ingredient = ingredient;
         this.dateReception = dateReception;
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
-        this.quantiteRestante = quantiteRestante;
         this.prixAchatUnitaire = prixAchatUnitaire;
+        this.quantiteRestante = quantiteInitiale;
     }
 
+    // Getters et Setters
     public Long getIdLot() {
         return idLot;
     }
@@ -103,14 +113,6 @@ public class LotIngredient {
 
     public void setQuantiteInitiale(Double quantiteInitiale) {
         this.quantiteInitiale = quantiteInitiale;
-    }
-
-    public Double getQuantiteRestante() {
-        return quantiteRestante;
-    }
-
-    public void setQuantiteRestante(Double quantiteRestante) {
-        this.quantiteRestante = quantiteRestante;
     }
 
     public Double getPrixAchatUnitaire() {
