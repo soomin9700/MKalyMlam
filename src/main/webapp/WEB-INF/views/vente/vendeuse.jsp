@@ -39,7 +39,7 @@
 
     <div style="display:flex; gap:10px; align-items:center;">
         <button class="btn-add" onclick="nouvelleCommande()">
-            <i class="fas fa-plus"></i>
+            <!-- <i class="fas fa-plus"></i> -->
             Nouvelle commande
         </button>
 
@@ -171,7 +171,7 @@
                     Liste des factures
                 </h1>
 
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <!-- <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                     <a href="${pageContext.request.contextPath}/vente/factures/export/csv"
                        class="btn-secondary"
                        style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
@@ -185,7 +185,7 @@
                         <i class="fas fa-file-pdf"></i>
                         PDF
                     </a>
-                </div>
+                </div> -->
 
             </div>
 
