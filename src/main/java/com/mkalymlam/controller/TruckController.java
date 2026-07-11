@@ -1,25 +1,52 @@
 package com.mkalymlam.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mkalymlam.entity.StatutSession;
 import com.mkalymlam.entity.Truck;
+import com.mkalymlam.repository.SessionTruckRepository;
+import com.mkalymlam.repository.StatutDisponibiliteRepository;
+import com.mkalymlam.repository.StatutSessionRepository;
 import com.mkalymlam.service.TruckService;
+import com.mkalymlam.service.CsvExcelImportService;
 
 @Controller
 @RequestMapping("/truck")
 public class TruckController {
 
-    private final TruckService truckService;
+    private static final Logger log = LoggerFactory.getLogger(TruckController.class);
 
-    public TruckController(TruckService truckService) {
+    private final TruckService truckService;
+    private final CsvExcelImportService csvExcelImportService;
+    private final SessionTruckRepository sessionTruckRepository;
+    private final StatutSessionRepository statutSessionRepository;
+    private final StatutDisponibiliteRepository statutDisponibiliteRepository;
+
+    public TruckController(TruckService truckService,
+                           CsvExcelImportService csvExcelImportService,
+                           SessionTruckRepository sessionTruckRepository,
+                           StatutSessionRepository statutSessionRepository,
+                           StatutDisponibiliteRepository statutDisponibiliteRepository) {
         this.truckService = truckService;
+        this.csvExcelImportService = csvExcelImportService;
+        this.sessionTruckRepository = sessionTruckRepository;
+        this.statutSessionRepository = statutSessionRepository;
+        this.statutDisponibiliteRepository = statutDisponibiliteRepository;
     }
 
     @PostMapping("/save")
@@ -56,9 +83,58 @@ public class TruckController {
         return truckService.findAll();
     }
 
-    @GetMapping("/disponibles")
-    @ResponseBody
-    public List<Truck> disponibles() {
-        return truckService.findDisponibles();
+    @GetMapping("/gestion_truck")
+    public String disponibles(Model model) {
+        try {
+            List<Truck> trucks = truckService.findAll();
+            StatutSession statutOuverte = statutSessionRepository.findByLibelle("OUVERTE");
+
+            Map<Long, String> truckStatutDisplay = new HashMap<>();
+            for (Truck truck : trucks) {
+                boolean enSession = statutOuverte != null
+                        && sessionTruckRepository.existsByTruckAndStatutSession(truck, statutOuverte);
+                truckStatutDisplay.put(truck.getId(), truckService.getStatutDisplay(truck, enSession));
+            }
+
+            model.addAttribute("trucks", trucks);
+            model.addAttribute("truckStatutDisplay", truckStatutDisplay);
+            model.addAttribute("statuts", statutDisponibiliteRepository.findAll());
+        } catch (Exception e) {
+            log.error("Erreur dans gestion_truck", e);
+            try {
+                model.addAttribute("trucks", truckService.findAll());
+            } catch (Exception ex) {
+                log.error("Erreur aussi dans le catch", ex);
+                model.addAttribute("trucks", List.of());
+            }
+            model.addAttribute("truckStatutDisplay", new HashMap<>());
+            model.addAttribute("statuts", List.of());
+        }
+        return "truck/gestion_truck";
+    }
+
+    @GetMapping("/import")
+    public String pageImport(Model model) {
+        model.addAttribute("trucks", truckService.findAll());
+        return "truck/import";
+    }
+
+    @PostMapping("/import")
+    public String importData(@RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            List<String> erreurs = csvExcelImportService.importFile(file, "truck");
+            if (erreurs.isEmpty()) {
+                redirectAttributes.addFlashAttribute("success",
+                    "Truck(s) importe(s) avec succes");
+            } else {
+                redirectAttributes.addFlashAttribute("warning",
+                    "Erreurs : " + String.join("; ", erreurs));
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error",
+                "Erreur lors de l'import : " + e.getMessage());
+        }
+        return "redirect:/truck/gestion_truck";
     }
 }
