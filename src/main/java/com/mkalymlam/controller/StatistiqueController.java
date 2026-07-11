@@ -107,4 +107,56 @@ public class StatistiqueController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin) {
         return statistiqueService.getBeneficeParZoneGroupe(dateDebut, dateFin);
     }
+
+    // ==================================================================
+    // ANALYSES DES VENTES
+    // ==================================================================
+
+    @GetMapping("/chiffreAffaire/parProduit")
+    public List<Map<String, Object>> chiffreAffaireParProduit() {
+        return statistiqueService.getChiffreAffaireParProduit();
+    }
+
+    @GetMapping("/topProduits")
+    public List<Map<String, Object>> topProduits(
+            @RequestParam(defaultValue = "10") int limit) {
+        return statistiqueService.getTopProduits(limit);
+    }
+
+    @GetMapping("/bottomProduits")
+    public List<Map<String, Object>> bottomProduits(
+            @RequestParam(defaultValue = "10") int limit) {
+        return statistiqueService.getBottomProduits(limit);
+    }
+
+    @GetMapping("/ventes/parHeure")
+    public List<Map<String, Object>> ventesParHeure() {
+        return statistiqueService.getVentesParHeure();
+    }
+
+    @GetMapping("/ventes/nombre")
+    public Long nombreTotalVentes() {
+        return statistiqueService.getNombreTotalVentes();
+    }
+
+    @GetMapping("/ventes/journalieres")
+    public List<Map<String, Object>> ventesJournalieres() {
+        return statistiqueService.getVentesJournalieres();
+    }
+
+    @GetMapping("/ventes/mensuelles")
+    public List<Map<String, Object>> ventesMensuelles() {
+        return statistiqueService.getVentesMensuelles();
+    }
+
+    @GetMapping("/ventes/annuelles")
+    public List<Map<String, Object>> ventesAnnuelles() {
+        return statistiqueService.getVentesAnnuelles();
+    }
+
+    @GetMapping("/consommations/parProduit")
+    public List<Map<String, Object>> consommationsParProduit(
+            @RequestParam(required = false) Long idSession) {
+        return statistiqueService.getConsommationsParProduit(idSession);
+    }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.mkalymlam.entity.Commande;
@@ -21,4 +23,22 @@ public interface CommandeRepository extends JpaRepository<Commande, Long> {
     Optional<Commande> findByIdCommande(Long id);
 
     List<Commande> findByDateHeureCreationBetween(LocalDateTime debut, LocalDateTime fin);
+
+    @Query("""
+        SELECT c FROM Commande c
+        JOIN c.sessionTruck st
+        JOIN st.itineraire i
+        WHERE c.statutCommande.libelle = 'LIVREE'
+        AND (:dateDebut IS NULL OR c.dateHeureCreation >= :dateDebut)
+        AND (:dateFin IS NULL OR c.dateHeureCreation <= :dateFin)
+        AND (:idSession IS NULL OR st.id = :idSession)
+        AND (:zone IS NULL OR i.nomZone = :zone)
+        ORDER BY c.dateHeureCreation DESC
+    """)
+    List<Commande> findVentesFiltrees(
+        @Param("dateDebut") LocalDateTime dateDebut,
+        @Param("dateFin") LocalDateTime dateFin,
+        @Param("idSession") Long idSession,
+        @Param("zone") String zone
+    );
 }

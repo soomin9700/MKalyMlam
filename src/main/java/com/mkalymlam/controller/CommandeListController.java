@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mkalymlam.entity.HistoriqueStatutCommande;
 import com.mkalymlam.entity.StatutCommande;
 import com.mkalymlam.entity.TypeCommande;
 import com.mkalymlam.repository.StatutCommandeRepository;
@@ -38,15 +39,28 @@ public class CommandeListController {
     @GetMapping("/liste")
     public String getListe(@RequestParam(required = false) String statut,
                            @RequestParam(required = false) String type,
+                           @RequestParam(required = false) String recherche,
                            Model model) {
 
-        model.addAttribute("commandes", venteService.listerCommandesFiltrees(statut, type));
+        if (recherche != null && !recherche.trim().isEmpty()) {
+            model.addAttribute("commandes", venteService.rechercherCommandes(recherche));
+        } else {
+            model.addAttribute("commandes", venteService.listerCommandesFiltrees(statut, type));
+        }
         model.addAttribute("statuts", statutCommandeRepository.findAll());
         model.addAttribute("types", typeCommandeRepository.findAll());
         model.addAttribute("selectedStatut", statut);
         model.addAttribute("selectedType", type);
+        model.addAttribute("recherche", recherche);
 
         return "commande/listeCommandes";
+    }
+
+    @GetMapping("/historiqueStatut")
+    public String historiqueStatut(@RequestParam Long idCommande, Model model) {
+        model.addAttribute("commande", venteService.getCommande(idCommande));
+        model.addAttribute("historiques", venteService.getHistoriqueStatut(idCommande));
+        return "commande/historiqueStatuts";
     }
 
     @PostMapping("/changerStatut")

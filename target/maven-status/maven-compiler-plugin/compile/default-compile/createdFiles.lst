@@ -1,11 +1,11 @@
 com/mkalymlam/entity/ActionAmelioration.class
-com/mkalymlam/entity/StatutDemandeAchat.class
 com/mkalymlam/entity/Utilisateur.class
-com/mkalymlam/entity/TypeRetour.class
 com/mkalymlam/service/ActionAmeliorationService.class
 com/mkalymlam/MkalymlamApplication.class
 com/mkalymlam/entity/RetourClient.class
 com/mkalymlam/entity/ClassificationSentiment.class
 com/mkalymlam/controller/ActionAmeliorationController.class
+com/mkalymlam/entity/StatutDemandeAchat.class
+com/mkalymlam/entity/TypeRetour.class
 com/mkalymlam/repository/ActionAmeliorationRepository.class
 com/mkalymlam/controller/CommandeController.class

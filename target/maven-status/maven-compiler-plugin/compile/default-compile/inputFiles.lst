@@ -29,6 +29,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/TypeEquipementController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/TypeMouvementController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/VendeuseController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/VenteViewController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/AbsenceConge.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ActionAmelioration.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ClassificationSentiment.java

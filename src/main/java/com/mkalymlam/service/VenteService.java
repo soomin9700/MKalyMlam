@@ -19,6 +19,7 @@ public class VenteService {
     private final TruckRepository truckRepository;
     private final ConsommationService consommationService;
     private final HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository;
+    private final NotificationService notificationService;
 
     public VenteService(CommandeRepository commandeRepository,
                         LigneCommandeRepository ligneCommandeRepository,
@@ -27,7 +28,8 @@ public class VenteService {
                         StatutCommandeRepository statutCommandeRepository,
                         TruckRepository truckRepository,
                         ConsommationService consommationService,
-                        HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository) {
+                        HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository,
+                        NotificationService notificationService) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
         this.produitRepository = produitRepository;
@@ -36,6 +38,7 @@ public class VenteService {
         this.truckRepository = truckRepository;
         this.consommationService = consommationService;
         this.historiqueStatutCommandeRepository = historiqueStatutCommandeRepository;
+        this.notificationService = notificationService;
     }
     
     @Transactional
@@ -88,6 +91,11 @@ public class VenteService {
         Commande saved = commandeRepository.save(commande);
         
         enregistrerHistoriqueStatut(saved, ancienStatut, nouveauStatutLibelle);
+
+        if ("ANNULEE".equals(nouveauStatutLibelle.toUpperCase())) {
+            notificationService.notifierCommandeAnnulee(saved);
+        }
+        notificationService.notifierHeureRecuperation(saved);
         
         return saved;
     }
@@ -199,6 +207,21 @@ public class VenteService {
         return commandeRepository.findAll();
     }
 
+    public List<Commande> rechercherCommandes(String recherche) {
+        if (recherche == null || recherche.trim().isEmpty()) {
+            return commandeRepository.findAll();
+        }
+        String r = recherche.trim();
+        try {
+            Long id = Long.parseLong(r);
+            return commandeRepository.findByIdCommande(id)
+                    .map(List::of)
+                    .orElse(List.of());
+        } catch (NumberFormatException e) {
+            return commandeRepository.findAll();
+        }
+    }
+
     public List<Commande> listerCommandesFiltrees(String statut, String type) {
         boolean hasStatut = statut != null && !statut.isEmpty();
         boolean hasType = type != null && !type.isEmpty();
@@ -211,6 +234,14 @@ public class VenteService {
             return commandeRepository.findByTypeCommande_Libelle(type);
         }
         return commandeRepository.findAll();
+    }
+
+    public List<Commande> listerVentes(LocalDateTime dateDebut, LocalDateTime dateFin, Long idSession, String zone) {
+        return commandeRepository.findVentesFiltrees(dateDebut, dateFin, idSession, zone);
+    }
+
+    public List<HistoriqueStatutCommande> getHistoriqueStatut(Long idCommande) {
+        return historiqueStatutCommandeRepository.findByCommande_IdCommandeOrderByDateChangementDesc(idCommande);
     }
     
     public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
