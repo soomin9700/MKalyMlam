@@ -15,6 +15,7 @@ import com.mkalymlam.entity.SessionTruck;
 import com.mkalymlam.entity.StatutSession;
 import com.mkalymlam.entity.Truck;
 import com.mkalymlam.entity.Utilisateur;
+import com.mkalymlam.repository.CommandeRepository;
 import com.mkalymlam.repository.EquipeSessionRepository;
 import com.mkalymlam.repository.ItineraireRepository;
 import com.mkalymlam.repository.SessionTruckRepository;
@@ -38,6 +39,7 @@ public class SessionTruckService {
     private final UtilisateurRepository utilisateurRepository;
     private final EquipeSessionRepository equipeSessionRepository;
     private final RoleRepository roleRepository;
+    private final CommandeRepository commandeRepository;
 
     public SessionTruckService(SessionTruckRepository sessionTruckRepository,
                                TruckRepository truckRepository,
@@ -45,7 +47,8 @@ public class SessionTruckService {
                                StatutSessionRepository statutSessionRepository,
                                UtilisateurRepository utilisateurRepository,
                                EquipeSessionRepository equipeSessionRepository,
-                               RoleRepository roleRepository) {
+                               RoleRepository roleRepository,
+                               CommandeRepository commandeRepository) {
         this.sessionTruckRepository = sessionTruckRepository;
         this.truckRepository = truckRepository;
         this.itineraireRepository = itineraireRepository;
@@ -53,6 +56,7 @@ public class SessionTruckService {
         this.utilisateurRepository = utilisateurRepository;
         this.equipeSessionRepository = equipeSessionRepository;
         this.roleRepository = roleRepository;
+        this.commandeRepository = commandeRepository;
     }
 
     @Transactional
@@ -102,6 +106,8 @@ public class SessionTruckService {
             throw new IllegalArgumentException("La session doit etre OUVERTE pour etre cloturee");
         }
 
+        Double chiffreAffaire = commandeRepository.sumMontantTotalByIdSession(idSession);
+        sessionTruck.setChiffreAffaireTotal(chiffreAffaire);
         sessionTruck.setFondDeCaisseCloture(fondDeCaisseCloture);
         sessionTruck.setStatutSession(statutCloturee);
 
