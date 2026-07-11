@@ -282,12 +282,18 @@ CREATE TABLE "ingredient" (
 --     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
 --     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 -- );
+CREATE TABLE "typeMouvement" (
+    "idTypeMouvement" SERIAL PRIMARY KEY,
+    "libelle" VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE "lotIngredient" (
     "idLot" SERIAL PRIMARY KEY,
     "idIngredient" INT NOT NULL,
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
+    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
     "idTypeMouvement" INT NOT NULL,
     FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
@@ -460,6 +466,27 @@ CREATE TABLE "actionAmelioration" (
     FOREIGN KEY ("idRetourOrigine") REFERENCES "retourClient"("idRetour"),
     FOREIGN KEY ("idAuteurAdmin") REFERENCES "utilisateur"("idUtilisateur"),
     FOREIGN KEY ("idStatutDemandeAchat") REFERENCES "statutDemandeAchat"("idStatutDemandeAchat")
+);
+
+CREATE TABLE "historiqueStatutCommande" (
+    "idHistorique" SERIAL PRIMARY KEY,
+    "idCommande" INT NOT NULL,
+    "ancienStatut" VARCHAR(50),
+    "nouveauStatut" VARCHAR(50) NOT NULL,
+    "dateChangement" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande")
+);
+
+CREATE TABLE "historiqueConsommation" (
+    "idConsommation" SERIAL PRIMARY KEY,
+    "idCommande" INT NOT NULL,
+    "idIngredient" INT NOT NULL,
+    "quantiteConsommee" NUMERIC(10, 2) NOT NULL,
+    "dateConsommation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "idSession" INT NOT NULL,
+    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande"),
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient"),
+    FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession")
 );
 
 CREATE TABLE "notificationPlateforme" (

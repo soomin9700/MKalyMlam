@@ -1,8 +1,9 @@
 package com.mkalymlam.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 
 import com.mkalymlam.entity.TypeMouvement;
 
@@ -10,6 +11,6 @@ import com.mkalymlam.entity.TypeMouvement;
 public interface TypeMouvementRepository
         extends JpaRepository<TypeMouvement, Long> {
 
-    TypeMouvement findByLibelle(String libelle);
+    Optional<TypeMouvement> findByLibelle(String libelle);
     
 }

@@ -4,6 +4,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeExportController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeListController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ConsommationController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DemandeChangementItineraireController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/EmployeController.java
@@ -38,6 +39,8 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSessionId.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Equipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueConsommation.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueStatutCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/InventaireJournalier.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
@@ -46,6 +49,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MethodeComptable.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementEquipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementLotIngredient.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/NotificationPlateforme.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
@@ -62,6 +66,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeEquipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeItem.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeMouvement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeNotification.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeRetour.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/TypeRetourLookup.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Utilisateur.java
@@ -73,6 +78,8 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipementRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueConsommationRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueStatutCommandeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/InventaireJournalierRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
@@ -81,6 +88,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MethodeComptableRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementEquipementRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementLotIngredientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/NotificationPlateformeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RetourClientRepository.java
@@ -95,10 +103,12 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeEquipementRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeItemRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeMouvementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeNotificationRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/TypeRetourLookupRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/UtilisateurRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ActionAmeliorationService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/CongeService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ConsommationService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/DemandeChangementItineraireService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EmployeService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipeSessionService.java
@@ -113,6 +123,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MethodeComptableService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementEquipementService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementLotIngredientService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/NotificationService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RetourClientService.java
