@@ -1,6 +1,7 @@
 package com.mkalymlam.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,15 +27,15 @@ public class Commande {
     @Column(name = "\"dateHeureCreation\"")
     private LocalDateTime dateHeureCreation;
     @Column(name = "\"heureRecuperationPrevue\"")
-    private LocalDateTime heureRecuperationPrevue;
+    private LocalTime heureRecuperationPrevue;
     @Column(name = "\"lieuRecuperationPrevu\"")
-    private LocalDateTime lieuRecuperationPrevu;
+    private String lieuRecuperationPrevu;
     @Column(name = "\"montantTotal\"")
     private double montantTotal;
     @Column(name = "\"idStatutCommande\"")
-    private LocalDateTime idStatutCommande;
+    private Long idStatutCommande;
     @Column(name = "\"idTypeTarification\"")
-    private LocalDateTime idTypeTarification;
+    private Long idTypeTarification;
 
     public Commande() {
     }
@@ -91,39 +92,39 @@ public class Commande {
     }
 
 
-    public LocalDateTime getHeureRecuperationPrevue() {
+    public LocalTime getHeureRecuperationPrevue() {
         return heureRecuperationPrevue;
     }
 
 
-    public void setHeureRecuperationPrevue(LocalDateTime heureRecuperationPrevue) {
+    public void setHeureRecuperationPrevue(LocalTime heureRecuperationPrevue) {
         this.heureRecuperationPrevue = heureRecuperationPrevue;
     }
 
-    public LocalDateTime getLieuRecuperationPrevu() {
+    public String getLieuRecuperationPrevu() {
         return lieuRecuperationPrevu;
     }
 
 
-    public void setLieuRecuperationPrevu(LocalDateTime lieuRecuperationPrevu) {
+    public void setLieuRecuperationPrevu(String lieuRecuperationPrevu) {
         this.lieuRecuperationPrevu = lieuRecuperationPrevu;
     }
 
-    public LocalDateTime getIdStatutCommande() {
+    public Long getIdStatutCommande() {
         return idStatutCommande;
     }
 
 
-    public void setIdStatutCommande(LocalDateTime idStatutCommande) {
+    public void setIdStatutCommande(Long idStatutCommande) {
         this.idStatutCommande = idStatutCommande;
     }
 
-    public LocalDateTime getIdTypeTarification() {
+    public Long getIdTypeTarification() {
         return idTypeTarification;
     }
 
 
-    public void setIdTypeTarification(LocalDateTime idTypeTarification) {
+    public void setIdTypeTarification(Long idTypeTarification) {
         this.idTypeTarification = idTypeTarification;
     }
     

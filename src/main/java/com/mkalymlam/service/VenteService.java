@@ -34,7 +34,9 @@ public class VenteService {
     public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
         Produit produit = produitRepository.findById(ligne.getIdProduit())
                 .orElseThrow(() -> new RuntimeException("Produit introuvable"));
-        double sousTotal = produit.getPrixBase() * ligne.getQuantite();
+        double prixUnitaire = produit.getPrixBase() != null ? produit.getPrixBase() : 0;
+        ligne.setPrixUnitaireFacture(prixUnitaire);
+        double sousTotal = prixUnitaire * ligne.getQuantite();
         ligne.setSousTotal(sousTotal);
         LigneCommande saved = ligneCommandeRepository.save(ligne);
 
