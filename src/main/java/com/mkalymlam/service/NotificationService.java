@@ -85,7 +85,7 @@ public class NotificationService {
     }
 
     public List<NotificationPlateforme> getNotificationsParSession(Long idSession) {
-        return notificationRepository.findBySessionLiee(idSession);
+        return notificationRepository.findByIdSessionLiee(idSession);
     }
 
     public List<NotificationPlateforme> getNotificationsParType(String typeLibelle) {

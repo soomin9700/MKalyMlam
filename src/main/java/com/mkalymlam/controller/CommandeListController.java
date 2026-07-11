@@ -30,6 +30,11 @@ public class CommandeListController {
         this.typeCommandeRepository = typeCommandeRepository;
     }
 
+    @GetMapping
+    public String index() {
+        return "redirect:/commande/liste";
+    }
+
     @GetMapping("/liste")
     public String getListe(@RequestParam(required = false) String statut,
                            @RequestParam(required = false) String type,

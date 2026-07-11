@@ -12,5 +12,5 @@ public interface NotificationPlateformeRepository extends JpaRepository<Notifica
 
     List<NotificationPlateforme> findByTypeNotification_Libelle(String libelle);
 
-    List<NotificationPlateforme> findBySessionLiee(Long idSession);
+    List<NotificationPlateforme> findByIdSessionLiee(Long idSession);
 }

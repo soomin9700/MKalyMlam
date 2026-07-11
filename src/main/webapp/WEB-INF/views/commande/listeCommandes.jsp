@@ -154,7 +154,7 @@
                                   style="display:inline;">
                                 <input type="hidden" name="idCommande" value="${cmd.idCommande}">
                                 <select name="statut" onchange="this.form.submit()"
-                                        style="padding:5px 10px;border:1px solid var(--gray);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;
+                                        style="padding:5px 10px;border:1px solid var(--gray);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;""
                                         <c:choose>
                                             <c:when test="${cmd.statutCommande.libelle == 'EN_ATTENTE'}">background:#FEF3C7;color:#92400E;</c:when>
                                             <c:when test="${cmd.statutCommande.libelle == 'PREPARATION'}">background:#DBEAFE;color:#1E40AF;</c:when>

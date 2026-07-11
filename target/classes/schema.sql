@@ -440,7 +440,7 @@ CREATE TABLE "depense" (
     FOREIGN KEY ("idStatutValidationAdmin") REFERENCES "statutValidationAdmin"("idStatutValidationAdmin")
 );
 
-
+-- table vaovao NOX --
 -- ==============================================================================
 -- MODULE 6 : Satisfaction Client, Avis & Boost
 -- ==============================================================================

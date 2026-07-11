@@ -109,7 +109,7 @@ public class ConsommationService {
     }
 
     public List<HistoriqueConsommation> getHistoriqueParSession(Long idSession) {
-        return historiqueConsommationRepository.findBySession_IdSession(idSession);
+        return historiqueConsommationRepository.findBySession_Id(idSession);
     }
 
     public List<HistoriqueConsommation> getHistoriqueParIngredient(Long idIngredient) {
@@ -117,6 +117,6 @@ public class ConsommationService {
     }
 
     public List<HistoriqueConsommation> getHistoriqueParSessionEtIngredient(Long idSession, Long idIngredient) {
-        return historiqueConsommationRepository.findBySession_IdSessionAndIngredient_IdIngredient(idSession, idIngredient);
+        return historiqueConsommationRepository.findBySession_IdAndIngredient_IdIngredient(idSession, idIngredient);
     }
 }

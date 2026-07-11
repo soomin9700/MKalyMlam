@@ -12,9 +12,9 @@ public interface HistoriqueConsommationRepository extends JpaRepository<Historiq
 
     List<HistoriqueConsommation> findByCommande_IdCommande(Long idCommande);
 
-    List<HistoriqueConsommation> findBySession_IdSession(Long idSession);
+    List<HistoriqueConsommation> findBySession_Id(Long idSession);
 
     List<HistoriqueConsommation> findByIngredient_IdIngredient(Long idIngredient);
 
-    List<HistoriqueConsommation> findBySession_IdSessionAndIngredient_IdIngredient(Long idSession, Long idIngredient);
+    List<HistoriqueConsommation> findBySession_IdAndIngredient_IdIngredient(Long idSession, Long idIngredient);
 }
