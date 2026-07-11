@@ -1,5 +1,9 @@
+com/mkalymlam/controller/SessionTruckController.class
 com/mkalymlam/controller/StatistiqueViewController.class
+com/mkalymlam/entity/ActionCommande.class
 com/mkalymlam/repository/IngredientRepository.class
+com/mkalymlam/controller/PersonnalisationController.class
+com/mkalymlam/service/PersonnalisationService.class
 com/mkalymlam/view/ViewController.class
 com/mkalymlam/service/VenteService.class
 com/mkalymlam/entity/Utilisateur.class
@@ -20,10 +24,12 @@ com/mkalymlam/controller/RecetteBaseController.class
 com/mkalymlam/service/SessionTruckService.class
 com/mkalymlam/repository/SessionTruckRepository.class
 com/mkalymlam/repository/StatutSessionRepository.class
+com/mkalymlam/service/PersonnalisationService$RecetteIngredient.class
 com/mkalymlam/controller/LotIngredientController.class
 com/mkalymlam/controller/IngredientController.class
 com/mkalymlam/entity/Role.class
 com/mkalymlam/service/ItineraireService.class
+com/mkalymlam/entity/PersonnalisationCommande.class
 com/mkalymlam/controller/VendeuseController.class
 com/mkalymlam/entity/Itineraire.class
 com/mkalymlam/entity/RecetteBase.class
@@ -32,6 +38,7 @@ com/mkalymlam/service/LotIngredientService.class
 com/mkalymlam/controller/DashboardController.class
 com/mkalymlam/repository/ProduitRepository.class
 com/mkalymlam/repository/LigneCommandeRepository.class
+com/mkalymlam/service/SuiviSessionService.class
 com/mkalymlam/repository/CommandeRepository.class
 com/mkalymlam/entity/RecetteBaseId.class
 com/mkalymlam/controller/LigneCommandeController.class
@@ -41,11 +48,13 @@ com/mkalymlam/entity/SessionTruck.class
 com/mkalymlam/entity/Ingredient.class
 com/mkalymlam/service/RecetteBaseService.class
 com/mkalymlam/entity/StatutSession.class
+com/mkalymlam/repository/PersonnalisationCommandeRepository.class
 com/mkalymlam/repository/ItineraireRepository.class
 com/mkalymlam/repository/RoleRepository.class
 com/mkalymlam/controller/CommandeController.class
 com/mkalymlam/entity/LotIngredient.class
 com/mkalymlam/service/TruckService.class
+com/mkalymlam/repository/ActionCommandeRepository.class
 com/mkalymlam/repository/EquipeSessionRepository.class
 com/mkalymlam/entity/LigneCommande.class
 com/mkalymlam/service/IngredientService.class
