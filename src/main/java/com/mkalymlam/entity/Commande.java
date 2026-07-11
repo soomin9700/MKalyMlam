@@ -2,27 +2,39 @@ package com.mkalymlam.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
 @Entity
 @Table(name = "commande")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idCommande\"")
     private Long idCommande;
-    @Column(name = "\"idSession\"")
-    private Long idSession;
-    @Column(name = "\"idVendeuse\"")
-    private Long idVendeuse;
-    @Column(name = "\"idTypeCommande\"")
-    private Long idTypeCommande;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "\"idSession\"")
+    private SessionTruck sessionTruck;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "\"idVendeuse\"")
+    private Utilisateur vendeuse;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "\"idTypeCommande\"")
+    private TypeCommande typeCommande;
+
     @Column(name = "\"dateHeureCreation\"")
     private LocalDateTime dateHeureCreation;
     @Column(name = "\"heureRecuperationPrevue\"")
@@ -31,10 +43,11 @@ public class Commande {
     private LocalDateTime lieuRecuperationPrevu;
     @Column(name = "\"montantTotal\"")
     private double montantTotal;
-    @Column(name = "\"idStatutCommande\"")
-    private LocalDateTime idStatutCommande;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "\"idStatutCommande\"")
+    private StatutCommande statutCommande;
     @Column(name = "\"idTypeTarification\"")
-    private LocalDateTime idTypeTarification;
+    private Long idTypeTarification;
 
     public Commande() {
     }
@@ -47,24 +60,6 @@ public class Commande {
     public void setIdCommande(Long idCommande) {
         this.idCommande = idCommande;
     }
-
-    public Long getIdVendeuse() {
-        return idVendeuse;
-    }
-
-    public void setIdVendeuse(Long idVendeuse) {
-        this.idVendeuse = idVendeuse;
-    }
-
-
-    public Long getIdTypeCommande() {
-        return idTypeCommande;
-    }
-
-    public void setIdTypeCommande(Long idTypeCommande) {
-        this.idTypeCommande = idTypeCommande;
-    }
-
 
     public double getMontantTotal() {
         return montantTotal;
@@ -81,15 +76,6 @@ public class Commande {
     public void setDateHeureCreation(LocalDateTime dateHeureCreation) {
         this.dateHeureCreation = dateHeureCreation;
     }
-
-    public Long getIdSession() {
-        return idSession;
-    }
-
-    public void setIdSession(Long idSession) {
-        this.idSession = idSession;
-    }
-
 
     public LocalDateTime getHeureRecuperationPrevue() {
         return heureRecuperationPrevue;
@@ -109,22 +95,52 @@ public class Commande {
         this.lieuRecuperationPrevu = lieuRecuperationPrevu;
     }
 
-    public LocalDateTime getIdStatutCommande() {
-        return idStatutCommande;
+    public StatutCommande getStatutCommande() {
+        return statutCommande;
     }
 
 
-    public void setIdStatutCommande(LocalDateTime idStatutCommande) {
-        this.idStatutCommande = idStatutCommande;
+    public void setStatutCommande(StatutCommande statutCommande) {
+        this.statutCommande = statutCommande;
     }
 
-    public LocalDateTime getIdTypeTarification() {
+    public Long getIdTypeTarification() {
         return idTypeTarification;
     }
 
 
-    public void setIdTypeTarification(LocalDateTime idTypeTarification) {
+    public void setIdTypeTarification(Long idTypeTarification) {
         this.idTypeTarification = idTypeTarification;
+    }
+
+
+    public SessionTruck getSessionTruck() {
+        return sessionTruck;
+    }
+
+
+    public void setSessionTruck(SessionTruck sessionTruck) {
+        this.sessionTruck = sessionTruck;
+    }
+
+
+    public Utilisateur getVendeuse() {
+        return vendeuse;
+    }
+
+
+    public void setVendeuse(Utilisateur vendeuse) {
+        this.vendeuse = vendeuse;
+    }
+
+
+    public TypeCommande getTypeCommande() {
+        return typeCommande;
+    }
+
+
+    public void setTypeCommande(TypeCommande typeCommande) {
+        this.typeCommande = typeCommande;
     }
     
 }

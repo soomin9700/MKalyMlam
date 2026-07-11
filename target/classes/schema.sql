@@ -110,6 +110,11 @@ CREATE TABLE "typeNotification" (
     "libelle" VARCHAR(50) NOT NULL
 );
 
+-- CREATE TABLE "zone" (
+--     "idZone" SERIAL PRIMARY KEY,
+--     "libelle" VARCHAR(50) NOT NULL
+-- );
+
 
 -- ==============================================================================
 -- MODULE 1 : Utilisateurs, Ressources Humaines & Paie
@@ -203,6 +208,17 @@ CREATE TABLE "itineraire" (
     "jourSemaine" VARCHAR(20) NOT NULL
 );
 
+-- CREATE TABLE "itineraire" (
+--     "idItineraire" SERIAL PRIMARY KEY,
+--     "idZone" INT,
+--     "lieuExact" TEXT NOT NULL,
+--     "heureDebutPrevue" TIME NOT NULL,
+--     "heureFinPrevue" TIME NOT NULL,
+--     "jourSemaine" VARCHAR(20) NOT NULL
+--     -- FOREIGN KEY ("idZone") REFERENCES "zone"("idZone"),
+
+-- );
+
 CREATE TABLE "sessionTruck" (
     "idSession" SERIAL PRIMARY KEY,
     "idTruck" INT NOT NULL,
@@ -219,11 +235,11 @@ CREATE TABLE "sessionTruck" (
 );
 
 CREATE TABLE "equipeSession" (
+    "idEquipeSession" SERIAL PRIMARY KEY,
     "idSession" INT NOT NULL,
     "idUtilisateur" INT NOT NULL,
     "idRoleDuJour" INT NOT NULL,
     "salaireJournalierRemplacant" NUMERIC(10, 2),
-    PRIMARY KEY ("idSession", "idUtilisateur"),
     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
     FOREIGN KEY ("idUtilisateur") REFERENCES "utilisateur"("idUtilisateur"),
     FOREIGN KEY ("idRoleDuJour") REFERENCES "role"("idRole")
@@ -256,14 +272,25 @@ CREATE TABLE "ingredient" (
     "uniteMesure" VARCHAR(20) NOT NULL
 );
 
+-- CREATE TABLE "lotIngredient" (
+--     "idLot" SERIAL PRIMARY KEY,
+--     "idIngredient" INT NOT NULL,
+--     "dateReception" DATE NOT NULL,
+--     "datePeremption" DATE NOT NULL,
+--     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
+--     "quantiteRestante" NUMERIC(10, 2) NOT NULL,
+--     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+--     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+-- );
 CREATE TABLE "lotIngredient" (
     "idLot" SERIAL PRIMARY KEY,
     "idIngredient" INT NOT NULL,
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+    "idTypeMouvement" INT NOT NULL,
+    FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
@@ -363,8 +390,8 @@ CREATE TABLE "ligneCommande" (
     FOREIGN KEY ("idProduit") REFERENCES "produit"("idProduit")
 );
 
--- ALTER TABLE "ligneCommande"
--- ALTER COLUMN "prixUnitaireFacture" DROP NOT NULL;
+ALTER TABLE "ligneCommande"
+ALTER COLUMN "prixUnitaireFacture" DROP NOT NULL;
 
 CREATE TABLE "personnalisationCommande" (
     "idPersonnalisation" SERIAL PRIMARY KEY,
