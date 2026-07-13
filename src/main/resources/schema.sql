@@ -282,31 +282,31 @@ CREATE TABLE "ingredient" (
 --     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
 --     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 -- );
-CREATE TABLE "lotIngredient" (
-    "idLot" SERIAL PRIMARY KEY,
-    "idIngredient" INT NOT NULL,
-    "dateReception" DATE NOT NULL,
-    "datePeremption" DATE NOT NULL,
-    "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
-    "idTypeMouvement" INT NOT NULL,
-    FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
-    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
-);
+-- CREATE TABLE "lotIngredient" (
+--     "idLot" SERIAL PRIMARY KEY,
+--     "idIngredient" INT NOT NULL,
+--     "dateReception" DATE NOT NULL,
+--     "datePeremption" DATE NOT NULL,
+--     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
+--     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+--     "idTypeMouvement" INT NOT NULL,
+--     FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
+--     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+-- );
 
-CREATE TABLE "equipement" (
-    "idEquipement" SERIAL PRIMARY KEY,
-    "nomEquipement" VARCHAR(100) NOT NULL,
-    "idTypeEquipement" INT NOT NULL,
-    "idMethodeComptable" INT NOT NULL,
-    "quantiteStock" INT NOT NULL,
-    "valeurCump" NUMERIC(10, 2),
-    "tauxFahasimbana" NUMERIC(5, 2),
-    "idStatutAlerte" INT NOT NULL,
-    FOREIGN KEY ("idTypeEquipement") REFERENCES "typeEquipement"("idTypeEquipement"),
-    FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable"),
-    FOREIGN KEY ("idStatutAlerte") REFERENCES "statutAlerte"("idStatutAlerte")
-);
+-- CREATE TABLE "equipement" (
+--     "idEquipement" SERIAL PRIMARY KEY,
+--     "nomEquipement" VARCHAR(100) NOT NULL,
+--     "idTypeEquipement" INT NOT NULL,
+--     "idMethodeComptable" INT NOT NULL,
+--     "quantiteStock" INT NOT NULL,
+--     "valeurCump" NUMERIC(10, 2),
+--     "tauxFahasimbana" NUMERIC(5, 2),
+--     "idStatutAlerte" INT NOT NULL,
+--     FOREIGN KEY ("idTypeEquipement") REFERENCES "typeEquipement"("idTypeEquipement"),
+--     FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable"),
+--     FOREIGN KEY ("idStatutAlerte") REFERENCES "statutAlerte"("idStatutAlerte")
+-- );
 
 CREATE TABLE "inventaireJournalier" (
     "idInventaire" SERIAL PRIMARY KEY,

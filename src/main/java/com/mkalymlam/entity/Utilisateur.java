@@ -39,4 +39,8 @@ public class Utilisateur {
 
     @Column(name = "\"statutActif\"", nullable = false)
     private Boolean statutActif = true;
+
+    public Integer getIdUtilisateur(){
+        return this.idUtilisateur;
+    }
 }

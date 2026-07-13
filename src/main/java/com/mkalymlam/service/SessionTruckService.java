@@ -1,5 +1,6 @@
 package com.mkalymlam.service;
 
+import java.lang.Double;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -138,6 +139,10 @@ public class SessionTruckService {
         equipeSession.setRoleDuJour(roleChauffeur);
 
         equipeSessionRepository.save(equipeSession);
+    }
+
+    private void getIdUtilisateur() {
+        // TODO
     }
 
     private Truck findTruck(Long idTruck) {
