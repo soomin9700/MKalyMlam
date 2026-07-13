@@ -23,7 +23,7 @@ public interface EquipeSessionRepository extends JpaRepository<EquipeSession, Eq
 
     @Query("SELECT es FROM EquipeSession es WHERE "
             + "(:sessionId IS NULL OR es.sessionTruck.id = :sessionId) "
-            + "AND (:roleId IS NULL OR es.roleDuJour.id = :roleId) "
+            + "AND (:roleId IS NULL OR es.roleDuJour.idRole = :roleId) "
             + "AND (:nomEmploye IS NULL OR LOWER(es.utilisateur.nom) LIKE LOWER(CONCAT(:nomEmploye, '%')) OR LOWER(es.utilisateur.prenom) LIKE LOWER(CONCAT(:nomEmploye, '%'))) "
             + "AND (:dateSession IS NULL OR es.sessionTruck.dateSession = :dateSession)")
     List<EquipeSession> findByFilters(@Param("sessionId") Long sessionId,

@@ -27,7 +27,7 @@ public class EquipeSession {
 
     @ManyToOne
     @JoinColumn(name = "\"idRoleDuJour\"")
-    private Role roleDuJour;
+    private RoleEntity roleDuJour;
 
     @Column(name = "\"salaireJournalierRemplacant\"")
     private Double salaireJournalierRemplacant;
@@ -59,11 +59,11 @@ public class EquipeSession {
         this.utilisateur = utilisateur;
     }
 
-    public Role getRoleDuJour() {
+    public RoleEntity getRoleDuJour() {
         return roleDuJour;
     }
 
-    public void setRoleDuJour(Role roleDuJour) {
+    public void setRoleDuJour(RoleEntity roleDuJour) {
         this.roleDuJour = roleDuJour;
     }
 

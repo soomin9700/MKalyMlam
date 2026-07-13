@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mkalymlam.entity.EquipeSession;
 import com.mkalymlam.entity.EquipeSessionId;
 import com.mkalymlam.entity.Itineraire;
-import com.mkalymlam.entity.Role;
+import com.mkalymlam.entity.RoleEntity;
 import com.mkalymlam.entity.SessionTruck;
 import com.mkalymlam.entity.StatutSession;
 import com.mkalymlam.entity.Truck;
@@ -123,7 +123,8 @@ public class SessionTruckService {
     }
 
     private void saveChauffeur(SessionTruck sessionTruck, Utilisateur chauffeur) {
-        Role roleChauffeur = roleRepository.findByLibelle("CHAUFFEUR");
+        RoleEntity roleChauffeur = roleRepository.findByLibelle("CHAUFFEUR")
+                .orElseThrow(() -> new IllegalArgumentException("Role CHAUFFEUR introuvable"));
 
         EquipeSession equipeSession = new EquipeSession();
         equipeSession.setId(new EquipeSessionId(sessionTruck.getId(), chauffeur.getIdUtilisateur()));
