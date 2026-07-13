@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mkalymlam.entity.Utilisateur;
-import com.mkalymlam.entity.Utilisateur;
 import com.mkalymlam.repository.UtilisateurRepository;
 
 @Service
@@ -25,11 +24,24 @@ public class UtilisateurService {
         return repository.findById(id.intValue()).orElse(null);
     }
 
-    public Utilisateur save(Utilisateur Utilisateur) {
-        return repository.save(Utilisateur);
+    public Utilisateur save(Utilisateur utilisateur) {
+        return repository.save(utilisateur);
     }
 
     public void deleteById(Long id) {
         repository.deleteById(id.intValue());
+    }
+
+    /**
+     * Désactiver un employé sans le supprimer.
+     */
+    public void desactiverUtilisateur(Long id) {
+
+        Utilisateur utilisateur = getById(id);
+
+        if (utilisateur != null) {
+            utilisateur.setStatutActif(false);
+            repository.save(utilisateur);
+        }
     }
 }
