@@ -26,4 +26,9 @@ public class Localisation {
         return "localisation/form";
     }
 
+    @GetMapping("/list")
+    public String listLocalisation(Model model){
+        return "localisation/list";
+    }
+
 }
