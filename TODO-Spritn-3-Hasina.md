@@ -168,3 +168,43 @@ CREATE TABLE "mouvementLotIngredient" (
     FOREIGN KEY ("idTypeMouvement")
         REFERENCES "typeMouvement"("idTypeMouvement")
 );
+
+
+==================
+# Retour Client:
+    - Classe: RetourClient.java:
+    - Table: 
+                "idRetour" SERIAL PRIMARY KEY,
+              -  "idTypeRetour" INT NOT NULL,
+              -  "noteSur10" INT CHECK ("noteSur10" >= 0 AND "noteSur10" <= 10),
+              -  "contenuTexte" TEXT NOT NULL,
+              -  "idClassificationSentiment" INT NOT NULL,
+                "estPopulaire" BOOLEAN DEFAULT FALSE,
+                "dateSoumission" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    => /retour/save
+    => Donness via form 
+    => RetourClientController ( modelisation de Retour de client)
+    => service . save() -> retourClient
+
+ # Publicaation de nouveau produit 
+    - Produit.java
+    - CREATE TABLE "produit" (
+            "idProduit" SERIAL PRIMARY KEY,
+            "nomProduit" VARCHAR(100) NOT NULL,
+            "prixBase" NUMERIC(10, 2) NOT NULL,
+            "estNouveau" BOOLEAN DEFAULT FALSE,
+            "dateCreation" DATE DEFAULT CURRENT_DATE
+        );
+
+    - controller: /produits
+        /publicaiton/new
+            public Produit getById(...id_via_form)
+                - service.getById(id)
+
+    - view: 
+        -> bouton: Publicaiton de nouveau produit
+        -> formulaire: /publicaiton/new
+            * Liste deroulante de produits
+            * bouton : enregistrer
+
