@@ -170,22 +170,6 @@ CREATE TABLE "mouvementLotIngredient" (
 );
 
 
-==================
-# Retour Client:
-    - Classe: RetourClient.java:
-    - Table: 
-                "idRetour" SERIAL PRIMARY KEY,
-              -  "idTypeRetour" INT NOT NULL,
-              -  "noteSur10" INT CHECK ("noteSur10" >= 0 AND "noteSur10" <= 10),
-              -  "contenuTexte" TEXT NOT NULL,
-              -  "idClassificationSentiment" INT NOT NULL,
-                "estPopulaire" BOOLEAN DEFAULT FALSE,
-                "dateSoumission" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    => /retour/save
-    => Donness via form 
-    => RetourClientController ( modelisation de Retour de client)
-    => service . save() -> retourClient
 
  # Publicaation de nouveau produit 
     - Produit.java
@@ -207,4 +191,6 @@ CREATE TABLE "mouvementLotIngredient" (
         -> formulaire: /publicaiton/new
             * Liste deroulante de produits
             * bouton : enregistrer
+
+        
 
