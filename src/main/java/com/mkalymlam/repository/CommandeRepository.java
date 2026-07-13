@@ -11,4 +11,13 @@ import com.mkalymlam.entity.Commande;
 
 @Repository
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
+    // @Query("SELECT COALESCE(SUM(c.montantTotal), 0) FROM Commande c WHERE c.sessionTruck.idSession = :idSession")
+    // Double sumMontantTotalByIdSession(@Param("idSession") Long idSession);
+    @Query(value = "SELECT COALESCE(SUM(c.\"montantTotal\"), 0) FROM commande c WHERE c.\"idSession\" = :idSession", nativeQuery = true)
+
+    List<Commande> findByStatutCommande_Libelle(String libelle);
+
+    List<Commande> findByTypeCommande_Libelle(String libelle);
+
+    List<Commande> findByStatutCommande_LibelleAndTypeCommande_Libelle(String statut, String type);
 }

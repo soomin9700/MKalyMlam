@@ -16,6 +16,7 @@ public class VenteService {
     private final ProduitRepository produitRepository;
     private final SessionTruckRepository sessionTruckRepository;
     private final StatutCommandeRepository statutCommandeRepository;
+    private final TypeCommandeRepository typeCommandeRepository;  // ✅ AJOUT
     private final TruckRepository truckRepository;
 
     public VenteService(CommandeRepository commandeRepository,
@@ -23,12 +24,14 @@ public class VenteService {
                         ProduitRepository produitRepository,
                         SessionTruckRepository sessionTruckRepository,
                         StatutCommandeRepository statutCommandeRepository,
+                        TypeCommandeRepository typeCommandeRepository,  // ✅ AJOUT
                         TruckRepository truckRepository) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
         this.produitRepository = produitRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.statutCommandeRepository = statutCommandeRepository;
+        this.typeCommandeRepository = typeCommandeRepository;  // ✅ AJOUT
         this.truckRepository = truckRepository;
     }
     
