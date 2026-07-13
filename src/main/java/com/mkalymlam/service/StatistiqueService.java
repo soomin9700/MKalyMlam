@@ -496,4 +496,177 @@ public class StatistiqueService {
         return executeStatQuery(sql, params.toArray());
     }
 
+    // =========================================================================
+    // ANALYSES DES VENTES
+    // =========================================================================
+
+    /**
+     * Chiffre d'affaires par produit (toutes commandes LIVREE).
+     */
+    public List<Map<String, Object>> getChiffreAffaireParProduit() {
+        String sql = """
+            SELECT p."nomProduit" AS "produit",
+                   p."idProduit" AS "idProduit",
+                   SUM(lc."quantite") AS "quantiteVendue",
+                   SUM(lc."prixUnitaireFacture" * lc."quantite") AS "chiffreAffaire"
+            FROM "ligneCommande" lc
+            JOIN "commande" c ON c."idCommande" = lc."idCommande"
+            JOIN "produit" p ON p."idProduit" = lc."idProduit"
+            WHERE c."idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY p."idProduit", p."nomProduit"
+            ORDER BY "chiffreAffaire" DESC
+        """;
+        return executeStatQuery(sql);
+    }
+
+    /**
+     * Produits les plus vendus (par quantité).
+     */
+    public List<Map<String, Object>> getTopProduits(int limit) {
+        String sql = """
+            SELECT p."nomProduit" AS "produit",
+                   p."idProduit" AS "idProduit",
+                   SUM(lc."quantite") AS "quantiteVendue",
+                   SUM(lc."prixUnitaireFacture" * lc."quantite") AS "chiffreAffaire"
+            FROM "ligneCommande" lc
+            JOIN "commande" c ON c."idCommande" = lc."idCommande"
+            JOIN "produit" p ON p."idProduit" = lc."idProduit"
+            WHERE c."idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY p."idProduit", p."nomProduit"
+            ORDER BY "quantiteVendue" DESC
+            LIMIT ?
+        """;
+        return executeStatQuery(sql, limit);
+    }
+
+    /**
+     * Produits les moins vendus (par quantité).
+     */
+    public List<Map<String, Object>> getBottomProduits(int limit) {
+        String sql = """
+            SELECT p."nomProduit" AS "produit",
+                   p."idProduit" AS "idProduit",
+                   SUM(lc."quantite") AS "quantiteVendue",
+                   SUM(lc."prixUnitaireFacture" * lc."quantite") AS "chiffreAffaire"
+            FROM "ligneCommande" lc
+            JOIN "commande" c ON c."idCommande" = lc."idCommande"
+            JOIN "produit" p ON p."idProduit" = lc."idProduit"
+            WHERE c."idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY p."idProduit", p."nomProduit"
+            ORDER BY "quantiteVendue" ASC
+            LIMIT ?
+        """;
+        return executeStatQuery(sql, limit);
+    }
+
+    /**
+     * Ventes par heure de la journée.
+     */
+    public List<Map<String, Object>> getVentesParHeure() {
+        String sql = """
+            SELECT EXTRACT(HOUR FROM "dateHeureCreation") AS "heure",
+                   COUNT(*) AS "nombreVentes",
+                   SUM("montantTotal") AS "chiffreAffaire"
+            FROM "commande"
+            WHERE "idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY EXTRACT(HOUR FROM "dateHeureCreation")
+            ORDER BY "heure"
+        """;
+        return executeStatQuery(sql);
+    }
+
+    /**
+     * Nombre total de ventes (commandes livrées).
+     */
+    public Long getNombreTotalVentes() {
+        String sql = """
+            SELECT COUNT(*)
+            FROM "commande"
+            WHERE "idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+        """;
+        return jdbcTemplate.queryForObject(sql, Long.class);
+    }
+
+    /**
+     * Ventes journalières (derniers 30 jours).
+     */
+    public List<Map<String, Object>> getVentesJournalieres() {
+        String sql = """
+            SELECT DATE("dateHeureCreation") AS "jour",
+                   COUNT(*) AS "nombreVentes",
+                   SUM("montantTotal") AS "chiffreAffaire"
+            FROM "commande"
+            WHERE "idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            AND "dateHeureCreation" >= CURRENT_DATE - INTERVAL '30 days'
+            GROUP BY DATE("dateHeureCreation")
+            ORDER BY "jour" DESC
+        """;
+        return executeStatQuery(sql);
+    }
+
+    /**
+     * Ventes mensuelles.
+     */
+    public List<Map<String, Object>> getVentesMensuelles() {
+        String sql = """
+            SELECT date_trunc('month', "dateHeureCreation")::date AS "mois",
+                   COUNT(*) AS "nombreVentes",
+                   SUM("montantTotal") AS "chiffreAffaire"
+            FROM "commande"
+            WHERE "idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY date_trunc('month', "dateHeureCreation")
+            ORDER BY "mois" DESC
+        """;
+        return executeStatQuery(sql);
+    }
+
+    /**
+     * Ventes annuelles.
+     */
+    public List<Map<String, Object>> getVentesAnnuelles() {
+        String sql = """
+            SELECT EXTRACT(YEAR FROM "dateHeureCreation") AS "annee",
+                   COUNT(*) AS "nombreVentes",
+                   SUM("montantTotal") AS "chiffreAffaire"
+            FROM "commande"
+            WHERE "idStatutCommande" = (SELECT "idStatutCommande" FROM "statutCommande" WHERE "libelle" = 'LIVREE')
+            GROUP BY EXTRACT(YEAR FROM "dateHeureCreation")
+            ORDER BY "annee" DESC
+        """;
+        return executeStatQuery(sql);
+    }
+
+    // =========================================================================
+    // CONSOMMATIONS PAR PRODUIT
+    // =========================================================================
+
+    /**
+     * Consommation d'ingrédients groupée par produit (via recetteDeBase).
+     */
+    public List<Map<String, Object>> getConsommationsParProduit(Long idSession) {
+        StringBuilder sql = new StringBuilder("""
+            SELECT p."nomProduit" AS "produit",
+                   p."idProduit" AS "idProduit",
+                   i."nomIngredient" AS "ingredient",
+                   i."idIngredient" AS "idIngredient",
+                   i."uniteMesure" AS "unite",
+                   SUM(hc."quantiteConsommee") AS "quantiteConsommee"
+            FROM "historiqueConsommation" hc
+            JOIN "ingredient" i ON i."idIngredient" = hc."idIngredient"
+            JOIN "recetteDeBase" rb ON rb."idIngredient" = i."idIngredient"
+            JOIN "produit" p ON p."idProduit" = rb."idProduit"
+            WHERE 1=1
+        """);
+        List<Object> params = new ArrayList<>();
+        if (idSession != null) {
+            sql.append(" AND hc.\"idSession\" = ?");
+            params.add(idSession);
+        }
+        sql.append("""
+            GROUP BY p."idProduit", p."nomProduit", i."idIngredient", i."nomIngredient", i."uniteMesure"
+            ORDER BY p."nomProduit", i."nomIngredient"
+        """);
+        return executeStatQuery(sql.toString(), params.toArray());
+    }
+
 }

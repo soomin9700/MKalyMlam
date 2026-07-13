@@ -39,7 +39,7 @@
 
     <div style="display:flex; gap:10px; align-items:center;">
         <button class="btn-add" onclick="nouvelleCommande()">
-            <i class="fas fa-plus"></i>
+            <!-- <i class="fas fa-plus"></i> -->
             Nouvelle commande
         </button>
 
@@ -60,6 +60,21 @@
                 Commande N°
                 <span id="cmdId">-</span>
             </h2>
+
+            <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-clock"></i> Heure de recuperation prevue
+                    </label>
+                    <input type="datetime-local" id="inputHeureRecup" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-map-marker-alt"></i> Lieu de recuperation prevu
+                    </label>
+                    <input type="text" id="inputLieuRecup" placeholder="Ex: Place 12, Marche Central" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+            </div>
 
             <table>
 
@@ -171,7 +186,7 @@
                     Liste des factures
                 </h1>
 
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <!-- <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                     <a href="${pageContext.request.contextPath}/vente/factures/export/csv"
                        class="btn-secondary"
                        style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
@@ -185,7 +200,7 @@
                         <i class="fas fa-file-pdf"></i>
                         PDF
                     </a>
-                </div>
+                </div> -->
 
             </div>
 
@@ -258,7 +273,7 @@
 
 <script>
 
-let cmdId = null;
+    let cmdId = null;
 let lignesLocales = [];
 let produits = [];
 
@@ -285,7 +300,7 @@ window.onload = function () {
 
             });
 
-        });
+        });A
 
 };
 
@@ -311,11 +326,17 @@ function afficherPrix(){
 }
 
 function nouvelleCommande(){
+    const heureRecup = document.getElementById("inputHeureRecup").value || null;
+    const lieuRecup = document.getElementById("inputLieuRecup").value || null;
+
+    const body = {};
+    if (heureRecup) body.heureRecuperationPrevue = heureRecup;
+    if (lieuRecup) body.lieuRecuperationPrevu = lieuRecup;
 
     fetch('${pageContext.request.contextPath}/commande/ajouter',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({})
+        body:JSON.stringify(body)
     })
     .then(r=>r.json())
     .then(c=>{
@@ -398,8 +419,6 @@ function validerCommande(){
         afficherLignes();
     });
 }
-
 </script>
-
 </body>
 </html>

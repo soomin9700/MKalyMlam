@@ -40,7 +40,7 @@ public class Commande {
     @Column(name = "\"heureRecuperationPrevue\"")
     private LocalDateTime heureRecuperationPrevue;
     @Column(name = "\"lieuRecuperationPrevu\"")
-    private LocalDateTime lieuRecuperationPrevu;
+    private String lieuRecuperationPrevu;
     @Column(name = "\"montantTotal\"")
     private double montantTotal;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -86,12 +86,11 @@ public class Commande {
         this.heureRecuperationPrevue = heureRecuperationPrevue;
     }
 
-    public LocalDateTime getLieuRecuperationPrevu() {
+    public String getLieuRecuperationPrevu() {
         return lieuRecuperationPrevu;
     }
 
-
-    public void setLieuRecuperationPrevu(LocalDateTime lieuRecuperationPrevu) {
+    public void setLieuRecuperationPrevu(String lieuRecuperationPrevu) {
         this.lieuRecuperationPrevu = lieuRecuperationPrevu;
     }
 
