@@ -56,9 +56,7 @@ public class SessionTruckPositionService {
         return positionRepository.findBySessionTruckId(sessionId);
     }
 
-    /**
-     * Trouve une position par son ID
-     */
+    
     public SessionTruckPosition findById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id position null");
@@ -67,9 +65,7 @@ public class SessionTruckPositionService {
                 .orElseThrow(() -> new IllegalArgumentException("Position " + id + " introuvable"));
     }
 
-    /**
-     * Met à jour une position existante
-     */
+   
     @Transactional
     public SessionTruckPosition updatePosition(Long id, Long idItineraire, LocalTime heureArrivee) {
         SessionTruckPosition position = findById(id);
@@ -87,9 +83,6 @@ public class SessionTruckPositionService {
         return positionRepository.save(position);
     }
 
-    /**
-     * Supprime une position
-     */
     @Transactional
     public void deletePosition(Long id) {
         SessionTruckPosition position = findById(id);

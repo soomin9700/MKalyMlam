@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkalymlam.entity.Itineraire;
 import com.mkalymlam.entity.Produit;
+import com.mkalymlam.entity.SessionTruckPosition;
 import com.mkalymlam.service.ItineraireService;
 import com.mkalymlam.service.ProduitService;
+import com.mkalymlam.service.SessionTruckPositionService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,25 +29,42 @@ public class FrontController {
     private final ItineraireService itineraireService;
     private final ProduitService produitService;
     private final ObjectMapper objectMapper;
+    private final SessionTruckPositionService positionTruckService;
 
-    public FrontController(ItineraireService itineraireService, ProduitService produitService, ObjectMapper objectMapper) {
+    public FrontController(ItineraireService itineraireService, 
+                           ProduitService produitService,
+                           ObjectMapper objectMapper, 
+                           SessionTruckPositionService positionTruckService) {
         this.itineraireService = itineraireService;
         this.produitService = produitService;
         this.objectMapper = objectMapper;
+        this.positionTruckService = positionTruckService;
     }
 
     @GetMapping
     public String formLocalisation(Model model) throws JsonProcessingException {
+        // 1. Récupérer toutes les positions des trucks du jour (dernières positions)
+        List<SessionTruckPosition> truckPositions = positionTruckService.getLatestPositionsForToday();
+        
+        // 2. Récupérer tous les itinéraires
         List<Itineraire> itineraires = itineraireService.findAll();
+        
+        // 3. Récupérer tous les produits pour le menu complet
         List<Produit> produits = produitService.findAll();
+        
+        // 4. Récupérer les produits vedettes (limités à 3)
+        List<Produit> featuredProduits = produitService.findAllLimit(3);
 
+        // Construction des vues
         List<Map<String, Object>> itinerairesView = buildItinerairesView(itineraires);
         List<Map<String, Object>> produitsView = buildProduitsView(produits);
-        List<Map<String, Object>> featuredProducts = produitsView.stream().limit(3).toList();
+        List<Map<String, Object>> featuredProductsView = buildProduitsView(featuredProduits);
 
+        // Ajout des attributs au modèle
+        model.addAttribute("positions", truckPositions);
         model.addAttribute("itineraires", itinerairesView);
         model.addAttribute("produits", produitsView);
-        model.addAttribute("featuredProducts", featuredProducts);
+        model.addAttribute("featuredProducts", featuredProductsView);
         model.addAttribute("menuItemsJson", objectMapper.writeValueAsString(produitsView));
         model.addAttribute("itinerairesJson", objectMapper.writeValueAsString(itinerairesView));
 
@@ -129,8 +149,12 @@ public class FrontController {
         if (normalized.contains("taco")) {
             return "tacos";
         }
-        if (normalized.contains("frites") || normalized.contains("tofu") || normalized.contains("nem") || normalized.contains("samoussa")) {
+        if (normalized.contains("frites") || normalized.contains("tofu") || 
+            normalized.contains("nem") || normalized.contains("samoussa")) {
             return "accompagnements";
+        }
+        if (normalized.contains("hot") || normalized.contains("dog")) {
+            return "classics";
         }
         return "classics";
     }
@@ -153,14 +177,21 @@ public class FrontController {
     }
 
     private String buildDescription(String nomProduit) {
-        if (nomProduit.toLowerCase().contains("burger")) {
+        String normalized = nomProduit.toLowerCase();
+        if (normalized.contains("burger")) {
             return "Recette gourmande préparée à la minute avec des ingrédients frais.";
         }
-        if (nomProduit.toLowerCase().contains("taco")) {
+        if (normalized.contains("taco")) {
             return "Tacos croustillants servis avec une sauce maison et des garnitures savoureuses.";
         }
-        if (nomProduit.toLowerCase().contains("hot") || nomProduit.toLowerCase().contains("dog")) {
+        if (normalized.contains("hot") || normalized.contains("dog")) {
             return "Hot dog gourmand avec une sauce onctueuse et des toppings généreux.";
+        }
+        if (normalized.contains("tteokbokki")) {
+            return "Spécialité coréenne aux saveurs épicées et authentiques.";
+        }
+        if (normalized.contains("samoussa") || normalized.contains("nem")) {
+            return "Croustillant et savoureux, parfait en entrée ou en snack.";
         }
         return "Spécialité de la street food, prête à faire revenir les gourmands.";
     }
@@ -201,24 +232,67 @@ public class FrontController {
 
     private List<Map<String, Object>> defaultProduits() {
         List<Map<String, Object>> items = new ArrayList<>();
-        items.add(Map.of("id", 1, "name", "Le Boss Burger", "category", "burgers", "price", 12500, "priceLabel", "12 500", "tag", "popular", "desc", "Burger gourmand maison avec une sauce fumée.", "img", "images/burger.jpg"));
-        items.add(Map.of("id", 2, "name", "Le Crazy Tacos", "category", "tacos", "price", 10000, "priceLabel", "10 000", "tag", "new", "desc", "Tacos croustillants garnis de frites et sauce fromagère.", "img", "images/tacos.jpg"));
-        items.add(Map.of("id", 3, "name", "L'Extreme Hot Dog", "category", "classics", "price", 8500, "priceLabel", "8 500", "tag", "popular", "desc", "Hot dog grillé avec oignons frits et cheddar fondant.", "img", "images/hotdog.jpg"));
+        items.add(Map.of(
+            "id", 1, 
+            "name", "Le Boss Burger", 
+            "category", "burgers", 
+            "price", 12500, 
+            "priceLabel", "12 500", 
+            "tag", "popular", 
+            "desc", "Burger gourmand maison avec une sauce fumée.", 
+            "img", "images/burger.jpg"
+        ));
+        items.add(Map.of(
+            "id", 2, 
+            "name", "Le Crazy Tacos", 
+            "category", "tacos", 
+            "price", 10000, 
+            "priceLabel", "10 000", 
+            "tag", "new", 
+            "desc", "Tacos croustillants garnis de frites et sauce fromagère.", 
+            "img", "images/tacos.jpg"
+        ));
+        items.add(Map.of(
+            "id", 3, 
+            "name", "L'Extreme Hot Dog", 
+            "category", "classics", 
+            "price", 8500, 
+            "priceLabel", "8 500", 
+            "tag", "popular", 
+            "desc", "Hot dog grillé avec oignons frits et cheddar fondant.", 
+            "img", "images/hotdog.jpg"
+        ));
         return items;
     }
 
     private List<Map<String, Object>> defaultItineraires() {
         List<Map<String, Object>> items = new ArrayList<>();
-        items.add(Map.of("id", 1, "truckName", "Truck Alpha", "nomZone", "Analakely", "lieuExact", "Devant la gare", "schedule", "Lundi · 08h00 - 10h00", "status", "Ouvert & En Place", "stops", List.of(
+        items.add(Map.of(
+            "id", 1, 
+            "truckName", "Truck Alpha", 
+            "nomZone", "Analakely", 
+            "lieuExact", "Devant la gare", 
+            "schedule", "Lundi · 08h00 - 10h00", 
+            "status", "Ouvert & En Place", 
+            "stops", List.of(
                 Map.of("time", "08h00", "label", "Point de départ - Garage Central", "icon", "flag-checkered"),
                 Map.of("time", "09h00", "label", "Arrêt intermédiaire - Analakely", "icon", "location-dot"),
                 Map.of("time", "10h00", "label", "Destination finale - Zone de déchargement", "icon", "flag")
-        )));
-        items.add(Map.of("id", 2, "truckName", "Truck Beta", "nomZone", "Ankorondrano", "lieuExact", "Près du fleuve", "schedule", "Mardi · 08h30 - 10h30", "status", "Ouvert & En Place", "stops", List.of(
+            )
+        ));
+        items.add(Map.of(
+            "id", 2, 
+            "truckName", "Truck Beta", 
+            "nomZone", "Ankorondrano", 
+            "lieuExact", "Près du fleuve", 
+            "schedule", "Mardi · 08h30 - 10h30", 
+            "status", "Ouvert & En Place", 
+            "stops", List.of(
                 Map.of("time", "08h30", "label", "Point de départ - Garage Nord", "icon", "flag-checkered"),
                 Map.of("time", "09h15", "label", "Arrêt intermédiaire - Ankorondrano", "icon", "location-dot"),
                 Map.of("time", "10h30", "label", "Destination finale - Parking Smart Shop", "icon", "flag")
-        )));
+            )
+        ));
         return items;
     }
 }

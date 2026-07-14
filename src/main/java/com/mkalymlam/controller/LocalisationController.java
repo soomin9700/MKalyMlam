@@ -37,11 +37,9 @@ public class LocalisationController {
 
     @GetMapping("/form")
     public String formLocalisation(Model model) {
-        // Récupérer tous les trucks disponibles (en session ouverte)
         List<SessionTruck> sessionsOuvertes = sessionTruckService.findSessionsDuJour();
         model.addAttribute("sessions", sessionsOuvertes);
         
-        // Récupérer tous les itinéraires pour le choix de la zone
         model.addAttribute("itineraires", itineraireService.findAll());
         
         return "localisation/form";
@@ -72,26 +70,17 @@ public class LocalisationController {
         return "localisation/list";
     }
 
-    // ===== NOUVEAU ENDPOINT POUR LA MISE À JOUR =====
 
-    /**
-     * Affiche le formulaire de modification d'une publication
-     */
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        // Récupérer la position à modifier
         SessionTruckPosition position = positionService.findById(id);
         model.addAttribute("position", position);
         
-        // Récupérer tous les itinéraires pour le choix de la zone
         model.addAttribute("itineraires", itineraireService.findAll());
         
         return "localisation/edit";
     }
 
-    /**
-     * Met à jour une publication existante
-     */
     @PostMapping("/update/{id}")
     public String updatePosition(@PathVariable Long id,
                                  @RequestParam("idItineraire") Long idItineraire,
@@ -110,9 +99,6 @@ public class LocalisationController {
         return "redirect:/localisation/list";
     }
 
-    /**
-     * Supprime une publication
-     */
     @PostMapping("/delete/{id}")
     public String deletePosition(@PathVariable Long id, 
                                  RedirectAttributes redirectAttributes) {
