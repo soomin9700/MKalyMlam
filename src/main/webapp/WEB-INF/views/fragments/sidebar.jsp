@@ -64,6 +64,14 @@
         Commandes
     </a>
 
+    <a href="${pageContext.request.contextPath}/stocks" class="${activeMenu == 'stocks' ? 'active' : ''}">
+        Gestion des stocks
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/mouvements" class="${activeMenu == 'mouvements' ? 'active' : ''}">
+        Mouvements de stock
+    </a>
+
     <a href="${pageContext.request.contextPath}/statistique"
     class="${activeMenu == 'statistique' ? 'active' : ''}">
         Statistiques
