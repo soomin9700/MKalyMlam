@@ -34,11 +34,72 @@
                     Liste des lots d'ingrédients
                 </h1>
 
-                <a href="${pageContext.request.contextPath}/lot/new"
+                <a href="#lot-insert-form"
                    class="btn-add">
                     Ajouter un nouveau lot
                 </a>
 
+            </div>
+
+            <c:if test="${not empty successMessage}">
+                <div class="alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    ${successMessage}
+                </div>
+            </c:if>
+
+            <div class="lot-insert-section" id="lot-insert-form">
+                <div class="lot-insert-header">
+                    <h2><i class="fas fa-plus-circle"></i> Ajouter un lot</h2>
+                    <p>Renseignez les informations du nouveau lot avant de consulter la liste.</p>
+                </div>
+
+                <form action="${pageContext.request.contextPath}/lot/save" method="post" class="lot-inline-form">
+                    <div class="form-group">
+                        <label for="ingredientSelect">Ingrédient <span class="required-star">*</span></label>
+                        <select id="ingredientSelect" name="ingredient.idIngredient" required>
+                            <option value="">-- Choisir un ingrédient --</option>
+                            <c:forEach items="${ingredients}" var="ingredient">
+                                <option value="${ingredient.idIngredient}">${ingredient.nomIngredient}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantiteInitiale">Quantité reçue <span class="required-star">*</span></label>
+                            <input type="number" id="quantiteInitiale" name="quantiteInitiale" step="0.01" min="0" required placeholder="Ex: 5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prixAchatUnitaire">Prix d'achat unitaire</label>
+                            <input type="number" id="prixAchatUnitaire" name="prixAchatUnitaire" step="0.01" min="0" placeholder="Ex: 5000">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateReception">Date de réception</label>
+                            <input type="date" id="dateReception" name="dateReception">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="datePeremption">Date de péremption</label>
+                            <input type="date" id="datePeremption" name="datePeremption">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-success">
+                            <i class="fas fa-save"></i>
+                            Enregistrer le lot
+                        </button>
+                        <button type="reset" class="btn-secondary">
+                            <i class="fas fa-undo"></i>
+                            Réinitialiser
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <!-- Filtres -->
@@ -145,7 +206,7 @@
                         <tr>
 
                             <td>
-                                <strong>${lot.ingredient.nomIngredient}</strong>
+                                <strong>${lot.ingredient != null && lot.ingredient.nomIngredient != null ? lot.ingredient.nomIngredient : '-'}</strong>
                             </td>
 
                             <td>
@@ -166,31 +227,31 @@
 
                             <td>
                                 <span class="">
-                                    ${lot.quantiteInitiale}
+                                    ${lot.quantiteInitiale != null ? lot.quantiteInitiale : 0}
                                 </span>
                             </td>
 
                             <td>
                                 <span class="">
-                                    ${lot.quantiteRestante}
+                                    ${quantitesRestantes[lot.idLot] != null ? quantitesRestantes[lot.idLot] : 0}
                                 </span>
                             </td>
 
                             <td>
                                 <span class="price-tag">
-                                    ${lot.prixAchatUnitaire} €
+                                    ${lot.prixAchatUnitaire != null ? lot.prixAchatUnitaire : 0} €
                                 </span>
                             </td>
 
                             <td>
                                 <c:choose>
-                                    <c:when test="${lot.quantiteRestante == 0}">
+                                    <c:when test="${quantitesRestantes[lot.idLot] != null && quantitesRestantes[lot.idLot] == 0}">
                                         <span class="badge bg-danger">
                                             <i class="fas fa-times-circle"></i>
                                             Épuisé
                                         </span>
                                     </c:when>
-                                    <c:when test="${lot.alerte}">
+                                    <c:when test="${lot.ingredient != null && lot.ingredient.seuilAlerteQuantite != null && quantitesRestantes[lot.idLot] != null && quantitesRestantes[lot.idLot] <= lot.ingredient.seuilAlerteQuantite}">
                                         <span class="badge bg-warning text-dark">
                                             <i class="fas fa-exclamation-triangle"></i>
                                             ALERTE
@@ -210,7 +271,7 @@
                                 <div class="actions">
 
                                     <!-- Modifier -->
-                                    <a href="${pageContext.request.contextPath}/lot/update/${lot.idLot}"
+                                    <a href="${pageContext.request.contextPath}/lot/update/${lot.idLot != null ? lot.idLot : ''}"
                                     class="btn-edit">
 
                                         <i class="fas fa-edit"></i>
@@ -219,7 +280,7 @@
                                     </a>
 
                                     <!-- Supprimer -->
-                                    <form action="${pageContext.request.contextPath}/lot/delete/${lot.idLot}"
+                                    <form action="${pageContext.request.contextPath}/lot/delete/${lot.idLot != null ? lot.idLot : ''}"
                                           method="post"
                                           style="display:inline;"
                                           onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lot ?');">

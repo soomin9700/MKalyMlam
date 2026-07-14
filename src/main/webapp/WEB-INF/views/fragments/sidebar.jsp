@@ -58,6 +58,7 @@
     <a href="${pageContext.request.contextPath}/lot/findAll"
     class="${activeMenu == 'lots' ? 'active' : ''}">
         Lots
+    </a>
     <a href="${pageContext.request.contextPath}/lot/ingredients/new"
     class="${activeMenu == 'lot-ingredients' ? 'active' : ''}">
         Créer un lot ingrédient
@@ -137,6 +138,7 @@
     <a href="${pageContext.request.contextPath}/fiches-paie"
     class="${activeMenu == 'fiches-paie' ? 'active' : ''}">
         Fiches de paie
+    </a>
     <a href="${pageContext.request.contextPath}/retour/avis"
     class="${activeMenu == 'retourAvis' ? 'active' : ''}">
         Avis

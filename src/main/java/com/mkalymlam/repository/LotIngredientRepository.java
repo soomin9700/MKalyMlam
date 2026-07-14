@@ -3,6 +3,7 @@ package com.mkalymlam.repository;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,30 +14,32 @@ import com.mkalymlam.entity.LotIngredient;
 @Repository
 public interface LotIngredientRepository extends JpaRepository<LotIngredient, Long> {
 
-    List<LotIngredient> findByIngredient_IdIngredient(Long ingredientId);
+        List<LotIngredient> findAllByOrderByDatePeremptionAsc();
 
-    List<LotIngredient> findByIngredient_NomIngredientContainingIgnoreCase(String nomIngredient);
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findAllByOrderByDateReceptionAsc();
 
-    List<LotIngredient> findAllByOrderByDatePeremptionAsc();
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findByIngredient_IdIngredient(Long ingredientId);
 
-    List<LotIngredient> findAllByOrderByDateReceptionAsc();
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findByIngredient_NomIngredientContainingIgnoreCase(String nomIngredient);
 
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findByDatePeremptionBetween(LocalDate startDate, LocalDate endDate);
 
-    @Query("SELECT COALESCE(SUM(l.quantiteRestante), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
-    Double sumQuantiteRestanteByIdIngredient(@Param("idIngredient") Long idIngredient);
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findByDatePeremptionBetweenAndIngredient_IdIngredient(LocalDate startDate,
+                        LocalDate endDate,
+                        Long ingredientId);
 
-    List<LotIngredient> findByDatePeremptionBetween(LocalDate startDate, LocalDate endDate);
+        @EntityGraph(attributePaths = "ingredient")
+        List<LotIngredient> findByDatePeremptionBefore(LocalDate date);
 
-    List<LotIngredient> findByDatePeremptionBetweenAndIngredient_IdIngredient(LocalDate startDate, LocalDate endDate,
-            Long ingredientId);
+        @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
+        Double sumQuantiteRestanteByIdIngredient(@Param("idIngredient") Long idIngredient);
 
-    List<LotIngredient> findByDatePeremptionBefore(LocalDate date);
-
-    @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
-    Double sumQuantiteInitialeByIngredient(@Param("idIngredient") Long idIngredient);
-
-    @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient AND l.typeMouvement.idTypeMouvement = :typeMouvementId")
-    Double sumQuantiteInitialeByIngredientAndTypeMouvement(@Param("idIngredient") Long idIngredient,
-            @Param("typeMouvementId") Long typeMouvementId);
+        @Query("SELECT COALESCE(SUM(l.quantiteInitiale), 0) FROM LotIngredient l WHERE l.ingredient.idIngredient = :idIngredient")
+        Double sumQuantiteInitialeByIngredient(@Param("idIngredient") Long idIngredient);
 
 }

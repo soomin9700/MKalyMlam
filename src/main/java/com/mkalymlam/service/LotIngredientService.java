@@ -123,12 +123,6 @@ public class LotIngredientService {
         if (lotIngredient.getDateReception() == null) {
             lotIngredient.setDateReception(LocalDate.now());
         }
-        
-        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
-            TypeMouvement typeMouvement = typeMouvementService
-                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
-            lotIngredient.setTypeMouvement(typeMouvement);
-        }
         return lotIngredientRepository.save(lotIngredient);
     }
 
@@ -146,11 +140,11 @@ public class LotIngredientService {
         }
         
         
-        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
-            TypeMouvement typeMouvement = typeMouvementService
-                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
-            existing.setTypeMouvement(typeMouvement);
-        }
+        // if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
+        //     TypeMouvement typeMouvement = typeMouvementService
+        //             .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
+        //     existing.setTypeMouvement(typeMouvement);
+        // }
 
         if (lotIngredient.getDateReception() != null) {
             existing.setDateReception(lotIngredient.getDateReception());

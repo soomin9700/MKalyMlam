@@ -172,29 +172,6 @@ CREATE TABLE "mouvementLotIngredient" (
 
 
 =================================
-# Modules localisation d'un truck 
-SANS CASSER ELS AUTRES FONCTIONNALITES 
-## -1
-- Creer TypeNotification.java avec ses entitu, repo, service et controller
-- de meme pour NotificationPlateforme
-voila les tables :
-CREATE TABLE "notificationPlateforme" (
-    "idNotification" SERIAL PRIMARY KEY,
-    "idTypeNotification" INT NOT NULL,
-    "titre" VARCHAR(150) NOT NULL,
-    "message" TEXT NOT NULL,
-    "idProduitLie" INT,
-    "idSessionLiee" INT,
-    "dateHeureEnvoi" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY ("idTypeNotification") REFERENCES "typeNotification"("idTypeNotification"),
-    FOREIGN KEY ("idProduitLie") REFERENCES "produit"("idProduit"),
-    FOREIGN KEY ("idSessionLiee") REFERENCES "sessionTruck"("idSession")
-);
-CREATE TABLE "typeNotification" (
-    "idTypeNotification" SERIAL PRIMARY KEY,
-    "libelle" VARCHAR(50) NOT NULL
-);
-
 ## -2
 - Dans fragments/sidebar.jsp:
     - On va y ajouter : Publication de truck 
@@ -210,3 +187,80 @@ dateheure envoi ( current date)
 ## -3
 Dans la meme page que petite formulaire semi horizontale de Publication , on affiche la bas la publication pour ce jour ( en ajoutant al filtre )
 - On affiche la publication correspondre a la session du truck ( en format de card )
+
+======================================
+## Module lotIngredient:
+    - LotIngredient
+        - save
+        - update 
+        - liste
+        - listeById
+        - 
+CREATE TABLE "lotIngredient" (
+    "idLot" SERIAL PRIMARY KEY,
+    "idIngredient" INT NOT NULL,
+    "dateReception" DATE NOT NULL,
+    "datePeremption" DATE NOT NULL,
+    "quantiteInitiale" NUMERIC(10,2) NOT NULL,
+    "prixAchatUnitaire" NUMERIC(10,2) NOT NULL,
+    FOREIGN KEY ("idIngredient")
+        REFERENCES "ingredient"("idIngredient")
+);
+
+CREATE TABLE "mouvementLotIngredient" (
+    "idMouvementLot" SERIAL PRIMARY KEY,
+    "idLot" INT NOT NULL,
+    "idTypeMouvement" INT NOT NULL,
+    "quantite" NUMERIC(10,2) NOT NULL CHECK ("quantite" > 0),
+    "dateMouvement" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("idLot")
+        REFERENCES "lotIngredient"("idLot"),
+    FOREIGN KEY ("idTypeMouvement")
+        REFERENCES "typeMouvement"("idTypeMouvement")
+);
+
+
+## LotIngredients bientot perimes:
+    - Table: lotIngredient
+    - principe: 
+        - retourne la liste des lotIngredients dont la date de perumption - date now() >= 0 and <=3
+        - quantite restante > 0 
+        - objectif, avoir:
+            - Nom de l'ingredient 
+            - sa quantite restante
+            - sa date de peremption
+
+## LotIngredient perimes:
+    - Table: lotIngredient
+    - principe:
+        - retourne la liste des lotIngredients dont la date de peremption < date now()
+        - quantite restante > 0
+        - objectif, avoir:
+            - liste des ingredients perimes avec les informations suivantes:
+                - Nom de l'ingredient 
+                - sa quantite restante
+                - sa date de peremption
+                - son prix unitaire
+            - montant perte dues aux peremptions = quantite restante * prix unitaire
+
+## Mouvement des ingredinets:
+    - Table: 
+        - ingredient
+        - lotIngredient
+        - mouvementLotIngredient
+    - principe:
+        - Sortie des ingredients dans un lotIngredient impossible Si :
+            - date de peremption < date now()
+            - quantite restante = 0
+        - Si on fait une sortie d'un ingredient dans le stock:
+            1- On choisi un lot ( idLot_)
+                - verifie si ce lot n'est pas perimé
+                - verifie si quantite restante > 0
+            2- verifie si quantite pour la sortie <= quantite restante de lot choisi
+        
+
+
+au cas ou ( mba mora anaovana n fonciton s codage )
+
+
+==================

@@ -21,6 +21,52 @@
             color: var(--dark);
         }
 
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #86efac;
+        }
+
+        .lot-insert-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .lot-insert-header h2 {
+            margin: 0 0 6px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lot-insert-header p {
+            margin: 0 0 18px;
+            color: #6b7280;
+        }
+
+        .lot-inline-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .lot-inline-form .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
         .btn-add {
             background: var(--primary);
             color: white;
@@ -251,6 +297,10 @@
             
             .table-header h1 {
                 text-align: center;
+            }
+
+            .lot-inline-form .form-row {
+                grid-template-columns: 1fr;
             }
             
             .btn-add {
