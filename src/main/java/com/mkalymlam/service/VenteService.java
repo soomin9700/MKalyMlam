@@ -19,7 +19,7 @@ public class VenteService {
     private final TruckRepository truckRepository;
     private final ConsommationService consommationService;
     private final HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository;
-    private final NotificationService notificationService;
+    // private final NotificationService notificationService;
 
     public VenteService(CommandeRepository commandeRepository,
                         LigneCommandeRepository ligneCommandeRepository,
@@ -28,8 +28,8 @@ public class VenteService {
                         StatutCommandeRepository statutCommandeRepository,
                         TruckRepository truckRepository,
                         ConsommationService consommationService,
-                        HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository,
-                        NotificationService notificationService) {
+                        HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository/*,
+    NotificationService notificationService*/) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
         this.produitRepository = produitRepository;
@@ -38,7 +38,7 @@ public class VenteService {
         this.truckRepository = truckRepository;
         this.consommationService = consommationService;
         this.historiqueStatutCommandeRepository = historiqueStatutCommandeRepository;
-        this.notificationService = notificationService;
+        // this.notificationService = notificationService;
     }
     
     @Transactional
@@ -92,10 +92,10 @@ public class VenteService {
         
         enregistrerHistoriqueStatut(saved, ancienStatut, nouveauStatutLibelle);
 
-        if ("ANNULEE".equals(nouveauStatutLibelle.toUpperCase())) {
-            notificationService.notifierCommandeAnnulee(saved);
-        }
-        notificationService.notifierHeureRecuperation(saved);
+        // if ("ANNULEE".equals(nouveauStatutLibelle.toUpperCase())) {
+        //     notificationService.notifierCommandeAnnulee(saved);
+        // }
+        // notificationService.notifierHeureRecuperation(saved);
         
         return saved;
     }

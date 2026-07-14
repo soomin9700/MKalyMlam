@@ -118,7 +118,6 @@ public class ProduitController {
         return "redirect:/produits";
     }
 
-<<<<<<< HEAD
 
 @GetMapping("/export/csv")
 public void exportCSV(HttpServletResponse response) throws IOException {
@@ -147,7 +146,6 @@ public String printPage(Model model) {
 
 
 
-=======
     @GetMapping("/import")
     public String pageImport(Model model) {
         return "produit/import";
@@ -171,5 +169,4 @@ public String printPage(Model model) {
         }
         return "redirect:/produits";
     }
->>>>>>> origin/sprint_rattrapage_loic_truck
 }
