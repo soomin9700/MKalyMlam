@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Publier la position du truck</title>
+    <title>Modifier la position du truck</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
@@ -14,7 +14,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/publication_localisation.css">
 </head>
 <body>
 
@@ -46,38 +45,30 @@
                 </div>
             </c:if>
 
-            <form action="${pageContext.request.contextPath}/localisation/publier" method="post">
+            <form action="${pageContext.request.contextPath}/localisation/update/${position.id}" method="post">
 
                 <h1>
-                    <i class="fas fa-map-pin" style="color: var(--primary); margin-right: 12px;"></i>
-                    Publier la position d'un truck
+                    <i class="fas fa-edit" style="color: var(--primary); margin-right: 12px;"></i>
+                    Modifier la position
                 </h1>
 
                 <p style="color:#6b7280;margin-bottom:30px;">
-                    Sélectionnez un truck en session et définissez sa zone de présence.
+                    Modifiez la zone ou l'heure d'arrivée de la publication.
                 </p>
 
                 <hr style="border:none;border-top:1px solid var(--gray);margin:20px 0;">
                 <br>
 
-                <!-- Sélection de la Session Truck -->
-                <div class="form-group">
-                    <label for="idSession">
-                        Truck en session
-                        <span class="required-star">*</span>
-                    </label>
-                    <select id="idSession" name="idSession" required>
-                        <option value="">-- Sélectionner un truck en session --</option>
-                        <c:forEach items="${sessions}" var="session">
-                            <option value="${session.id}">
-                                ${session.truck.immatriculation} - 
-                                ${session.itineraire.nomZone} 
-                                (${session.dateSession})
-                            </option>
-                        </c:forEach>
-                    </select>
+                <!-- Informations de la session (lecture seule) -->
+                <div class="form-group" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <label style="font-weight: 600;">Truck en session</label>
+                    <p style="margin: 5px 0 0 0; color: #111827;">
+                        <strong>${position.sessionTruck.truck.immatriculation}</strong> - 
+                        ${position.sessionTruck.itineraire.nomZone}
+                        (${position.sessionTruck.dateSession})
+                    </p>
                     <small>
-                        Sélectionnez le truck dont vous voulez publier la position.
+                        La session ne peut pas être modifiée. Pour changer de truck, supprimez et créez une nouvelle publication.
                     </small>
                 </div>
 
@@ -90,34 +81,45 @@
                     <select id="idItineraire" name="idItineraire" required>
                         <option value="">-- Sélectionner une zone --</option>
                         <c:forEach items="${itineraires}" var="itineraire">
-                            <option value="${itineraire.id}">
+                            <option value="${itineraire.id}" ${itineraire.id == position.itineraire.id ? 'selected' : ''}>
                                 ${itineraire.nomZone} - ${itineraire.lieuExact}
-                                (${itineraire.heureDebutPrevue} - ${itineraire.heureFinPrevue})
+                                (${itineraire.heureDebutPrevue.toString().substring(0, 5)} - ${itineraire.heureFinPrevue.toString().substring(0, 5)})
                             </option>
                         </c:forEach>
                     </select>
                     <small>
-                        Sélectionnez la zone où le truck sera positionné.
+                        Sélectionnez la nouvelle zone où le truck sera positionné.
                     </small>
                 </div>
 
-                <!-- Heure d'arrivée (optionnel) -->
+                <!-- Heure d'arrivée -->
                 <div class="form-group">
                     <label for="heureArrivee">
-                        Heure d'arrivée (optionnel)
+                        Heure d'arrivée
                     </label>
                     <input type="time" id="heureArrivee" name="heureArrivee" 
-                           value="<%= java.time.LocalTime.now().toString().substring(0, 5) %>">
+                           value="${position.heureArrivee.toString().substring(0, 5)}">
                     <small>
-                        Laissez vide pour utiliser l'heure actuelle.
+                        Modifiez l'heure d'arrivée si nécessaire.
+                    </small>
+                </div>
+
+                <!-- Date de publication (lecture seule) -->
+                <div class="form-group" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <label style="font-weight: 600;">Date de publication</label>
+                    <p style="margin: 5px 0 0 0; color: #111827;">
+                        ${position.datePublication.toString()}
+                    </p>
+                    <small>
+                        La date de publication ne peut pas être modifiée.
                     </small>
                 </div>
 
                 <!-- Boutons d'action -->
                 <div class="form-actions">
                     <button type="submit" class="btn-success">
-                        <i class="fas fa-paper-plane"></i>
-                        Publier la position
+                        <i class="fas fa-save"></i>
+                        Mettre à jour
                     </button>
 
                     <button type="reset" class="btn-secondary">

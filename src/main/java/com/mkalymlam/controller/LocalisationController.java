@@ -67,9 +67,62 @@ public class LocalisationController {
 
     @GetMapping("/list")
     public String listLocalisation(Model model) {
-        List<SessionTruckPosition> positions = positionService.findAll();
+        List<SessionTruckPosition> positions = positionService.getLatestPositionsForToday();
         model.addAttribute("positions", positions);
         return "localisation/list";
+    }
+
+    // ===== NOUVEAU ENDPOINT POUR LA MISE À JOUR =====
+
+    /**
+     * Affiche le formulaire de modification d'une publication
+     */
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        // Récupérer la position à modifier
+        SessionTruckPosition position = positionService.findById(id);
+        model.addAttribute("position", position);
+        
+        // Récupérer tous les itinéraires pour le choix de la zone
+        model.addAttribute("itineraires", itineraireService.findAll());
+        
+        return "localisation/edit";
+    }
+
+    /**
+     * Met à jour une publication existante
+     */
+    @PostMapping("/update/{id}")
+    public String updatePosition(@PathVariable Long id,
+                                 @RequestParam("idItineraire") Long idItineraire,
+                                 @RequestParam(value = "heureArrivee", required = false) String heureArrivee,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            LocalTime heure = heureArrivee != null && !heureArrivee.isEmpty() 
+                ? LocalTime.parse(heureArrivee) 
+                : LocalTime.now();
+                
+            positionService.updatePosition(id, idItineraire, heure);
+            redirectAttributes.addFlashAttribute("success", "Position mise à jour avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la mise à jour : " + e.getMessage());
+        }
+        return "redirect:/localisation/list";
+    }
+
+    /**
+     * Supprime une publication
+     */
+    @PostMapping("/delete/{id}")
+    public String deletePosition(@PathVariable Long id, 
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            positionService.deletePosition(id);
+            redirectAttributes.addFlashAttribute("success", "Position supprimée avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la suppression : " + e.getMessage());
+        }
+        return "redirect:/localisation/list";
     }
 
 }

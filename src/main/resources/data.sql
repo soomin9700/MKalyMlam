@@ -109,32 +109,23 @@ INSERT INTO "typeMouvement" ("libelle") VALUES
 ('SORTIE');
 
 -- ============================================
--- DONNÉES DE TEST POUR LA LOCALISATION
+-- DONNÉES DE TEST POUR LA LOCALISATION (2 TRUCKS)
 -- ============================================
 
--- 1. Insertion des utilisateurs
+-- 1. Insertion des utilisateurs (réduit)
 INSERT INTO "utilisateur" ("nom", "prenom", "email", "motDePasse", "idRole", "salaireBaseFixe", "statutActif") VALUES 
 ('Rakoto', 'Jean', 'jean.rakoto@foodtruck.com', 'password123', 1, 2500.00, true),
 ('Rabe', 'Marie', 'marie.rabe@foodtruck.com', 'password123', 1, 2200.00, true),
 ('Randria', 'Pierre', 'pierre.randria@foodtruck.com', 'password123', 4, 1800.00, true),
 ('Rasoa', 'Sophie', 'sophie.rasoa@foodtruck.com', 'password123', 2, 1500.00, true),
-('Rajaonarivony', 'Lala', 'lala.rajaonarivony@foodtruck.com', 'password123', 3, 1600.00, true),
-('Andriamihaja', 'Tiana', 'tiana.andriamihaja@foodtruck.com', 'password123', 4, 1800.00, true),
-('Rakotomalala', 'Hery', 'hery.rakotomalala@foodtruck.com', 'password123', 2, 1500.00, true),
-('Razanakoto', 'Faneva', 'faneva.razanakoto@foodtruck.com', 'password123', 3, 1600.00, true);
+('Rajaonarivony', 'Lala', 'lala.rajaonarivony@foodtruck.com', 'password123', 3, 1600.00, true);
 
--- 2. Insertion des trucks
+-- 2. Insertion des trucks (seulement 2)
 INSERT INTO "truck" ("immatriculation", "idStatutDisponibilite") VALUES 
 ('1234 TMA', 1),  -- DISPONIBLE
-('5678 TMA', 1),  -- DISPONIBLE
-('9012 TMA', 1),  -- DISPONIBLE
-('3456 TMA', 2),  -- EN_MAINTENANCE
-('7890 TMA', 1),  -- DISPONIBLE
-('2345 TMA', 1),  -- DISPONIBLE
-('6789 TMA', 3),  -- PANNE
-('0123 TMA', 1);  -- DISPONIBLE
+('5678 TMA', 1);  -- DISPONIBLE
 
--- 3. Insertion des itinéraires
+-- 3. Insertion des itinéraires (réduit)
 INSERT INTO "itineraire" ("nomZone", "lieuExact", "heureDebutPrevue", "heureFinPrevue", "jourSemaine") VALUES 
 ('Analakely', 'Devant la gare routière', '11:00:00', '14:00:00', 'LUNDI'),
 ('Ivandry', 'Leader Price - Parking client', '17:00:00', '21:00:00', 'MARDI'),
@@ -143,35 +134,21 @@ INSERT INTO "itineraire" ("nomZone", "lieuExact", "heureDebutPrevue", "heureFinP
 ('Isotry', 'Marché couvert - Côté est', '10:00:00', '13:00:00', 'VENDREDI'),
 ('Behoririka', 'Gare routière - Arrêt bus n°5', '12:00:00', '15:00:00', 'SAMEDI'),
 ('Anosy', 'Lac Anosy - Côté sud', '14:00:00', '18:00:00', 'DIMANCHE'),
-('Ambohijatovo', 'Devant BNI Madagascar', '11:00:00', '14:00:00', 'LUNDI'),
-('Antaninandro', 'Marché populaire - Entrée nord', '16:00:00', '20:00:00', 'MARDI'),
-('Ambodivona', 'Devant Telma - Avenue de l''Indépendance', '12:00:00', '15:00:00', 'MERCREDI'),
-('Mahamasina', 'Stade - Parking sud', '09:00:00', '12:00:00', 'JEUDI'),
-('Andravoahangy', 'Marché - Côté ouest', '14:00:00', '17:00:00', 'VENDREDI'),
-('Ampasanimalo', 'Devant le Palais des Sports', '10:00:00', '13:00:00', 'SAMEDI'),
-('Ankadifotsy', 'Carrefour - Côté est', '15:00:00', '19:00:00', 'DIMANCHE'),
-('67ha', 'Proximité du Lycée Français', '11:00:00', '14:00:00', 'LUNDI');
+('Ambohijatovo', 'Devant BNI Madagascar', '11:00:00', '14:00:00', 'LUNDI');
 
--- 4. Insertion des sessions de truck
+-- 4. Insertion des sessions de truck (pour 2 trucks)
 INSERT INTO "sessionTruck" ("idTruck", "idItineraire", "dateSession", "fondDeCaisseOuverture", "fondDeCaisseCloture", "chiffreAffaireTotal", "commissionTotaleEquipe", "idStatutSession") VALUES 
 -- Sessions OUVERTES (pour publication)
 (1, 1, CURRENT_DATE, 500.00, NULL, 0.00, 0.00, 1),  -- Session 1: 1234 TMA
 (2, 2, CURRENT_DATE, 300.00, NULL, 0.00, 0.00, 1),  -- Session 2: 5678 TMA
-(3, 3, CURRENT_DATE, 400.00, NULL, 0.00, 0.00, 1),  -- Session 3: 9012 TMA
-(5, 6, CURRENT_DATE, 450.00, NULL, 0.00, 0.00, 1),  -- Session 4: 7890 TMA
-(6, 7, CURRENT_DATE, 350.00, NULL, 0.00, 0.00, 1),  -- Session 5: 2345 TMA
-(8, 8, CURRENT_DATE, 500.00, NULL, 0.00, 0.00, 1),  -- Session 6: 0123 TMA
 
 -- Sessions CLOTUREES (historique)
-(1, 4, CURRENT_DATE - 1, 500.00, 580.00, 350.00, 35.00, 2),  -- Session 7
-(2, 5, CURRENT_DATE - 2, 300.00, 420.00, 280.00, 28.00, 2),  -- Session 8
-(3, 9, CURRENT_DATE - 3, 400.00, 510.00, 320.00, 32.00, 2),  -- Session 9
-(5, 10, CURRENT_DATE - 1, 450.00, 600.00, 380.00, 38.00, 2), -- Session 10
+(1, 3, CURRENT_DATE - 1, 500.00, 580.00, 350.00, 35.00, 2),  -- Session 3: 1234 TMA
+(2, 4, CURRENT_DATE - 2, 300.00, 420.00, 280.00, 28.00, 2),  -- Session 4: 5678 TMA
 
 -- Sessions à venir (pour publication future)
-(1, 11, CURRENT_DATE + 1, 500.00, NULL, 0.00, 0.00, 1),  -- Session 11
-(2, 12, CURRENT_DATE + 1, 300.00, NULL, 0.00, 0.00, 1),  -- Session 12
-(3, 13, CURRENT_DATE + 2, 400.00, NULL, 0.00, 0.00, 1);  -- Session 13
+(1, 5, CURRENT_DATE + 1, 500.00, NULL, 0.00, 0.00, 1),  -- Session 5: 1234 TMA
+(2, 6, CURRENT_DATE + 1, 300.00, NULL, 0.00, 0.00, 1);  -- Session 6: 5678 TMA
 
 -- 5. Insertion des équipes de session
 INSERT INTO "equipeSession" ("idSession", "idUtilisateur", "idRoleDuJour", "salaireJournalierRemplacant") VALUES 
@@ -181,62 +158,36 @@ INSERT INTO "equipeSession" ("idSession", "idUtilisateur", "idRoleDuJour", "sala
 (1, 5, 3, NULL),  -- CUISINIER
 
 -- Session 2: 5678 TMA - Ivandry
-(2, 6, 4, NULL),  -- CHAUFFEUR
-(2, 7, 2, NULL),  -- VENDEUSE
-(2, 8, 3, NULL),  -- CUISINIER
+(2, 3, 4, NULL),  -- CHAUFFEUR
+(2, 4, 2, NULL),  -- VENDEUSE
+(2, 5, 3, NULL),  -- CUISINIER
 
--- Session 3: 9012 TMA - Antanimena
+-- Session 3: 1234 TMA - Antanimena (clôturée)
 (3, 3, 4, NULL),  -- CHAUFFEUR
 (3, 4, 2, NULL),  -- VENDEUSE
-(3, 5, 3, NULL),  -- CUISINIER
 
--- Session 4: 7890 TMA - Behoririka
-(4, 6, 4, NULL),  -- CHAUFFEUR
-(4, 7, 2, NULL),  -- VENDEUSE
+-- Session 4: 5678 TMA - Ankorondrano (clôturée)
+(4, 3, 4, NULL),  -- CHAUFFEUR
+(4, 4, 2, NULL),  -- VENDEUSE
 
--- Session 5: 2345 TMA - Anosy
+-- Session 5: 1234 TMA - Isotry (à venir)
 (5, 3, 4, NULL),  -- CHAUFFEUR
 (5, 4, 2, NULL),  -- VENDEUSE
-(5, 5, 3, NULL),  -- CUISINIER
-
--- Session 6: 0123 TMA - Ambohijatovo
-(6, 6, 4, NULL),  -- CHAUFFEUR
-(6, 7, 2, NULL),  -- VENDEUSE
-(6, 8, 3, NULL),  -- CUISINIER
-
--- Session 7: 1234 TMA - Ankorondrano (clôturée)
-(7, 3, 4, NULL),  -- CHAUFFEUR
-(7, 4, 2, NULL),  -- VENDEUSE
-
--- Session 8: 5678 TMA - Isotry (clôturée)
-(8, 6, 4, NULL),  -- CHAUFFEUR
-(8, 7, 2, NULL),  -- VENDEUSE
-
--- Session 11: 1234 TMA - Mahamasina (à venir)
-(11, 3, 4, NULL),  -- CHAUFFEUR
-(11, 4, 2, NULL),  -- VENDEUSE
-(11, 5, 3, NULL);  -- CUISINIER
+(5, 5, 3, NULL);  -- CUISINIER
 
 -- 6. Insertion des positions des trucks (SESSION_TRUCK_POSITION)
 INSERT INTO "sessionTruckPosition" ("idSession", "idItineraire", "heureArrivee", "datePublication") VALUES 
 -- Positions du jour (sessions ouvertes)
 (1, 1, '11:00:00', CURRENT_DATE),      -- 1234 TMA à Analakely
 (2, 2, '17:30:00', CURRENT_DATE),      -- 5678 TMA à Ivandry
-(3, 3, '11:15:00', CURRENT_DATE),      -- 9012 TMA à Antanimena
-(4, 6, '12:00:00', CURRENT_DATE),      -- 7890 TMA à Behoririka
-(5, 7, '14:30:00', CURRENT_DATE),      -- 2345 TMA à Anosy
-(6, 8, '11:00:00', CURRENT_DATE),      -- 0123 TMA à Ambohijatovo
 
 -- Positions d'hier (sessions clôturées)
-(7, 4, '16:00:00', CURRENT_DATE - 1),  -- 1234 TMA à Ankorondrano
-(8, 5, '10:30:00', CURRENT_DATE - 2),  -- 5678 TMA à Isotry
-(9, 9, '16:00:00', CURRENT_DATE - 3),  -- 9012 TMA à Antaninandro
-(10, 10, '12:00:00', CURRENT_DATE - 1), -- 7890 TMA à Ambodivona
+(3, 3, '11:15:00', CURRENT_DATE - 1),  -- 1234 TMA à Antanimena
+(4, 4, '16:00:00', CURRENT_DATE - 2),  -- 5678 TMA à Ankorondrano
 
 -- Positions à venir
-(11, 11, '09:00:00', CURRENT_DATE),    -- 1234 TMA à Mahamasina (publié aujourd'hui)
-(12, 12, '14:00:00', CURRENT_DATE),    -- 5678 TMA à Andravoahangy (publié aujourd'hui)
-(13, 13, '10:00:00', CURRENT_DATE + 1); -- 9012 TMA à Ampasanimalo (publié demain)
+(5, 5, '10:00:00', CURRENT_DATE),      -- 1234 TMA à Isotry (publié aujourd'hui)
+(6, 6, '12:00:00', CURRENT_DATE + 1);  -- 5678 TMA à Behoririka (publié demain)
 
 -- 7. Insertion de produits (pour le menu)
 INSERT INTO "produit" ("nomProduit", "prixBase", "estNouveau", "dateCreation") VALUES 
@@ -346,9 +297,9 @@ INSERT INTO "retourClient" ("idTypeRetour", "noteSur10", "contenuTexte", "idClas
 INSERT INTO "commande" ("idSession", "idVendeuse", "idTypeCommande", "dateHeureCreation", "montantTotal", "idStatutCommande", "idTypeTarification") VALUES 
 (1, 4, 1, CURRENT_TIMESTAMP - INTERVAL '2 hours', 15.40, 4, 1),
 (1, 4, 2, CURRENT_TIMESTAMP - INTERVAL '1.5 hours', 8.90, 4, 1),
-(2, 7, 1, CURRENT_TIMESTAMP - INTERVAL '1 hour', 22.50, 4, 1),
+(2, 4, 1, CURRENT_TIMESTAMP - INTERVAL '1 hour', 22.50, 4, 1),
 (3, 4, 3, CURRENT_TIMESTAMP - INTERVAL '3 hours', 19.80, 4, 1),
-(4, 7, 2, CURRENT_TIMESTAMP - INTERVAL '30 minutes', 12.50, 3, 1);
+(4, 4, 2, CURRENT_TIMESTAMP - INTERVAL '30 minutes', 12.50, 3, 1);
 
 -- 15. Insertion des lignes de commande
 INSERT INTO "ligneCommande" ("idCommande", "idProduit", "quantite", "prixUnitaireFacture") VALUES 
