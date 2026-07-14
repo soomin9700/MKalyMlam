@@ -77,6 +77,7 @@
                     <th><i class="fas fa-tag"></i> Nom</th>
                     <th><i class="fas fa-exclamation-triangle"></i> Seuil d'alerte</th>
                     <th><i class="fas fa-ruler"></i> Unité</th>
+                    <th><i class="fas fa-toggle-on"></i> Actif</th>
                     <th><i class="fas fa-cog"></i> Actions</th>
                 </tr>
 
@@ -89,7 +90,7 @@
                 <c:if test="${empty ingredients}">
                     <tr>
 
-                        <td colspan="5">
+                            <td colspan="6">
 
                             <div class="empty-state">
 
@@ -155,6 +156,26 @@
 
                                 <c:otherwise>
                                     <span class="text-muted">-</span>
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </td>
+
+                        <td>
+
+                            <c:choose>
+
+                                <c:when test="${i.actif == false}">
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle"></i> Non
+                                    </span>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle"></i> Oui
+                                    </span>
                                 </c:otherwise>
 
                             </c:choose>

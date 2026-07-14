@@ -7,25 +7,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.LotIngredientService;
-import com.mkalymlam.service.TypeMouvementService;
 
 @WebMvcTest(LotIngredientController.class)
-@AutoConfigureMockMvc(addFilters = false) // désactive les filtres de sécurité pour ce test de contrôleur
 class LotIngredientControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @MockBean
     private LotIngredientService lotIngredientService;
@@ -33,8 +29,15 @@ class LotIngredientControllerTest {
     @MockBean
     private IngredientService ingredientService;
 
-    @MockBean
-    private TypeMouvementService typeMouvementService;
+    @Autowired
+    private LotIngredientController controller;
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    void setup() {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
 
     @Test
     void bientotPerimesEndpointShouldReturnJsonPayload() throws Exception {

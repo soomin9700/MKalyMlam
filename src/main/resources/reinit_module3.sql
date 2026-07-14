@@ -254,7 +254,8 @@ CREATE TABLE "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
     "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-    "uniteMesure" VARCHAR(20) NOT NULL
+    "uniteMesure" VARCHAR(20) NOT NULL,
+    "actif" BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE "lotIngredient" (
@@ -263,7 +264,6 @@ CREATE TABLE "lotIngredient" (
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
@@ -556,11 +556,11 @@ INSERT INTO "ingredient" ("nomIngredient", "seuilAlerteQuantite", "uniteMesure")
 ('Pâte à pizza', 10.00, 'piece'),
 ('Sauce tomate', 5.00, 'L');
 
-INSERT INTO "lotIngredient" ("idIngredient", "dateReception", "datePeremption", "quantiteInitiale", "quantiteRestante", "prixAchatUnitaire")
+INSERT INTO "lotIngredient" ("idIngredient", "dateReception", "datePeremption", "quantiteInitiale", "prixAchatUnitaire")
 VALUES 
-(1, '2026-06-25', '2026-07-10', 50.00, 35.00, 0.85),
-(2, '2026-06-20', '2026-07-15', 15.00, 8.50, 6.50),
-(5, '2026-06-28', '2026-07-20', 25.00, 20.00, 2.30);
+(1, '2026-06-25', '2026-07-10', 50.00, 0.85),
+(2, '2026-06-20', '2026-07-15', 15.00, 6.50),
+(5, '2026-06-28', '2026-07-20', 25.00, 2.30);
 
 INSERT INTO "recetteDeBase" ("idProduit", "idIngredient", "quantiteRecette") VALUES
 (1, 2, 0.200),

@@ -33,31 +33,18 @@ import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.LotIngredientService;
-import com.mkalymlam.service.TypeMouvementService;
 
 @Controller
 @RequestMapping("/lot")
 public class LotIngredientController {
 
     private final LotIngredientService service;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public LotIngredientController(LotIngredientService service) {
-        this.service = service;
-        this.ingredientService = null;
-        this.typeMouvementService = null;
-    }
-
-    
-
-    private final IngredientService ingredientService;
-    private final TypeMouvementService typeMouvementService;
-
-    public LotIngredientController(LotIngredientService service, IngredientService ingredientService,
-            TypeMouvementService typeMouvementService) {
+    public LotIngredientController(LotIngredientService service, IngredientService ingredientService) {
         this.service = service;
         this.ingredientService = ingredientService;
-        this.typeMouvementService = typeMouvementService;
     }
 
 
@@ -140,9 +127,10 @@ public class LotIngredientController {
 //         model.addAttribute("lots", lots);
 //         return "alertes/list";
 // =======
-    @ResponseBody
-    public List<LotIngredient> findAll() {
-        return service.getAll();
+    @GetMapping("/findAll")
+    public String findAll(Model model) {
+        model.addAttribute("lots", service.getAll());
+        return "lot/list";
     }
 
     @GetMapping("/alertes")
@@ -234,7 +222,6 @@ public class LotIngredientController {
             Model model) {
         model.addAttribute("lotIngredient", new LotIngredient());
         model.addAttribute("ingredients", ingredientService.findAll());
-        model.addAttribute("typeMouvements", typeMouvementService.findAll());
         model.addAttribute("actionUrl", "/lot/ingredients");
         model.addAttribute("activeMenu", "lot-ingredients");
         model.addAttribute("ingredientId", ingredientId);

@@ -254,7 +254,8 @@ CREATE TABLE "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
     "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-    "uniteMesure" VARCHAR(20) NOT NULL
+    "uniteMesure" VARCHAR(20) NOT NULL,
+    "actif" BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE "lotIngredient" (
@@ -263,7 +264,6 @@ CREATE TABLE "lotIngredient" (
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
@@ -281,13 +281,10 @@ CREATE TABLE "equipement" (
     "nomEquipement" VARCHAR(100) NOT NULL,
     "idTypeEquipement" INT NOT NULL,
     "idMethodeComptable" INT NOT NULL,
-    "quantiteStock" INT NOT NULL,
-    "valeurCump" NUMERIC(10, 2),
-    "tauxFahasimbana" NUMERIC(5, 2),
-    "idStatutAlerte" INT NOT NULL,
+    "prixUnitaire" NUMERIC(15,2) NOT NULL,
+    "quantiteMin" NUMERIC(15,2) NOT NULL,
     FOREIGN KEY ("idTypeEquipement") REFERENCES "typeEquipement"("idTypeEquipement"),
-    FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable"),
-    FOREIGN KEY ("idStatutAlerte") REFERENCES "statutAlerte"("idStatutAlerte")
+    FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable")
 );
 
 CREATE TABLE "inventaireJournalier" (

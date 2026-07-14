@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
+import com.mkalymlam.repository.MouvementLotIngredientRepository;
 
 @ExtendWith(MockitoExtension.class)
 class LotIngredientServiceTest {
@@ -25,6 +26,9 @@ class LotIngredientServiceTest {
 
     @Mock
     private IngredientRepository ingredientRepository;
+
+    @Mock
+    private MouvementLotIngredientRepository mouvementRepository;
 
     @InjectMocks
     private LotIngredientService lotIngredientService;

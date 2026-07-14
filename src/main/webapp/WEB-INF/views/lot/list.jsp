@@ -172,37 +172,21 @@
 
                             <td>
                                 <span class="">
-                                    ${lot.quantiteRestante}
+                                    ${lot.quantiteInitiale}
                                 </span>
                             </td>
 
                             <td>
-                                <span class="price-tag">
+                                <span class="">
                                     ${lot.prixAchatUnitaire} €
                                 </span>
                             </td>
 
                             <td>
-                                <c:choose>
-                                    <c:when test="${lot.quantiteRestante == 0}">
-                                        <span class="badge bg-danger">
-                                            <i class="fas fa-times-circle"></i>
-                                            Épuisé
-                                        </span>
-                                    </c:when>
-                                    <c:when test="${lot.alerte}">
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                            ALERTE
-                                        </span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-check-circle"></i>
-                                            OK
-                                        </span>
-                                    </c:otherwise>
-                                </c:choose>
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                    OK
+                                </span>
                             </td>
 
                             <td>

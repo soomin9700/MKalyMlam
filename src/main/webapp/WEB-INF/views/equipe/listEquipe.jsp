@@ -70,7 +70,7 @@
                         <select name="roleId" id="roleId">
                             <option value="">Tous les rôles</option>
                             <c:forEach items="${roles}" var="r">
-                                <option value="${r.id}" ${selectedRoleId == r.id ? 'selected' : ''}>
+                                <option value="${r.idRole}" ${selectedRoleId == r.idRole ? 'selected' : ''}>
                                     ${r.libelle}
                                 </option>
                             </c:forEach>

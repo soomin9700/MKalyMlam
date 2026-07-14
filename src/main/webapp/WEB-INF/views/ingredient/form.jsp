@@ -164,6 +164,27 @@
 
                 </div>
 
+                <!-- Actif -->
+
+                <div class="form-group">
+
+                    <label for="actif">
+                        Actif
+                    </label>
+
+                    <select
+                            id="actif"
+                            name="actif">
+                        <option value="true" ${ingredient.actif == null || ingredient.actif ? 'selected' : ''}>
+                            Oui
+                        </option>
+                        <option value="false" ${ingredient.actif == false ? 'selected' : ''}>
+                            Non
+                        </option>
+                    </select>
+
+                </div>
+
                 <!-- Boutons -->
 
                 <div class="form-actions">

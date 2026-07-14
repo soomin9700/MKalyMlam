@@ -48,14 +48,6 @@
 <body>
 
     <!-- Barre utilisateur avec nom et déconnexion -->
-    <div class="top-user-bar">
-        <span class="user-name">
-            <i class="fas fa-user-circle"></i> ${nomUtilisateur}
-        </span>
-        <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Déconnexion
-        </a>
-    </div>
 
     <div class="dashboard">
 

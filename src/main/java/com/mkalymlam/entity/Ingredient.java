@@ -23,6 +23,9 @@ public class Ingredient {
     @Column(name = "\"uniteMesure\"")
     private String uniteMesure;
 
+    @Column(name = "\"actif\"")
+    private Boolean actif = true;
+
 
     public Ingredient() {
     }
@@ -64,5 +67,13 @@ public class Ingredient {
 
     public void setUniteMesure(String uniteMesure) {
         this.uniteMesure = uniteMesure;
+    }
+
+    public Boolean getActif() {
+        return actif;
+    }
+
+    public void setActif(Boolean actif) {
+        this.actif = actif;
     }
 }

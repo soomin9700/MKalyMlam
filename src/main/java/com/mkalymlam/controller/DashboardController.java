@@ -17,8 +17,7 @@ public class DashboardController {
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    @GetMapping({ "/", "/dashboard", "/dashboard-statistique", "/statistique", "/statistiques",
-            "/statistique/dashboard", "/statistique/dashboard-statistique" })
+    @GetMapping({ "/", "/dashboard", "/dashboard-statistique" })
     public String dashboardStatistique(Model model) {
         // Récupération de l'utilisateur connecté
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
