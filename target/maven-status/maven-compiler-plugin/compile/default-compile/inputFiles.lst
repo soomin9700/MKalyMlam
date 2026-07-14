@@ -1,36 +1,3 @@
-<<<<<<< HEAD
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/IngredientController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/ItineraireController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/LigneCommandeController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/RecetteBaseController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/StatistiqueController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/controller/VendeuseController.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/Commande.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/CommandeRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/ItineraireService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/StatistiqueService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/StatistiqueService1.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/service/VenteService.java
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java
-=======
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/MkalymlamApplication.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ActionAmeliorationController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeController.java
@@ -170,4 +137,3 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/UtilisateurService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/VenteService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java
->>>>>>> b778fa246b350b06ef1e18ad60b3f494acc71ead

@@ -65,7 +65,7 @@
                     Demandes de produits
                 </h1>
                 <a href="${pageContext.request.contextPath}/retour" class="btn-add">
-                    <i class="fas fa-plus"></i>
+                    <!-- <i class="fas fa-plus"></i> -->
                     Nouvelle demande
                 </a>
             </div>
@@ -74,7 +74,7 @@
                     <i class="fas fa-lightbulb" style="font-size:48px;color:#d1d5db;margin-bottom:15px;display:block;"></i>
                     <p>Aucune demande de produit pour le moment.</p>
                     <a href="${pageContext.request.contextPath}/retour" class="btn-add">
-                        <i class="fas fa-plus"></i>
+                        <!-- <i class="fas fa-plus"></i> -->
                         Faire une demande
                     </a>
                 </div>

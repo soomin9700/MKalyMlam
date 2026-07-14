@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-/home/fandresena-loic/S4/projet S4/spring boot/MKalyMlam/src/test/java/com/mkalymlam/MkalymlamApplicationTests.java
-=======
 /home/nox/Documents/GitHub/MKalyMlam/src/test/java/com/mkalymlam/controller/LotIngredientControllerTest.java
 /home/nox/Documents/GitHub/MKalyMlam/src/test/java/com/mkalymlam/service/LotIngredientServiceTest.java
->>>>>>> b778fa246b350b06ef1e18ad60b3f494acc71ead
