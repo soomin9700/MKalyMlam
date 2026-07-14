@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.entity.Produit;
 import com.mkalymlam.repository.ProduitRepository;
 
@@ -94,5 +95,26 @@ public class ProduitService {
     private String getCellValue(String[] row, int index) {
         if (index < 0 || index >= row.length) return "";
         return row[index] != null ? row[index].trim() : "";
+    public boolean verifierEstNouveau(Produit produit) {
+        if (produit.getEstNouveau() == true) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<Produit> findByNomProduit(String nomProduit) {
+        List<Produit> produits = repository.findByProduit_NomContainingIgnoreCase(nomProduit);
+        produits.forEach(produit -> {
+            produit.setEstNouveau(verifierEstNouveau(produit));
+        });
+        return produits;
+    }
+
+     public List<Produit> getAllNouveauxProduits() {
+        List<Produit> produits = repository.findAll();
+        produits.forEach(produit -> {
+            produit.setEstNouveau(verifierEstNouveau(produit));
+        });
+        return produits;
     }
 }

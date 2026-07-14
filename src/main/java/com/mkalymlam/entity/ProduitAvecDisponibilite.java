@@ -4,18 +4,14 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
-@Table(name = "produit")
-public class Produit {
+@Table(name = "produit_avec_disponibilite")
+public class ProduitAvecDisponibilite {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idProduit\"")
     private Long idProduit;
 
@@ -31,13 +27,14 @@ public class Produit {
     @Column(name = "\"dateCreation\"")
     private LocalDate dateCreation;
 
-    @Transient
+    @Column(name = "\"estDisponible\"")
     private Boolean estDisponible;
 
-    
+    // Constructeurs
+    public ProduitAvecDisponibilite() {}
 
-    public Produit(Long idProduit, String nomProduit, Double prixBase, Boolean estNouveau, LocalDate dateCreation,
-            Boolean estDisponible) {
+    public ProduitAvecDisponibilite(Long idProduit, String nomProduit, Double prixBase, 
+                                    Boolean estNouveau, LocalDate dateCreation, Boolean estDisponible) {
         this.idProduit = idProduit;
         this.nomProduit = nomProduit;
         this.prixBase = prixBase;
@@ -46,24 +43,7 @@ public class Produit {
         this.estDisponible = estDisponible;
     }
 
-    public Produit() {}
-
-    public Produit(String nomProduit, Double prixBase, Boolean estNouveau, LocalDate dateCreation) {
-        this.nomProduit = nomProduit;
-        this.prixBase = prixBase;
-        this.estNouveau = estNouveau;
-        this.dateCreation = dateCreation;
-    }
-
-    // Getters et Setters...
-    public Boolean getEstDisponible() {
-        return estDisponible;
-    }
-
-    public void setEstDisponible(Boolean estDisponible) {
-        this.estDisponible = estDisponible;
-    }
-    
+    // Getters et Setters
     public Long getIdProduit() {
         return idProduit;
     }
@@ -102,5 +82,25 @@ public class Produit {
 
     public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public Boolean getEstDisponible() {
+        return estDisponible;
+    }
+
+    public void setEstDisponible(Boolean estDisponible) {
+        this.estDisponible = estDisponible;
+    }
+
+    @Override
+    public String toString() {
+        return "ProduitAvecDisponibilite{" +
+                "idProduit=" + idProduit +
+                ", nomProduit='" + nomProduit + '\'' +
+                ", prixBase=" + prixBase +
+                ", estNouveau=" + estNouveau +
+                ", dateCreation=" + dateCreation +
+                ", estDisponible=" + estDisponible +
+                '}';
     }
 }
