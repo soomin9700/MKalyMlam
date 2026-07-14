@@ -35,13 +35,6 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
-    @Column(name = "\"quantiteRestante\"")
-    private Double quantiteRestante;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idTypeMouvement\"")
-    private TypeMouvement typeMouvement;
-
     @Column(name = "\"prixAchatUnitaire\"")
     private Double prixAchatUnitaire;
 
@@ -95,22 +88,6 @@ public class LotIngredient {
 
     public void setQuantiteInitiale(Double quantiteInitiale) {
         this.quantiteInitiale = quantiteInitiale;
-    }
-
-    public Double getQuantiteRestante() {
-        return quantiteRestante;
-    }
-
-    public void setQuantiteRestante(Double quantiteRestante) {
-        this.quantiteRestante = quantiteRestante;
-    }
-
-    public TypeMouvement getTypeMouvement() {
-        return typeMouvement;
-    }
-
-    public void setTypeMouvement(TypeMouvement typeMouvement) {
-        this.typeMouvement = typeMouvement;
     }
 
     public Double getPrixAchatUnitaire() {
