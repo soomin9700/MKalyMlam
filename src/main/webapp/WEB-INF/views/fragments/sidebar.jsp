@@ -156,19 +156,15 @@
     class="${activeMenu == 'equipe' ? 'active' : ''}">
         Équipe
     </a>
+    <a href="${pageContext.request.contextPath}/itineraire"
+    class="${activeMenu == 'itineraire' ? 'active' : ''}">
+        Itinéraires
+    </a>
     <a href="${pageContext.request.contextPath}/truck/gestion_truck"
     class="${activeMenu == 'truck' ? 'active' : ''}">
         Truck
     </a>
+    
 
-    <a href="${pageContext.request.contextPath}/localisation/form"
-    class="${activeMenu == 'truck' ? 'active' : ''}">
-        Publication de truck
-    </a>
-
-    <a href="${pageContext.request.contextPath}/changement-itineraire/nouveau"
-    class="${activeMenu == 'changementItineraire' ? 'active' : ''}">
-        Demandes de changement d'itinéraire
-    </a>
 
 </div>

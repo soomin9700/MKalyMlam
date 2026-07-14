@@ -293,7 +293,6 @@ CREATE TABLE "lotIngredient" (
     FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
-
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,

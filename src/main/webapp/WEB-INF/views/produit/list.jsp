@@ -71,6 +71,7 @@
 
                 </a>
 
+<<<<<<< HEAD
 
                 <div class="export-buttons" style="display:flex; gap:10px; margin-left:auto;">
     <a href="${pageContext.request.contextPath}/produits/export/csv" class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
@@ -80,6 +81,12 @@
         <i class="fas fa-print"></i> Imprimer
     </a>
 </div>
+=======
+                <a href="${pageContext.request.contextPath}/produits/import"
+                   class="btn-add" style="background:#6366f1;">
+                    <i class="fas fa-file-import"></i> Importer CSV/Excel
+                </a>
+>>>>>>> origin/sprint_rattrapage_loic_truck
 
             </div>
 
