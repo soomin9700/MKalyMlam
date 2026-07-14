@@ -99,6 +99,14 @@ public class LotIngredient {
         this.quantiteInitiale = quantiteInitiale;
     }
 
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
+    }
+
     public TypeMouvement getTypeMouvement() {
         return typeMouvement;
     }

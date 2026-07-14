@@ -45,9 +45,14 @@
                 </h1>
             </div>
 
-            <!-- Filtres -->
+            <!-- Recherche -->
             <form action="${pageContext.request.contextPath}/commande/liste" method="get" class="filter-form">
                 <div class="filter-row">
+                    <div class="filter-group" style="flex:2;">
+                        <label for="recherche"><i class="fas fa-search"></i> Rechercher</label>
+                        <input type="text" name="recherche" id="recherche" value="${recherche}"
+                               placeholder="Rechercher par ID commande..." style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                    </div>
                     <div class="filter-group">
                         <label for="statut">Statut</label>
                         <select name="statut" id="statut">
@@ -89,14 +94,16 @@
                     <th><i class="fas fa-calendar"></i> Date</th>
                     <th><i class="fas fa-truck"></i> Session</th>
                     <th><i class="fas fa-tag"></i> Type</th>
+                    <th><i class="fas fa-map-marker-alt"></i> Récupération</th>
                     <th><i class="fas fa-coins"></i> Montant</th>
                     <th><i class="fas fa-circle"></i> Statut</th>
+                    <th><i class="fas fa-cog"></i> Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:if test="${empty commandes}">
                     <tr>
-                        <td colspan="6">
+                        <td colspan="8">
                             <div class="empty-state">
                                 <i class="fas fa-shopping-cart" style="font-size:48px;color:#d1d5db;margin-bottom:15px;display:block;"></i>
                                 <p>Aucune commande trouvée.</p>
@@ -134,7 +141,7 @@
                                 </c:when>
                                 <c:when test="${cmd.typeCommande.libelle == 'A_DISTANCE'}">
                                     <span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:#FFEDD5;color:#9A3412;">
-                                        À DISTANCE
+                                        A DISTANCE
                                     </span>
                                 </c:when>
                                 <c:otherwise>
@@ -145,8 +152,25 @@
                             </c:choose>
                         </td>
                         <td>
+                            <c:if test="${cmd.heureRecuperationPrevue != null}">
+                                <i class="fas fa-clock" style="color:#6b7280;"></i>
+                                <fmt:parseDate value="${cmd.heureRecuperationPrevue}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedRecup" type="both"/>
+                                <fmt:formatDate value="${parsedRecup}" pattern="dd/MM HH:mm"/>
+                                <c:if test="${cmd.lieuRecuperationPrevu != null}">
+                                    <br>
+                                    <small style="color:#6b7280;"><i class="fas fa-map-marker-alt"></i> ${cmd.lieuRecuperationPrevu}</small>
+                                </c:if>
+                            </c:if>
+                            <c:if test="${cmd.heureRecuperationPrevue == null && cmd.lieuRecuperationPrevu != null}">
+                                <small style="color:#6b7280;"><i class="fas fa-map-marker-alt"></i> ${cmd.lieuRecuperationPrevu}</small>
+                            </c:if>
+                            <c:if test="${cmd.heureRecuperationPrevue == null && cmd.lieuRecuperationPrevu == null}">
+                                <span style="color:#9ca3af;">—</span>
+                            </c:if>
+                        </td>
+                        <td>
                             <span style="font-weight:600;color:var(--primary);">
-                                <fmt:formatNumber value="${cmd.montantTotal}" type="number" minFractionDigits="2"/> €
+                                <fmt:formatNumber value="${cmd.montantTotal}" type="number" minFractionDigits="0"/> Ar
                             </span>
                         </td>
                         <td>
@@ -154,7 +178,7 @@
                                   style="display:inline;">
                                 <input type="hidden" name="idCommande" value="${cmd.idCommande}">
                                 <select name="statut" onchange="this.form.submit()"
-                                        style="padding:5px 10px;border:1px solid var(--gray);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;
+                                        style="padding:5px 10px;border:1px solid var(--gray);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;"
                                         <c:choose>
                                             <c:when test="${cmd.statutCommande.libelle == 'EN_ATTENTE'}">background:#FEF3C7;color:#92400E;</c:when>
                                             <c:when test="${cmd.statutCommande.libelle == 'PREPARATION'}">background:#DBEAFE;color:#1E40AF;</c:when>
@@ -169,6 +193,13 @@
                                     </c:forEach>
                                 </select>
                             </form>
+                        </td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/commande/historiqueStatut?idCommande=${cmd.idCommande}"
+                               title="Historique des statuts"
+                               style="padding:6px 10px;border-radius:8px;background:#EFF6FF;color:#2563EB;text-decoration:none;font-size:12px;">
+                                <i class="fas fa-history"></i>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>

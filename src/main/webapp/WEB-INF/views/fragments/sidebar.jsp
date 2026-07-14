@@ -104,9 +104,24 @@
         Recette de Base
     </a>
 
-    <a href="${pageContext.request.contextPath}/vente/vendeuse"
-    class="${activeMenu == 'commandes' ? 'active' : ''}">
+    <a href="${pageContext.request.contextPath}/commande/liste"
+    class="${activeMenu == 'commande' ? 'active' : ''}">
         Commandes
+    </a>
+
+    <a href="${pageContext.request.contextPath}/vente/vendeuse"
+    class="${activeMenu == 'vente' ? 'active' : ''}">
+        Nouvelle vente
+    </a>
+
+    <a href="${pageContext.request.contextPath}/ventes"
+    class="${activeMenu == 'ventes' ? 'active' : ''}">
+        Ventes (historique)
+    </a>
+
+    <a href="${pageContext.request.contextPath}/consommation/historique"
+    class="${activeMenu == 'consommation' ? 'active' : ''}">
+        Consommations
     </a>
 
     <a href="${pageContext.request.contextPath}/statistique"

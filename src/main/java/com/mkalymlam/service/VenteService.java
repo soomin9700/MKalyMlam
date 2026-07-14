@@ -16,30 +16,33 @@ public class VenteService {
     private final ProduitRepository produitRepository;
     private final SessionTruckRepository sessionTruckRepository;
     private final StatutCommandeRepository statutCommandeRepository;
-    private final TypeCommandeRepository typeCommandeRepository;  // ✅ AJOUT
     private final TruckRepository truckRepository;
+    private final ConsommationService consommationService;
+    private final HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository;
+    private final NotificationService notificationService;
 
     public VenteService(CommandeRepository commandeRepository,
                         LigneCommandeRepository ligneCommandeRepository,
                         ProduitRepository produitRepository,
                         SessionTruckRepository sessionTruckRepository,
                         StatutCommandeRepository statutCommandeRepository,
-                        TypeCommandeRepository typeCommandeRepository,  // ✅ AJOUT
-                        TruckRepository truckRepository) {
+                        TruckRepository truckRepository,
+                        ConsommationService consommationService,
+                        HistoriqueStatutCommandeRepository historiqueStatutCommandeRepository,
+                        NotificationService notificationService) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
         this.produitRepository = produitRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.statutCommandeRepository = statutCommandeRepository;
-        this.typeCommandeRepository = typeCommandeRepository;  // ✅ AJOUT
         this.truckRepository = truckRepository;
+        this.consommationService = consommationService;
+        this.historiqueStatutCommandeRepository = historiqueStatutCommandeRepository;
+        this.notificationService = notificationService;
     }
     
-    // Ajouter une nouvelle commande
     @Transactional
     public Commande ajouterCommande(Commande commande, Long idTruck) {
-
-        // 1. Récupérer le truck
         final Long truckId;
         if (idTruck != null) {
             truckId = idTruck;
@@ -54,34 +57,27 @@ public class VenteService {
         Truck truck = truckRepository.findById(truckId)
                 .orElseThrow(() -> new RuntimeException("Truck introuvable avec l'id : " + truckId));
         
-        // 2. Récupérer la session ouverte de ce truck
         SessionTruck sessionOuverte = sessionTruckRepository
                 .findByTruck_IdAndStatutSession_Libelle(truckId, "OUVERTE")
                 .orElseThrow(() -> new RuntimeException("Aucune session ouverte pour le truck " + truckId));
         
-        // 3. Associer la session à la commande
         commande.setSessionTruck(sessionOuverte);
         
-        // 4. Mettre la date de création si elle n'est pas renseignée
         if (commande.getDateHeureCreation() == null) {
             commande.setDateHeureCreation(LocalDateTime.now());
         }
         
-        // 5. Mettre un statut par défaut : EN_ATTENTE
         StatutCommande statutEnAttente = statutCommandeRepository.findByLibelle("EN_ATTENTE")
                 .orElseThrow(() -> new RuntimeException("Le statut EN_ATTENTE n'existe pas en base."));
         commande.setStatutCommande(statutEnAttente);
         
-        // 6. Initialiser le montant total à 0 si pas défini
         if (commande.getMontantTotal() == 0) {
             commande.setMontantTotal(0.0);
         }
         
-        // 7. Sauvegarder la commande
         return commandeRepository.save(commande);
     }
     
-    // Changer le statut d'une commande (NOUVEAU, demandé dans le taf)
     @Transactional
     public Commande changerStatut(Long idCommande, String nouveauStatutLibelle) {
         Commande commande = commandeRepository.findById(idCommande)
@@ -90,46 +86,20 @@ public class VenteService {
         StatutCommande nouveauStatut = statutCommandeRepository.findByLibelle(nouveauStatutLibelle.toUpperCase())
                 .orElseThrow(() -> new RuntimeException("Statut invalide : " + nouveauStatutLibelle));
         
+        String ancienStatut = commande.getStatutCommande() != null ? commande.getStatutCommande().getLibelle() : null;
         commande.setStatutCommande(nouveauStatut);
+        Commande saved = commandeRepository.save(commande);
         
-        return commandeRepository.save(commande);
-    }
-    
-    // Récupérer toutes les commandes
-    public List<Commande> getAllCommandes() {
-        return commandeRepository.findAll();
-    }
+        enregistrerHistoriqueStatut(saved, ancienStatut, nouveauStatutLibelle);
 
-    // Lister les commandes avec filtres optionnels
-    public List<Commande> listerCommandesFiltrees(String statut, String type) {
-        boolean hasStatut = statut != null && !statut.isEmpty();
-        boolean hasType = type != null && !type.isEmpty();
-
-        if (hasStatut && hasType) {
-            return commandeRepository.findByStatutCommande_LibelleAndTypeCommande_Libelle(statut, type);
-        } else if (hasStatut) {
-            return commandeRepository.findByStatutCommande_Libelle(statut);
-        } else if (hasType) {
-            return commandeRepository.findByTypeCommande_Libelle(type);
+        if ("ANNULEE".equals(nouveauStatutLibelle.toUpperCase())) {
+            notificationService.notifierCommandeAnnulee(saved);
         }
-        return commandeRepository.findAll();
-    }
-    
-    // Le reste de tes méthodes (ajouterLigneCommande, validerCommande, etc.)
-    
-    public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
-        Produit produit = produitRepository.findById(ligne.getIdProduit())
-                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+        notificationService.notifierHeureRecuperation(saved);
         
-        double montantLigne = produit.getPrixBase() * ligne.getQuantite();
-        ligne.setPrixUnitaireFacture(produit.getPrixBase());
-        ligne.setSousTotal(montantLigne);
-        
-        LigneCommande saved = ligneCommandeRepository.save(ligne);
-        recalculerMontantCommande(ligne.getIdCommande());
         return saved;
     }
-    
+
     @Transactional
     public Commande validerCommande(Long idCommande, List<LigneCommande> lignes) {
         Commande commande = getCommande(idCommande);
@@ -148,7 +118,143 @@ public class VenteService {
         }
         
         commande.setMontantTotal(total);
-        return commandeRepository.save(commande);
+
+        if (commande.getSessionTruck() != null) {
+            consommationService.deduireIngredients(idCommande, commande.getSessionTruck().getId());
+        }
+
+        String ancienStatut = commande.getStatutCommande() != null ? commande.getStatutCommande().getLibelle() : null;
+        StatutCommande statutPreparation = statutCommandeRepository.findByLibelle("PREPARATION")
+                .orElseThrow(() -> new RuntimeException("Le statut PREPARATION n'existe pas en base."));
+        commande.setStatutCommande(statutPreparation);
+        Commande saved = commandeRepository.save(commande);
+
+        enregistrerHistoriqueStatut(saved, ancienStatut, "PREPARATION");
+        
+        return saved;
+    }
+
+    @Transactional
+    public Commande annulerCommande(Long idCommande) {
+        Commande commande = getCommande(idCommande);
+        String statutActuel = commande.getStatutCommande() != null ? commande.getStatutCommande().getLibelle() : null;
+
+        if ("ANNULEE".equals(statutActuel) || "LIVREE".equals(statutActuel)) {
+            throw new RuntimeException("Impossible d'annuler une commande déjà " + statutActuel);
+        }
+
+        if ("PREPARATION".equals(statutActuel) || "PRETE_POUR_RECUPERATION".equals(statutActuel)) {
+            if (commande.getSessionTruck() != null) {
+                consommationService.remettreEnStock(idCommande, commande.getSessionTruck().getId());
+            }
+        }
+
+        StatutCommande statutAnnulee = statutCommandeRepository.findByLibelle("ANNULEE")
+                .orElseThrow(() -> new RuntimeException("Le statut ANNULEE n'existe pas en base."));
+        commande.setStatutCommande(statutAnnulee);
+        Commande saved = commandeRepository.save(commande);
+
+        enregistrerHistoriqueStatut(saved, statutActuel, "ANNULEE");
+        
+        return saved;
+    }
+
+    @Transactional
+    public Commande cloturerCommande(Long idCommande) {
+        Commande commande = getCommande(idCommande);
+        String statutActuel = commande.getStatutCommande() != null ? commande.getStatutCommande().getLibelle() : null;
+
+        if (!"PRETE_POUR_RECUPERATION".equals(statutActuel) && !"LIVREE".equals(statutActuel)) {
+            throw new RuntimeException("La commande doit être PRETE_POUR_RECUPERATION ou LIVREE pour être clôturée");
+        }
+
+        StatutCommande statutLivree = statutCommandeRepository.findByLibelle("LIVREE")
+                .orElseThrow(() -> new RuntimeException("Le statut LIVREE n'existe pas en base."));
+        commande.setStatutCommande(statutLivree);
+        Commande saved = commandeRepository.save(commande);
+
+        enregistrerHistoriqueStatut(saved, statutActuel, "LIVREE");
+        
+        return saved;
+    }
+
+    @Transactional
+    public Commande refuserCommande(Long idCommande) {
+        Commande commande = getCommande(idCommande);
+        String statutActuel = commande.getStatutCommande() != null ? commande.getStatutCommande().getLibelle() : null;
+
+        if ("ANNULEE".equals(statutActuel) || "LIVREE".equals(statutActuel)) {
+            throw new RuntimeException("Impossible de refuser une commande déjà " + statutActuel);
+        }
+
+        if ("PREPARATION".equals(statutActuel)) {
+            if (commande.getSessionTruck() != null) {
+                consommationService.remettreEnStock(idCommande, commande.getSessionTruck().getId());
+            }
+        }
+
+        StatutCommande statutAnnulee = statutCommandeRepository.findByLibelle("ANNULEE")
+                .orElseThrow(() -> new RuntimeException("Le statut ANNULEE n'existe pas en base."));
+        commande.setStatutCommande(statutAnnulee);
+        Commande saved = commandeRepository.save(commande);
+
+        enregistrerHistoriqueStatut(saved, statutActuel, "ANNULEE");
+        
+        return saved;
+    }
+    
+    public List<Commande> getAllCommandes() {
+        return commandeRepository.findAll();
+    }
+
+    public List<Commande> rechercherCommandes(String recherche) {
+        if (recherche == null || recherche.trim().isEmpty()) {
+            return commandeRepository.findAll();
+        }
+        String r = recherche.trim();
+        try {
+            Long id = Long.parseLong(r);
+            return commandeRepository.findByIdCommande(id)
+                    .map(List::of)
+                    .orElse(List.of());
+        } catch (NumberFormatException e) {
+            return commandeRepository.findAll();
+        }
+    }
+
+    public List<Commande> listerCommandesFiltrees(String statut, String type) {
+        boolean hasStatut = statut != null && !statut.isEmpty();
+        boolean hasType = type != null && !type.isEmpty();
+
+        if (hasStatut && hasType) {
+            return commandeRepository.findByStatutCommande_LibelleAndTypeCommande_Libelle(statut, type);
+        } else if (hasStatut) {
+            return commandeRepository.findByStatutCommande_Libelle(statut);
+        } else if (hasType) {
+            return commandeRepository.findByTypeCommande_Libelle(type);
+        }
+        return commandeRepository.findAll();
+    }
+
+    public List<Commande> listerVentes(LocalDateTime dateDebut, LocalDateTime dateFin, Long idSession, String zone) {
+        return commandeRepository.findVentesFiltrees(dateDebut, dateFin, idSession, zone);
+    }
+
+    public List<HistoriqueStatutCommande> getHistoriqueStatut(Long idCommande) {
+        return historiqueStatutCommandeRepository.findByCommande_IdCommandeOrderByDateChangementDesc(idCommande);
+    }
+    
+    public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
+        Produit produit = produitRepository.findById(ligne.getIdProduit())
+                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+        
+        double montantLigne = produit.getPrixBase() * ligne.getQuantite();
+        ligne.setPrixUnitaireFacture(produit.getPrixBase());
+        ligne.setSousTotal(montantLigne);
+        
+        LigneCommande saved = ligneCommandeRepository.save(ligne);
+        recalculerMontantCommande(ligne.getIdCommande());
+        return saved;
     }
     
     public Commande getCommande(Long id) {
@@ -167,7 +273,7 @@ public class VenteService {
     private void recalculerMontantCommande(Long idCommande) {
         List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
         double total = lignes.stream()
-                .mapToDouble(LigneCommande::getSousTotal)
+                .mapToDouble(l -> l.getPrixUnitaireFacture() * l.getQuantite())
                 .sum();
         Commande commande = getCommande(idCommande);
         commande.setMontantTotal(total);
@@ -177,7 +283,12 @@ public class VenteService {
     public double getMontantLignes(Long idCommande) {
         List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
         return lignes.stream()
-                .mapToDouble(LigneCommande::getSousTotal)
+                .mapToDouble(l -> l.getPrixUnitaireFacture() * l.getQuantite())
                 .sum();
+    }
+
+    private void enregistrerHistoriqueStatut(Commande commande, String ancienStatut, String nouveauStatut) {
+        HistoriqueStatutCommande historique = new HistoriqueStatutCommande(commande, ancienStatut, nouveauStatut);
+        historiqueStatutCommandeRepository.save(historique);
     }
 }
