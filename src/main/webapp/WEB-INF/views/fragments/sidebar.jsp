@@ -79,6 +79,18 @@
         Ingrédients périmés
     </a>
 
+    <!-- Mouvements des ingrédients -->
+    <a href="${pageContext.request.contextPath}/mouvement/findAll"
+    class="${activeMenu == 'mouvements-lots' ? 'active' : ''}">
+        <i class="fas fa-exchange-alt"></i>
+        Mouvements des ingrédients
+    </a>
+
+    <a href="${pageContext.request.contextPath}/mouvement/view"
+    class="${activeMenu == 'mouvements-lots' ? 'active' : ''}">
+        Consulter les mouvements
+    </a>
+
     <a href="${pageContext.request.contextPath}/equipements"
     class="${activeMenu == 'equipements' ? 'active' : ''}">
         Équipements

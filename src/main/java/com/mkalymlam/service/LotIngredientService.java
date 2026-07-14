@@ -144,12 +144,12 @@ public class LotIngredientService {
                     .orElse(null);
             existing.setIngredient(ingredient);
         }
-        
-        
-        // if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
-        //     TypeMouvement typeMouvement = typeMouvementService
-        //             .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
-        //     existing.setTypeMouvement(typeMouvement);
+
+        // if (lotIngredient.getTypeMouvement() != null &&
+        // lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
+        // TypeMouvement typeMouvement = typeMouvementService
+        // .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
+        // existing.setTypeMouvement(typeMouvement);
         // }
 
         if (lotIngredient.getDateReception() != null) {
@@ -169,43 +169,48 @@ public class LotIngredientService {
         return lotIngredientRepository.save(existing);
     }
 
-
     @Transactional
     public void deleteById(Long id) {
         lotIngredientRepository.deleteById(id);
     }
 
-// <<<<<<< HEAD
-//     public List<LotIngredient> getAlertLots() {
-//         return lotIngredientRepository.findAll().stream().filter(lot -> lot.getIngredient() != null  && lot.getIngredient().getSeuilAlerteQuantite() != null && lot.getQuantiteRestante() != null && lot.getQuantiteRestante() <= lot.getIngredient().getSeuilAlerteQuantite()) .toList();
-//     }
+    // <<<<<<< HEAD
+    // public List<LotIngredient> getAlertLots() {
+    // return lotIngredientRepository.findAll().stream().filter(lot ->
+    // lot.getIngredient() != null && lot.getIngredient().getSeuilAlerteQuantite()
+    // != null && lot.getQuantiteRestante() != null && lot.getQuantiteRestante() <=
+    // lot.getIngredient().getSeuilAlerteQuantite()) .toList();
+    // }
 
-//     public boolean verifierAlerte(LotIngredient lotIngredient) {
-//         if (lotIngredient.getIngredient() != null && lotIngredient.getQuantiteRestante() != null) {
-//             Double seuilAlerte = lotIngredient.getIngredient().getSeuilAlerteQuantite();
-//             if( seuilAlerte != null && lotIngredient.getQuantiteRestante() <= seuilAlerte){ 
-//                 return true;
-//             }
-//         }
-//         return false;
-//     }
+    // public boolean verifierAlerte(LotIngredient lotIngredient) {
+    // if (lotIngredient.getIngredient() != null &&
+    // lotIngredient.getQuantiteRestante() != null) {
+    // Double seuilAlerte = lotIngredient.getIngredient().getSeuilAlerteQuantite();
+    // if( seuilAlerte != null && lotIngredient.getQuantiteRestante() <=
+    // seuilAlerte){
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
-//     public double quantiteLotIngredientActuelleByIngredient(Long idIngredient ){
-//         Double quantiteActuelle = lotIngredientRepository.sumQuantiteRestanteByIdIngredient(idIngredient);
-//         return quantiteActuelle != null ? quantiteActuelle : 0.0;
-//     }
+    // public double quantiteLotIngredientActuelleByIngredient(Long idIngredient ){
+    // Double quantiteActuelle =
+    // lotIngredientRepository.sumQuantiteRestanteByIdIngredient(idIngredient);
+    // return quantiteActuelle != null ? quantiteActuelle : 0.0;
+    // }
 
-//     public List<LotIngredient> getAllWithAlertStatus() {
-//         List<LotIngredient> lots = lotIngredientRepository.findAll();
-//         lots.forEach(lot -> {
-//             lot.setAlerte(verifierAlerte(lot));
-//         });
-//         return lots;
-//     }
+    // public List<LotIngredient> getAllWithAlertStatus() {
+    // List<LotIngredient> lots = lotIngredientRepository.findAll();
+    // lots.forEach(lot -> {
+    // lot.setAlerte(verifierAlerte(lot));
+    // });
+    // return lots;
+    // }
 
-//     public List<Ingredient> getAllIngredients() {
-//         return ingredientRepository.findAll();
-// =======
+    // public List<Ingredient> getAllIngredients() {
+    // return ingredientRepository.findAll();
+    // =======
     public List<Ingredient> getAlertLots() {
         return ingredientRepository.findAll().stream()
                 .filter(ingredient -> ingredient.getSeuilAlerteQuantite() != null)

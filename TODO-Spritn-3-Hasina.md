@@ -250,7 +250,7 @@ CREATE TABLE "mouvementLotIngredient" (
         - mouvementLotIngredient
     - principe:
         - Sortie des ingredients dans un lotIngredient impossible Si :
-            - date de peremption < date now()
+            - date de peremption de lot < date now()
             - quantite restante = 0
         - Si on fait une sortie d'un ingredient dans le stock:
             1- On choisi un lot ( idLot_)
@@ -264,3 +264,13 @@ au cas ou ( mba mora anaovana n fonciton s codage )
 
 
 ==================
+# FINI:
+    - Insertion LotIngredient 
+    - Affichaage de tableau LotIngredient
+
+    - Alerte de stock faible
+    - Alerte de peremption proche
+    - Affichage des ingredients bientot perimes
+    - Affichage des ingredients perimes
+
+    - 
