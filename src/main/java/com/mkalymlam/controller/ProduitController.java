@@ -31,8 +31,6 @@ public class ProduitController {
     private final ProduitAvecDisponibiliteRepository produitVueRepository;
     private final DisponibiliteService disponibiliteService;
 
-    
-
     public ProduitController(ProduitService service, CsvExcelImportService csvExcelImportService,
             ProduitAvecDisponibiliteRepository produitVueRepository, DisponibiliteService disponibiliteService) {
         this.service = service;
@@ -56,8 +54,7 @@ public class ProduitController {
         }
 
         List<ProduitAvecDisponibilite> produitsVue = produitVueRepository.findByCriteria(
-            nomProduit, estDisponible, nouveauProduit
-        );
+                nomProduit, estDisponible, nouveauProduit);
 
         // Convertir en Produit pour garder la compatibilité avec la JSP
         List<Produit> produits = produitsVue.stream()
@@ -84,7 +81,6 @@ public class ProduitController {
         return service.findAll();
     }
 
-    
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("produit", new Produit());
@@ -97,8 +93,7 @@ public class ProduitController {
     public String create(
             @RequestParam String nomProduit,
             @RequestParam Double prixBase,
-            @RequestParam(required = false)
-            Boolean estNouveau) {
+            @RequestParam(required = false) Boolean estNouveau) {
 
         Produit produit = new Produit();
 
@@ -137,11 +132,9 @@ public class ProduitController {
             @PathVariable Long id,
             @RequestParam String nomProduit,
             @RequestParam Double prixBase,
-            @RequestParam(required = false)
-            Boolean estNouveau) {
+            @RequestParam(required = false) Boolean estNouveau) {
 
-        Produit produit =
-                service.getById(id);
+        Produit produit = service.getById(id);
 
         produit.setNomProduit(nomProduit);
         produit.setPrixBase(prixBase);
@@ -161,33 +154,29 @@ public class ProduitController {
         return "redirect:/produits";
     }
 
-
-@GetMapping("/export/csv")
-public void exportCSV(HttpServletResponse response) throws IOException {
-    List<Produit> produits = service.findAll(); // ou repository.findAll()
-    response.setContentType("text/csv; charset=UTF-8");
-    response.setHeader("Content-Disposition", "attachment; filename=\"produits.csv\"");
-    PrintWriter writer = response.getWriter();
-    writer.println("ID,Nom,Prix,Est nouveau,Date création");
-    for (Produit p : produits) {
-        writer.printf("%d,\"%s\",%.2f,%s,%s%n",
-                p.getIdProduit(),
-                p.getNomProduit().replace("\"", "\"\""),
-                p.getPrixBase(),
-                p.getEstNouveau() ? "Oui" : "Non",
-                p.getDateCreation()
-        );
+    @GetMapping("/export/csv")
+    public void exportCSV(HttpServletResponse response) throws IOException {
+        List<Produit> produits = service.findAll(); // ou repository.findAll()
+        response.setContentType("text/csv; charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"produits.csv\"");
+        PrintWriter writer = response.getWriter();
+        writer.println("ID,Nom,Prix,Est nouveau,Date création");
+        for (Produit p : produits) {
+            writer.printf("%d,\"%s\",%.2f,%s,%s%n",
+                    p.getIdProduit(),
+                    p.getNomProduit().replace("\"", "\"\""),
+                    p.getPrixBase(),
+                    p.getEstNouveau() ? "Oui" : "Non",
+                    p.getDateCreation());
+        }
+        writer.flush();
     }
-    writer.flush();
-}
 
-@GetMapping("/print")
-public String printPage(Model model) {
-    model.addAttribute("produits", service.findAll());
-    return "produit/print";
-}
-
-
+    @GetMapping("/print")
+    public String printPage(Model model) {
+        model.addAttribute("produits", service.findAll());
+        return "produit/print";
+    }
 
     @GetMapping("/import")
     public String pageImport(Model model) {
@@ -210,6 +199,9 @@ public String printPage(Model model) {
             redirectAttributes.addFlashAttribute("error",
                 "Erreur lors de l'import : " + e.getMessage());
         }
+        return "redirect:/produits";
+    }
+
     @PostMapping("/{id}/activate")
     public String activate(@PathVariable Long id) {
 

@@ -68,9 +68,11 @@ public class ProduitService {
                 produit.setNomProduit(nomProduit);
                 produit.setPrixBase(Double.parseDouble(prixBaseStr.replace(",", ".")));
                 produit.setEstNouveau(!estNouveauStr.isEmpty()
-                        ? Boolean.parseBoolean(estNouveauStr) : false);
+                        ? Boolean.parseBoolean(estNouveauStr)
+                        : false);
                 produit.setDateCreation(!dateCreationStr.isEmpty()
-                        ? LocalDate.parse(dateCreationStr) : LocalDate.now());
+                        ? LocalDate.parse(dateCreationStr)
+                        : LocalDate.now());
 
                 repository.save(produit);
 
@@ -93,8 +95,11 @@ public class ProduitService {
     }
 
     private String getCellValue(String[] row, int index) {
-        if (index < 0 || index >= row.length) return "";
+        if (index < 0 || index >= row.length)
+            return "";
         return row[index] != null ? row[index].trim() : "";
+    }
+
     public boolean verifierEstNouveau(Produit produit) {
         if (produit.getEstNouveau() == true) {
             return true;
@@ -110,7 +115,7 @@ public class ProduitService {
         return produits;
     }
 
-     public List<Produit> getAllNouveauxProduits() {
+    public List<Produit> getAllNouveauxProduits() {
         List<Produit> produits = repository.findAll();
         produits.forEach(produit -> {
             produit.setEstNouveau(verifierEstNouveau(produit));
