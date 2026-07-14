@@ -172,18 +172,6 @@ CREATE TABLE "mouvementLotIngredient" (
 
 
 =================================
-## -2
-- Dans fragments/sidebar.jsp:
-    - On va y ajouter : Publication de truck 
-- On a une formulaire de publiation d'un truck: localisation/form.jsp
-    - Liste deroulante de Type de Notification. ( findAll )
-    - titre ( champs)
-    - message
-    - Liste deroulante de Produit ( findAll ou autre ) ( nullabl)
-Liste deroulante de Session ( le session truck courante )
-dateheure envoi ( current date)
-
-
 ## -3
 Dans la meme page que petite formulaire semi horizontale de Publication , on affiche la bas la publication pour ce jour ( en ajoutant al filtre )
 - On affiche la publication correspondre a la session du truck ( en format de card )
