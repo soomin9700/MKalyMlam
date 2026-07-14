@@ -63,18 +63,6 @@
                     <input type="number" id="prixAchatUnitaire" name="prixAchatUnitaire" step="0.01" min="0" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="typeMouvement">Type de mouvement *</label>
-                    <select id="typeMouvement" name="typeMouvement.idTypeMouvement" required>
-                        <option value="">Sélectionnez un type</option>
-                        <c:forEach items="${typeMouvements}" var="typeMouvementItem">
-                            <option value="${typeMouvementItem.idTypeMouvement}">
-                                ${typeMouvementItem.libelle}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-
                 <div class="form-actions">
                     <button type="submit" class="btn-success">
                         <i class="fas fa-save"></i>
@@ -135,7 +123,6 @@
                         <th>Date péremption</th>
                         <th>Quantité</th>
                         <th>Prix unitaire</th>
-                        <th>Type de mouvement</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -147,7 +134,6 @@
                             <td>${lot.datePeremption}</td>
                             <td>${lot.quantiteInitiale}</td>
                             <td>${lot.prixAchatUnitaire}</td>
-                            <td>${lot.typeMouvement.libelle}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

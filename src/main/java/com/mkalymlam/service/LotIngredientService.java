@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.entity.LotIngredient;
-import com.mkalymlam.entity.TypeMouvement;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
 import com.mkalymlam.repository.MouvementLotIngredientRepository;
@@ -18,16 +17,13 @@ public class LotIngredientService {
 
     private final LotIngredientRepository lotIngredientRepository;
     private final IngredientRepository ingredientRepository;
-    private final TypeMouvementService typeMouvementService;
     private final MouvementLotIngredientRepository mouvementRepository;
 
     public LotIngredientService(LotIngredientRepository lotIngredientRepository,
             IngredientRepository ingredientRepository,
-            TypeMouvementService typeMouvementService,
             MouvementLotIngredientRepository mouvementRepository) {
         this.lotIngredientRepository = lotIngredientRepository;
         this.ingredientRepository = ingredientRepository;
-        this.typeMouvementService = typeMouvementService;
         this.mouvementRepository = mouvementRepository;
     }
 
@@ -124,11 +120,6 @@ public class LotIngredientService {
             lotIngredient.setDateReception(LocalDate.now());
         }
         
-        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
-            TypeMouvement typeMouvement = typeMouvementService
-                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
-            lotIngredient.setTypeMouvement(typeMouvement);
-        }
         return lotIngredientRepository.save(lotIngredient);
     }
 
@@ -146,12 +137,6 @@ public class LotIngredientService {
         }
         
         
-        if (lotIngredient.getTypeMouvement() != null && lotIngredient.getTypeMouvement().getIdTypeMouvement() != null) {
-            TypeMouvement typeMouvement = typeMouvementService
-                    .getById(lotIngredient.getTypeMouvement().getIdTypeMouvement());
-            existing.setTypeMouvement(typeMouvement);
-        }
-
         if (lotIngredient.getDateReception() != null) {
             existing.setDateReception(lotIngredient.getDateReception());
         }
@@ -237,9 +222,7 @@ public class LotIngredientService {
     private double calculerTotalEntreesNonPerimees(Long idIngredient) {
         java.time.LocalDate today = LocalDate.now();
         double initialEntries = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
-                .filter(lot -> lot != null && lot.getTypeMouvement() != null
-                        && lot.getTypeMouvement().getIdTypeMouvement() != null
-                        && lot.getTypeMouvement().getIdTypeMouvement().equals(1L)
+                .filter(lot -> lot != null
                         && lot.getQuantiteInitiale() != null
                         && lot.getDatePeremption() != null
                         && !lot.getDatePeremption().isBefore(today))
@@ -264,16 +247,7 @@ public class LotIngredientService {
     }
 
     private double calculerTotalSorties(Long idIngredient) {
-        double legacySorties = lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
-                .filter(lot -> lot != null && lot.getTypeMouvement() != null
-                        && lot.getTypeMouvement().getIdTypeMouvement() != null
-                        && lot.getTypeMouvement().getIdTypeMouvement().equals(2L)
-                        && lot.getQuantiteInitiale() != null)
-                .mapToDouble(LotIngredient::getQuantiteInitiale)
-                .sum();
-
         Double mouvementsSorties = mouvementRepository.sumQuantiteByIngredientAndType(idIngredient, 2L);
-        double sortiesMouv = mouvementsSorties == null ? 0.0 : mouvementsSorties;
-        return legacySorties + sortiesMouv;
+        return mouvementsSorties == null ? 0.0 : mouvementsSorties;
     }
 }

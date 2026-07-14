@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiche employé</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <style>
         :root {
             --brand: #da291c;
@@ -168,15 +169,6 @@
         .badge-danger {
             background: #f8d7da;
             color: #721c24;
-        }
-
-        /* Sidebar conservée pour cohérence */
-        .sidebar {
-            width: 250px;
-            background: #1a1a1a;
-            color: white;
-            padding: 20px;
-            min-height: 100vh;
         }
 
         /* Espacement entre le bouton d'action et le tableau */

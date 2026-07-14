@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.EquipeSession;
 import com.mkalymlam.entity.EquipeSessionId;
-import com.mkalymlam.entity.Role;
+import com.mkalymlam.entity.RoleEntity;
 import com.mkalymlam.entity.SessionTruck;
 import com.mkalymlam.entity.Utilisateur;
 import com.mkalymlam.repository.EquipeSessionRepository;
@@ -55,7 +55,7 @@ public class EquipeSessionService {
             throw new IllegalArgumentException("Cet employe est deja affecte a cette session");
         }
 
-        Role roleDuJour = roleRepository.findById(idRoleDuJour)
+        RoleEntity roleDuJour = roleRepository.findById(idRoleDuJour)
                 .orElseThrow(() -> new IllegalArgumentException("RoleDuJour invalide : " + idRoleDuJour));
 
         EquipeSession equipeSession = new EquipeSession();

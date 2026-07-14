@@ -1,42 +1,116 @@
 package com.mkalymlam.entity;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "utilisateur")
-@Data
 public class Utilisateur {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"idUtilisateur\"")
     private Integer idUtilisateur;
 
-    @Column(name = "\"nom\"", nullable = false, length = 100)
+    @Column(name = "\"nom\"")
     private String nom;
 
-    @Column(name = "\"prenom\"", length = 100)
+    @Column(name = "\"prenom\"")
     private String prenom;
 
-    @Column(name = "\"email\"", nullable = false, unique = true, length = 150)
+    @Column(name = "\"email\"")
     private String email;
 
-    @Column(name = "\"motDePasse\"", nullable = false, length = 255)
+    @Column(name = "\"motDePasse\"")
     private String motDePasse;
 
-    @Column(name = "\"idRole\"", nullable = false)
-    private Integer idRole;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "\"idRole\"", nullable = false)
+    private RoleEntity role;
 
     @Column(name = "\"salaireBaseFixe\"")
     private BigDecimal salaireBaseFixe;
 
-    @Column(name = "\"statutActif\"", nullable = false)
+    @Column(name = "\"statutActif\"")
     private Boolean statutActif = true;
+
+    public Utilisateur() {
+    }
+
+    public Integer getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(Integer idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+
+    public Integer getIdRole() {
+        return role != null ? role.getIdRole().intValue() : null;
+    }
+
+    public BigDecimal getSalaireBaseFixe() {
+        return salaireBaseFixe;
+    }
+
+    public void setSalaireBaseFixe(BigDecimal salaireBaseFixe) {
+        this.salaireBaseFixe = salaireBaseFixe;
+    }
+
+    public Boolean getStatutActif() {
+        return statutActif;
+    }
+
+    public void setStatutActif(Boolean statutActif) {
+        this.statutActif = statutActif;
+    }
 }

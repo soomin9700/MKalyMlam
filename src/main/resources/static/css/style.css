@@ -7,6 +7,9 @@
     --light:#F8FAFC;
     --white:#FFFFFF;
     --gray:#E5E7EB;
+    --line:rgba(255,255,255,.08);
+    --danger:#EF4444;
+    --accent:#F9A826;
     --shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
@@ -173,38 +176,65 @@ header{
     min-height:100vh;
     background:var(--dark);
     color:white;
-    padding:30px;
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+    position:sticky;
+    top:0;
+    box-shadow:4px 0 24px rgba(0,0,0,.18);
 }
 
 .sidebar h2{
-    color:var(--secondary);
-    margin-bottom:40px;
+    color:var(--accent);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin:6px 12px 14px;
+    opacity:.85;
 }
 
-.sidebar a{
-    display:block;
-    color:white;
-    margin:18px 0;
+.sidebar a:not(.logout-link){
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:rgba(255,255,255,.72);
+    padding:11px 14px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:500;
+    position:relative;
+    transition:all .2s ease;
+}
+
+.sidebar a:not(.logout-link) i{
+    width:20px;
+    text-align:center;
+    font-size:15px;
+    opacity:.85;
+}
+
+.sidebar a:not(.logout-link):hover{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    transform:translateX(3px);
 }
 
 .sidebar a.active {
-    color: #facc15; /* jaune */
-    font-weight: bold;
+    background:linear-gradient(90deg, rgba(249,168,38,.22), rgba(249,168,38,.04));
+    color:var(--accent);
+    font-weight:600;
 }
 
 .sidebar a.active::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: #facc15;
-}
-
-.sidebar a.active {
-    background: rgba(250, 204, 21, 0.1);
-    color: #facc15;
-    border-radius: 8px;
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:4px;
+    height:60%;
+    background:var(--accent);
+    border-radius:0 4px 4px 0;
 }
 
 .main{
@@ -293,7 +323,6 @@ footer{
 }
 
 
-
 .badge {
     display: inline-block;
     padding: 4px 8px;
@@ -317,3 +346,27 @@ footer{
 .info-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 .info-table th { width: 150px; text-align: right; padding-right: 15px; font-weight: bold; color: #555; }
 .info-table td { padding: 8px 0; }
+
+.logout-section {
+    margin-top: auto;
+    padding: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.logout-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--danger);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+
+.logout-link:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+}

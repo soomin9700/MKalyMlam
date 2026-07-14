@@ -89,7 +89,7 @@
                                 <select name="roleDuJour">
                                     <option value="0">Selectionner un rôle</option>
                                     <c:forEach items="${roles}" var="role">
-                                        <option value="${role.id}">${role.libelle}</option>
+                                    <option value="${role.idRole}">${role.libelle}</option>
                                     </c:forEach>
                                 </select>
                             </div>

@@ -102,7 +102,7 @@
                                 Quantité reçue
                             </label>
 
-                            <input
+                                <input
                                     type="number"
                                     id="quantiteInitiale"
                                     name="quantiteInitiale"
@@ -111,19 +111,7 @@
                                     value="${lot.quantiteInitiale}"
                                     placeholder="Ex: 5">
 
-                            <!-- quantiteRestante -->
-                            <label for="quantiteRestante">
-                                Quantité restante 
-                            </label>
 
-                            <input
-                                    type="number"
-                                    id="quantiteRestante"
-                                    name="quantiteRestante"
-                                    step="0.01"
-                                    min="0"
-                                    value="${lot.quantiteRestante}"
-                                    placeholder="Ex: 5">
                         </c:when>
 
                         <c:otherwise>

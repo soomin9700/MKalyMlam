@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 
 @Entity
@@ -36,8 +35,8 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
-    @Column(name = "\"quantiteRestante\"") 
-    private Double quantiteRestante; 
+    @Column(name = "\"quantiteRestante\"")
+    private Double quantiteRestante;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idTypeMouvement\"")
@@ -50,12 +49,11 @@ public class LotIngredient {
     }
 
     public LotIngredient(Ingredient ingredient, LocalDate dateReception, LocalDate datePeremption,
-            Double quantiteInitiale, TypeMouvement typeMouvement, Double prixAchatUnitaire) {
+            Double quantiteInitiale, Double prixAchatUnitaire) {
         this.ingredient = ingredient;
         this.dateReception = dateReception;
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
-        this.typeMouvement = typeMouvement;
         this.prixAchatUnitaire = prixAchatUnitaire;
     }
 
@@ -97,6 +95,14 @@ public class LotIngredient {
 
     public void setQuantiteInitiale(Double quantiteInitiale) {
         this.quantiteInitiale = quantiteInitiale;
+    }
+
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
     }
 
     public TypeMouvement getTypeMouvement() {

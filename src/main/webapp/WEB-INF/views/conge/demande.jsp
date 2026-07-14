@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Nouvelle demande de congé</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <style>
         :root {
             --brand: #da291c; --bg: #f5f5f5; --panel: #fff; --ink: #1a1a1a; --muted: #666; --line: #e0e0e0;
@@ -29,7 +30,6 @@
         input, select, textarea { width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; font-size:14px; }
         .row { display:flex; gap:15px; }
         .row > div { flex:1; }
-        .sidebar { width:250px; background:#1a1a1a; color:#fff; padding:20px; min-height:100vh; }
     </style>
 </head>
 <body>
