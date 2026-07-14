@@ -30,7 +30,13 @@ import com.mkalymlam.service.FichePaieService;
 public class FichePaieController {
 
     private final FichePaieService fichePaieService;
-    private static final int PDF_LINES_PER_PAGE = 34;
+    private static final int[] COL_X = {40, 80, 235, 320, 410, 500};
+    private static final int COL_END = 555;
+    private static final String[] COL_HDR = {"ID", "Employe", "Mois", "Brut (Ar)", "Net verse (Ar)", "Date"};
+    private static final int ROW_H = 20;
+    private static final int HDR_H = 22;
+    private static final int FIRST_PAGE_MAX = 31;
+    private static final int OTHER_PAGE_MAX = 35;
 
     public FichePaieController(FichePaieService fichePaieService) {
         this.fichePaieService = fichePaieService;
@@ -140,61 +146,51 @@ public class FichePaieController {
     }
 
     private byte[] buildPdf(List<FichePaie> fichesPaie, String moisAnnee) {
-        List<String> lines = new ArrayList<>();
-        lines.add("Liste des fiches de paie" + (moisAnnee == null || moisAnnee.isBlank() ? "" : " - " + moisAnnee));
-        lines.add("");
-        lines.add("ID | Employe | Mois | Brut | Net verse | Date paiement");
-        lines.add("------------------------------------------------------------");
-
-        for (FichePaie fiche : fichesPaie) {
-            lines.add(safePdfText(fiche.getIdFiche()) + " | "
-                    + safePdfText(nomEmploye(fiche)) + " | "
-                    + safePdfText(fiche.getMoisAnnee()) + " | "
-                    + safePdfText(fiche.getMontantFixeBrut()) + " | "
-                    + safePdfText(fiche.getMontantNetVerse()) + " | "
-                    + safePdfText(fiche.getDatePaiement()));
+        int totalRows = fichesPaie.size();
+        int pageCount;
+        if (totalRows <= FIRST_PAGE_MAX) {
+            pageCount = 1;
+        } else {
+            pageCount = 1 + (int) Math.ceil((double) (totalRows - FIRST_PAGE_MAX) / OTHER_PAGE_MAX);
         }
 
-        if (fichesPaie.isEmpty()) {
-            lines.add("Aucune fiche de paie trouvee.");
+        List<String> streams = new ArrayList<>();
+        for (int p = 0; p < pageCount; p++) {
+            streams.add(buildPageStream(fichesPaie, moisAnnee, p, pageCount));
         }
 
-        return writeSimplePdf(lines);
-    }
-
-    private byte[] writeSimplePdf(List<String> lines) {
-        int pageCount = Math.max(1, (int) Math.ceil(lines.size() / (double) PDF_LINES_PER_PAGE));
-        int fontObjectNumber = 3 + pageCount * 2;
+        int fontObjNum = 3 + pageCount * 2;
         List<String> objects = new ArrayList<>();
 
         objects.add("<< /Type /Catalog /Pages 2 0 R >>");
 
         StringBuilder kids = new StringBuilder();
-        for (int page = 0; page < pageCount; page++) {
-            kids.append(3 + page * 2).append(" 0 R ");
+        for (int p = 0; p < pageCount; p++) {
+            kids.append(3 + p * 2).append(" 0 R ");
         }
-        objects.add("<< /Type /Pages /Kids [" + kids + "] /Count " + pageCount + " >>");
+        objects.add("<< /Type /Pages /Kids [" + kids.toString().trim() + "] /Count " + pageCount + " >>");
 
-        for (int page = 0; page < pageCount; page++) {
-            int pageObjectNumber = 3 + page * 2;
-            int contentObjectNumber = pageObjectNumber + 1;
+        for (int p = 0; p < pageCount; p++) {
+            int pageObj = 3 + p * 2;
+            int contentObj = pageObj + 1;
             objects.add("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] "
-                    + "/Resources << /Font << /F1 " + fontObjectNumber + " 0 R >> >> "
-                    + "/Contents " + contentObjectNumber + " 0 R >>");
-            String stream = buildPdfPageStream(lines, page);
-            objects.add("<< /Length " + stream.getBytes(StandardCharsets.ISO_8859_1).length + " >>\nstream\n"
-                    + stream + "endstream");
+                    + "/Resources << /Font << /F1 " + fontObjNum + " 0 R /F2 " + (fontObjNum + 1) + " 0 R >> >> "
+                    + "/Contents " + contentObj + " 0 R >>");
+            String stream = streams.get(p);
+            objects.add("<< /Length " + stream.getBytes(StandardCharsets.ISO_8859_1).length
+                    + " >>\nstream\n" + stream + "endstream");
         }
 
         objects.add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+        objects.add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
 
         ByteArrayOutputStream pdf = new ByteArrayOutputStream();
         writePdfPart(pdf, "%PDF-1.4\n");
         List<Integer> offsets = new ArrayList<>();
 
-        for (int index = 0; index < objects.size(); index++) {
+        for (int i = 0; i < objects.size(); i++) {
             offsets.add(pdf.size());
-            writePdfPart(pdf, (index + 1) + " 0 obj\n" + objects.get(index) + "\nendobj\n");
+            writePdfPart(pdf, (i + 1) + " 0 obj\n" + objects.get(i) + "\nendobj\n");
         }
 
         int xrefOffset = pdf.size();
@@ -209,23 +205,136 @@ public class FichePaieController {
         return pdf.toByteArray();
     }
 
-    private String buildPdfPageStream(List<String> lines, int page) {
-        int start = page * PDF_LINES_PER_PAGE;
-        int end = Math.min(start + PDF_LINES_PER_PAGE, lines.size());
-        StringBuilder stream = new StringBuilder();
-        stream.append("BT\n/F1 10 Tf\n14 TL\n50 795 Td\n");
+    private String buildPageStream(List<FichePaie> fichesPaie, String moisAnnee, int page, int totalPages) {
+        StringBuilder s = new StringBuilder();
+        boolean first = (page == 0);
 
-        for (int i = start; i < end; i++) {
-            stream.append('(').append(escapePdf(lines.get(i))).append(") Tj\nT*\n");
+        int startRow, endRow;
+        if (first) {
+            startRow = 0;
+            endRow = Math.min(fichesPaie.size(), FIRST_PAGE_MAX);
+        } else {
+            startRow = FIRST_PAGE_MAX + (page - 1) * OTHER_PAGE_MAX;
+            endRow = Math.min(fichesPaie.size(), startRow + OTHER_PAGE_MAX);
         }
 
-        stream.append("ET\n");
-        return stream.toString();
+        int tableLeft = COL_X[0];
+        int tableWidth = COL_END - COL_X[0];
+        double cursor = 790;
+
+        if (first) {
+            s.append("0.17 0.24 0.42 rg\n");
+            s.append("0 808 595 34 re f\n");
+            s.append("1 1 1 rg\n");
+            s.append("BT\n/F2 18 Tf\n248 820 Td\n(MKALY MLAM) Tj\nET\n");
+
+            String subtitle = "Liste des fiches de paie";
+            if (moisAnnee != null && !moisAnnee.isBlank()) {
+                subtitle += " - " + moisAnnee;
+            }
+            s.append("0.2 0.2 0.2 rg\n");
+            s.append("BT\n/F1 11 Tf\n");
+            s.append((297.5 - subtitle.length() * 3) + " " + cursor + " Td\n");
+            s.append("(" + escapePdf(safePdfText(subtitle)) + ") Tj\nET\n");
+            cursor -= 18;
+
+            s.append("0.82 0.84 0.87 RG\n0.5 w\n");
+            s.append(tableLeft + " " + cursor + " m " + COL_END + " " + cursor + " l S\n");
+            cursor -= 20;
+        } else {
+            s.append("0.2 0.2 0.2 rg\n");
+            s.append("BT\n/F1 11 Tf\n");
+            String contTitle = "Liste des fiches de paie (suite)";
+            s.append((297.5 - contTitle.length() * 3) + " " + cursor + " Td\n");
+            s.append("(" + contTitle + ") Tj\nET\n");
+            cursor -= 18;
+
+            s.append("0.82 0.84 0.87 RG\n0.5 w\n");
+            s.append(tableLeft + " " + cursor + " m " + COL_END + " " + cursor + " l S\n");
+            cursor -= 20;
+        }
+
+        double tableTop = cursor;
+
+        if (fichesPaie.isEmpty()) {
+            s.append("0.4 0.4 0.4 rg\n");
+            s.append("BT\n/F1 12 Tf\n200 650 Td\n(Aucune fiche de paie trouvee.) Tj\nET\n");
+        } else {
+            s.append("0.17 0.24 0.42 rg\n");
+            s.append(tableLeft + " " + (cursor - HDR_H) + " " + tableWidth + " " + HDR_H + " re f\n");
+
+            s.append("1 1 1 rg\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[0] + 5) + " " + (cursor - 14) + " Td\n(ID) Tj\nET\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[1] + 5) + " " + (cursor - 14) + " Td\n(Employe) Tj\nET\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[2] + 5) + " " + (cursor - 14) + " Td\n(Mois) Tj\nET\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[4] - 5 - "Brut (Ar)".length() * 5.5) + " " + (cursor - 14) + " Td\n(Brut (Ar)) Tj\nET\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[5] - 5 - "Net verse (Ar)".length() * 5.5) + " " + (cursor - 14) + " Td\n(Net verse (Ar)) Tj\nET\n");
+            s.append("BT\n/F2 9 Tf\n" + (COL_X[5] + 5) + " " + (cursor - 14) + " Td\n(Date) Tj\nET\n");
+
+            cursor -= HDR_H;
+
+            for (int i = startRow; i < endRow; i++) {
+                FichePaie fiche = fichesPaie.get(i);
+                int rowIdx = i - startRow;
+
+                if (rowIdx % 2 == 1) {
+                    s.append("0.95 0.96 0.97 rg\n");
+                    s.append(tableLeft + " " + (cursor - ROW_H) + " " + tableWidth + " " + ROW_H + " re f\n");
+                }
+
+                double textY = cursor - ROW_H + 5;
+                String[] values = {
+                    safePdfText(fiche.getIdFiche()),
+                    safePdfText(nomEmploye(fiche)),
+                    safePdfText(fiche.getMoisAnnee()),
+                    safePdfText(formatMontant(fiche.getMontantFixeBrut())),
+                    safePdfText(formatMontant(fiche.getMontantNetVerse())),
+                    safePdfText(fiche.getDatePaiement())
+                };
+
+                s.append("0.1 0.1 0.1 rg\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[0] + 5) + " " + textY + " Td\n(" + escapePdf(values[0]) + ") Tj\nET\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[1] + 5) + " " + textY + " Td\n(" + escapePdf(values[1]) + ") Tj\nET\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[2] + 5) + " " + textY + " Td\n(" + escapePdf(values[2]) + ") Tj\nET\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[4] - 5 - values[3].length() * 4.5) + " " + textY + " Td\n(" + escapePdf(values[3]) + ") Tj\nET\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[5] - 5 - values[4].length() * 4.5) + " " + textY + " Td\n(" + escapePdf(values[4]) + ") Tj\nET\n");
+                s.append("BT\n/F1 9 Tf\n" + (COL_X[5] + 5) + " " + textY + " Td\n(" + escapePdf(values[5]) + ") Tj\nET\n");
+
+                cursor -= ROW_H;
+            }
+        }
+
+        double tableBottom = cursor;
+
+        if (!fichesPaie.isEmpty()) {
+            s.append("0.82 0.84 0.87 RG\n0.5 w\n");
+            s.append(tableLeft + " " + tableTop + " m " + COL_END + " " + tableTop + " l S\n");
+            s.append(tableLeft + " " + tableBottom + " m " + COL_END + " " + tableBottom + " l S\n");
+            s.append(tableLeft + " " + (tableTop - HDR_H) + " m " + COL_END + " " + (tableTop - HDR_H) + " l S\n");
+            for (int c = 1; c < COL_X.length; c++) {
+                s.append(COL_X[c] + " " + tableBottom + " m " + COL_X[c] + " " + tableTop + " l S\n");
+            }
+            s.append(COL_END + " " + tableBottom + " m " + COL_END + " " + tableTop + " l S\n");
+        }
+
+        s.append("0.17 0.24 0.42 rg\n40 42 515 1.5 re f\n");
+        s.append("BT\n/F1 8 Tf\n0.4 0.4 0.5 rg\n");
+        s.append("275 30 Td\n(Page " + (page + 1) + " / " + totalPages + ") Tj\nET\n");
+
+        return s.toString();
     }
 
     private void writePdfPart(ByteArrayOutputStream pdf, String text) {
         byte[] bytes = text.getBytes(StandardCharsets.ISO_8859_1);
         pdf.write(bytes, 0, bytes.length);
+    }
+
+    private String formatMontant(Object value) {
+        if (value == null) return "";
+        if (value instanceof Number) {
+            return String.format("%,.0f", ((Number) value).doubleValue());
+        }
+        return value.toString();
     }
 
     private String safePdfText(Object value) {
