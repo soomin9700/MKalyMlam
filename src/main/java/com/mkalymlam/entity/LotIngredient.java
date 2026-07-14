@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+
 @Entity
 @Table(name = "\"lotIngredient\"")
 public class LotIngredient {
@@ -35,33 +36,26 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
-    @Column(name = "\"quantiteRestante\"")
-    private Double quantiteRestante;
+    @Column(name = "\"quantiteRestante\"") 
+    private Double quantiteRestante; 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "\"idTypeMouvement\"")
+    private TypeMouvement typeMouvement;
 
     @Column(name = "\"prixAchatUnitaire\"")
     private Double prixAchatUnitaire;
-
-    @Transient  // Ne pas persister en base
-    private boolean alerte;
-    
-    public boolean isAlerte() {
-        return alerte;
-    }
-    
-    public void setAlerte(boolean alerte) {
-        this.alerte = alerte;
-    }
 
     public LotIngredient() {
     }
 
     public LotIngredient(Ingredient ingredient, LocalDate dateReception, LocalDate datePeremption,
-            Double quantiteInitiale, Double quantiteRestante, Double prixAchatUnitaire) {
+            Double quantiteInitiale, TypeMouvement typeMouvement, Double prixAchatUnitaire) {
         this.ingredient = ingredient;
         this.dateReception = dateReception;
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
-        this.quantiteRestante = quantiteRestante;
+        this.typeMouvement = typeMouvement;
         this.prixAchatUnitaire = prixAchatUnitaire;
     }
 
@@ -105,12 +99,12 @@ public class LotIngredient {
         this.quantiteInitiale = quantiteInitiale;
     }
 
-    public Double getQuantiteRestante() {
-        return quantiteRestante;
+    public TypeMouvement getTypeMouvement() {
+        return typeMouvement;
     }
 
-    public void setQuantiteRestante(Double quantiteRestante) {
-        this.quantiteRestante = quantiteRestante;
+    public void setTypeMouvement(TypeMouvement typeMouvement) {
+        this.typeMouvement = typeMouvement;
     }
 
     public Double getPrixAchatUnitaire() {

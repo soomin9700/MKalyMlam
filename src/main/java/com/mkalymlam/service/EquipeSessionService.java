@@ -42,16 +42,16 @@ public class EquipeSessionService {
         SessionTruck session = sessionTruckRepository.findById(idSession)
                 .orElseThrow(() -> new IllegalArgumentException("Session introuvable avec l'id " + idSession));
 
-        Utilisateur utilisateur = utilisateurRepository.findById(idUtilisateur)
+        Utilisateur utilisateur = utilisateurRepository.findById(idUtilisateur.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable avec l'id " + idUtilisateur));
 
-        if (utilisateur.getRole() != null && ROLE_REMPLACANT.equals(utilisateur.getRole().getLibelle())) {
-            if (salaireRemplacant == null || salaireRemplacant <= 0) {
-                throw new IllegalArgumentException("Le salaire journalier remplacant est obligatoire pour un employe remplacant");
-            }
-        }
+        // if (utilisateur.getIdRole() != null && ROLE_REMPLACANT.equals(utilisateur.getRole().getLibelle())) {
+        //     if (salaireRemplacant == null || salaireRemplacant <= 0) {
+        //         throw new IllegalArgumentException("Le salaire journalier remplacant est obligatoire pour un employe remplacant");
+        //     }
+        // }
 
-        EquipeSessionId id = new EquipeSessionId(idSession, idUtilisateur);
+        EquipeSessionId id = new EquipeSessionId(idSession, idUtilisateur.intValue());
         if (equipeSessionRepository.existsById(id)) {
             throw new IllegalArgumentException("Cet employe est deja affecte a cette session");
         }
@@ -91,7 +91,7 @@ public class EquipeSessionService {
 
     @Transactional
     public void retirer(Long idSession, Long idUtilisateur) {
-        EquipeSessionId id = new EquipeSessionId(idSession, idUtilisateur);
+        EquipeSessionId id = new EquipeSessionId(idSession, idUtilisateur.intValue());
         if (!equipeSessionRepository.existsById(id)) {
             throw new IllegalArgumentException("Affectation introuvable pour cette session et cet utilisateur");
         }

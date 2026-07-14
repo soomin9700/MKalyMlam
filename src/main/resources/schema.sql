@@ -272,28 +272,27 @@ CREATE TABLE "ingredient" (
     "uniteMesure" VARCHAR(20) NOT NULL
 );
 
+-- CREATE TABLE "lotIngredient" (
+--     "idLot" SERIAL PRIMARY KEY,
+--     "idIngredient" INT NOT NULL,
+--     "dateReception" DATE NOT NULL,
+--     "datePeremption" DATE NOT NULL,
+--     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
+--     "quantiteRestante" NUMERIC(10, 2) NOT NULL,
+--     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+--     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+-- );
 CREATE TABLE "lotIngredient" (
     "idLot" SERIAL PRIMARY KEY,
     "idIngredient" INT NOT NULL,
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
+    "idTypeMouvement" INT NOT NULL,
+    FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
-
-<<<<<<<<< Temporary merge branch 1
-=========
---     - Elements necessaires:
---         -> 
-
--- #### 2- Benefice totaux: 
--- - globalite: 
---     - Benefice globale 
---     - Consultation:
---         - Benefice / mois
->>>>>>>>> Temporary merge branch 2
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
