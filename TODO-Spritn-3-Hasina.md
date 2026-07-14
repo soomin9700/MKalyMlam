@@ -168,3 +168,45 @@ CREATE TABLE "mouvementLotIngredient" (
     FOREIGN KEY ("idTypeMouvement")
         REFERENCES "typeMouvement"("idTypeMouvement")
 );
+
+
+
+=================================
+# Modules localisation d'un truck 
+SANS CASSER ELS AUTRES FONCTIONNALITES 
+## -1
+- Creer TypeNotification.java avec ses entitu, repo, service et controller
+- de meme pour NotificationPlateforme
+voila les tables :
+CREATE TABLE "notificationPlateforme" (
+    "idNotification" SERIAL PRIMARY KEY,
+    "idTypeNotification" INT NOT NULL,
+    "titre" VARCHAR(150) NOT NULL,
+    "message" TEXT NOT NULL,
+    "idProduitLie" INT,
+    "idSessionLiee" INT,
+    "dateHeureEnvoi" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("idTypeNotification") REFERENCES "typeNotification"("idTypeNotification"),
+    FOREIGN KEY ("idProduitLie") REFERENCES "produit"("idProduit"),
+    FOREIGN KEY ("idSessionLiee") REFERENCES "sessionTruck"("idSession")
+);
+CREATE TABLE "typeNotification" (
+    "idTypeNotification" SERIAL PRIMARY KEY,
+    "libelle" VARCHAR(50) NOT NULL
+);
+
+## -2
+- Dans fragments/sidebar.jsp:
+    - On va y ajouter : Publication de truck 
+- On a une formulaire de publiation d'un truck: localisation/form.jsp
+    - Liste deroulante de Type de Notification. ( findAll )
+    - titre ( champs)
+    - message
+    - Liste deroulante de Produit ( findAll ou autre ) ( nullabl)
+Liste deroulante de Session ( le session truck courante )
+dateheure envoi ( current date)
+
+
+## -3
+Dans la meme page que petite formulaire semi horizontale de Publication , on affiche la bas la publication pour ce jour ( en ajoutant al filtre )
+- On affiche la publication correspondre a la session du truck ( en format de card )

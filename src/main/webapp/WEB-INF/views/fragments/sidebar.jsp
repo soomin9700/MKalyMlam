@@ -160,8 +160,11 @@
     class="${activeMenu == 'truck' ? 'active' : ''}">
         Truck
     </a>
-    
 
+    <a href="${pageContext.request.contextPath}/localisation/form"
+    class="${activeMenu == 'truck' ? 'active' : ''}">
+        Publication de truck
+    </a>
 
     <a href="${pageContext.request.contextPath}/changement-itineraire/nouveau"
     class="${activeMenu == 'changementItineraire' ? 'active' : ''}">
