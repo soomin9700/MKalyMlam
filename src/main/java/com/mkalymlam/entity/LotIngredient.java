@@ -39,8 +39,6 @@ public class LotIngredient {
     @Column(name = "\"quantiteRestante\"") 
     private Double quantiteRestante; 
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idTypeMouvement\"")
     private TypeMouvement typeMouvement;
