@@ -1,33 +1,74 @@
 package com.mkalymlam.controller;
 
-import java.time.*;
-import java.util.*;
-
-import org.springframework.stereotype.*;
+import com.mkalymlam.entity.Itineraire;
+import com.mkalymlam.entity.SessionTruck;
+import com.mkalymlam.entity.SessionTruckPosition;
+import com.mkalymlam.entity.Truck;
+import com.mkalymlam.service.ItineraireService;
+import com.mkalymlam.service.SessionTruckPositionService;
+import com.mkalymlam.service.SessionTruckService;
+import com.mkalymlam.service.TruckService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mkalymlam.entity.*;
-import com.mkalymlam.service.ItineraireService;
+import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/localisation")
 public class LocalisationController {
 
-    private final ItineraireService itineraire;
+    private final ItineraireService itineraireService;
+    private final SessionTruckService sessionTruckService;
+    private final SessionTruckPositionService positionService;
+    private final TruckService truckService;
 
-    public LocalisationController(ItineraireService itineraire) {
-        this.itineraire = itineraire;
+    public LocalisationController(ItineraireService itineraireService,
+                                  SessionTruckService sessionTruckService,
+                                  SessionTruckPositionService positionService,
+                                  TruckService truckService) {
+        this.itineraireService = itineraireService;
+        this.sessionTruckService = sessionTruckService;
+        this.positionService = positionService;
+        this.truckService = truckService;
     }
 
     @GetMapping("/form")
-    public String formLocalisation(Model model){
-        model.addAttribute("itineraire", itineraire.findAll());
+    public String formLocalisation(Model model) {
+        // Récupérer tous les trucks disponibles (en session ouverte)
+        List<SessionTruck> sessionsOuvertes = sessionTruckService.findSessionsDuJour();
+        model.addAttribute("sessions", sessionsOuvertes);
+        
+        // Récupérer tous les itinéraires pour le choix de la zone
+        model.addAttribute("itineraires", itineraireService.findAll());
+        
         return "localisation/form";
     }
 
+    @PostMapping("/publier")
+    public String publierPosition(@RequestParam("idSession") Long idSession,
+                                  @RequestParam("idItineraire") Long idItineraire,
+                                  @RequestParam(value = "heureArrivee", required = false) String heureArrivee,
+                                  RedirectAttributes redirectAttributes) {
+        try {
+            LocalTime heure = heureArrivee != null && !heureArrivee.isEmpty() 
+                ? LocalTime.parse(heureArrivee) 
+                : LocalTime.now();
+                
+            positionService.publierPosition(idSession, idItineraire, heure);
+            redirectAttributes.addFlashAttribute("success", "Position publiée avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Erreur lors de la publication : " + e.getMessage());
+        }
+        return "redirect:/localisation/list";
+    }
+
     @GetMapping("/list")
-    public String listLocalisation(Model model){
+    public String listLocalisation(Model model) {
+        List<SessionTruckPosition> positions = positionService.findAll();
+        model.addAttribute("positions", positions);
         return "localisation/list";
     }
 

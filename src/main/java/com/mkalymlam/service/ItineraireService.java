@@ -56,7 +56,13 @@ public class ItineraireService {
         itineraireRepository.deleteById(id);
     }
 
-    
+    public Itineraire findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id null");
+        }
+        return itineraireRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Itineraire " + id + " introuvable"));
+    }
 }
 
 
