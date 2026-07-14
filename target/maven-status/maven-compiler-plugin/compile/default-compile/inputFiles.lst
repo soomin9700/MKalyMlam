@@ -39,6 +39,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSession.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/EquipeSessionId.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Equipement.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FactureRecu.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueConsommation.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueStatutCommande.java
@@ -48,6 +49,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MethodeComptable.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ModePaiement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementEquipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementLotIngredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/NotificationPlateforme.java
@@ -78,6 +80,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/DemandeChangementItineraireRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipeSessionRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/EquipementRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FactureRecuRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueConsommationRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueStatutCommandeRepository.java
@@ -115,6 +118,7 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipeSessionService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipementService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ExportService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/FactureRecuService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/FichePaieService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ImportService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
