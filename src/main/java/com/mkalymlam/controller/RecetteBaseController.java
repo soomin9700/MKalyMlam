@@ -1,5 +1,7 @@
 package com.mkalymlam.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +38,29 @@ public class RecetteBaseController {
     }
 
     // =========================
-    // Liste
+    // Liste avec filtres
     // =========================
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(required = false) String nomProduit,
+            @RequestParam(required = false) String nomIngredient,
+            Model model) {
 
-        model.addAttribute("recettes", service.findAll());
+        // Récupérer les recettes avec filtres
+        List<RecetteBase> recettes = service.search(nomProduit, nomIngredient);
+
+        // Ajouter les attributs pour la vue
+        model.addAttribute("recettes", recettes);
         model.addAttribute("produits", produitService.findAll());
         model.addAttribute("ingredients", ingredientService.findAll());
+        
+        // Conserver les valeurs des filtres pour le formulaire
+        model.addAttribute("nomProduit", nomProduit);
+        model.addAttribute("nomIngredient", nomIngredient);
+        
+        // Statistiques
+        model.addAttribute("totalRecettes", recettes.size());
 
         return "recetteBase/list";
     }

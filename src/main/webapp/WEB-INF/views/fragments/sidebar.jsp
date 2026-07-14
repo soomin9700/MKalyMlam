@@ -122,6 +122,12 @@
     <a href="${pageContext.request.contextPath}/consommation/historique"
     class="${activeMenu == 'consommation' ? 'active' : ''}">
         Consommations
+    <a href="${pageContext.request.contextPath}/stocks" class="${activeMenu == 'stocks' ? 'active' : ''}">
+        Gestion des stocks
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/mouvements" class="${activeMenu == 'mouvements' ? 'active' : ''}">
+        Mouvements de stock
     </a>
 
     <a href="${pageContext.request.contextPath}/statistique"
