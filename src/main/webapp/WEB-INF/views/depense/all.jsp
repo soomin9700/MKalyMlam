@@ -39,6 +39,56 @@
                     <i class="fas fa-money-bill-wave" style="color:var(--primary);margin-right:10px;"></i>
                     Toutes les depenses
                 </h1>
+
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <c:url var="csvExportUrl" value="/depenses/export/csv">
+                        <c:if test="${not empty selectedType}">
+                            <c:param name="idTypeDepense" value="${selectedType}" />
+                        </c:if>
+                        <c:if test="${not empty selectedStatut}">
+                            <c:param name="idStatut" value="${selectedStatut}" />
+                        </c:if>
+                        <c:if test="${not empty selectedSession}">
+                            <c:param name="idSession" value="${selectedSession}" />
+                        </c:if>
+                        <c:if test="${not empty dateDebut}">
+                            <c:param name="dateDebut" value="${dateDebut}" />
+                        </c:if>
+                        <c:if test="${not empty dateFin}">
+                            <c:param name="dateFin" value="${dateFin}" />
+                        </c:if>
+                    </c:url>
+
+                    <c:url var="pdfExportUrl" value="/depenses/export/pdf">
+                        <c:if test="${not empty selectedType}">
+                            <c:param name="idTypeDepense" value="${selectedType}" />
+                        </c:if>
+                        <c:if test="${not empty selectedStatut}">
+                            <c:param name="idStatut" value="${selectedStatut}" />
+                        </c:if>
+                        <c:if test="${not empty selectedSession}">
+                            <c:param name="idSession" value="${selectedSession}" />
+                        </c:if>
+                        <c:if test="${not empty dateDebut}">
+                            <c:param name="dateDebut" value="${dateDebut}" />
+                        </c:if>
+                        <c:if test="${not empty dateFin}">
+                            <c:param name="dateFin" value="${dateFin}" />
+                        </c:if>
+                    </c:url>
+
+                    <a href="${csvExportUrl}" class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-csv"></i>
+                        CSV
+                    </a>
+
+                    <a href="${pdfExportUrl}" class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </a>
+                </div>
             </div>
 
             <div class="cartes">
