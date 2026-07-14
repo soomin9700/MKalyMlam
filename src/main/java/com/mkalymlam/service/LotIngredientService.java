@@ -70,7 +70,10 @@ public class LotIngredientService {
     }
 
     public List<LotIngredient> getIngredientsPerimes() {
-        return lotIngredientRepository.findByDatePeremptionBefore(LocalDate.now());
+        List<LotIngredient> lots = lotIngredientRepository.findByDatePeremptionBefore(LocalDate.now());
+        return lots.stream()
+                .filter(lot -> getQuantiteRestantePourLot(lot) > 0)
+                .toList();
     }
 
     public double getPerteByPeremption() {
@@ -82,17 +85,20 @@ public class LotIngredientService {
 
     public List<LotIngredient> getIngredientsPerimesFiltered(LocalDate startDate, LocalDate endDate,
             Long ingredientId) {
+        List<LotIngredient> lots;
         if (ingredientId != null && startDate != null && endDate != null) {
-            return lotIngredientRepository.findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
+            lots = lotIngredientRepository.findByDatePeremptionBetweenAndIngredient_IdIngredient(startDate, endDate,
                     ingredientId);
+        } else if (startDate != null && endDate != null) {
+            lots = lotIngredientRepository.findByDatePeremptionBetween(startDate, endDate);
+        } else if (ingredientId != null) {
+            lots = lotIngredientRepository.findByIngredient_IdIngredient(ingredientId);
+        } else {
+            return getIngredientsPerimes();
         }
-        if (startDate != null && endDate != null) {
-            return lotIngredientRepository.findByDatePeremptionBetween(startDate, endDate);
-        }
-        if (ingredientId != null) {
-            return lotIngredientRepository.findByIngredient_IdIngredient(ingredientId);
-        }
-        return getIngredientsPerimes();
+        return lots.stream()
+                .filter(lot -> getQuantiteRestantePourLot(lot) > 0)
+                .toList();
     }
 
     public List<LotIngredient> filterIngredients(LocalDate startDate, LocalDate endDate, Long ingredientId) {

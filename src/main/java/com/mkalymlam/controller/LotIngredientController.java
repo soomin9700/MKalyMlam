@@ -87,7 +87,6 @@ public class LotIngredientController {
         return ResponseEntity.ok("Lot supprimé");
     }
 
-    /* Views and filtering for peremption */
     @GetMapping("/ingredients/view/bientot-perimes")
     public String viewIngredientsBientotPerimes(
             @RequestParam(required = false) Long ingredientId,
