@@ -22,6 +22,10 @@ public class ProduitService {
         return repository.findAll();
     }
 
+    public List<Produit> findAllLimit(int limit) {
+        return repository.findAllLimit(limit);
+    }
+
     public Produit getById(Long id) {
         return repository.findById(id).orElse(null);
     }

@@ -110,15 +110,11 @@ CREATE TABLE "typeNotification" (
     "libelle" VARCHAR(50) NOT NULL
 );
 
--- CREATE TABLE "zone" (
---     "idZone" SERIAL PRIMARY KEY,
---     "libelle" VARCHAR(50) NOT NULL
--- );
+CREATE TABLE "typeMouvement" (
+    "idTypeMouvement" SERIAL PRIMARY KEY,
+    "libelle" VARCHAR(50) NOT NULL
+);
 
-
--- ==============================================================================
--- MODULE 1 : Utilisateurs, Ressources Humaines & Paie
--- ==============================================================================
 
 CREATE TABLE "utilisateur" (
     "idUtilisateur" SERIAL PRIMARY KEY,
@@ -170,10 +166,6 @@ CREATE TABLE "historiqueSalaire" (
 );
 
 
--- ==============================================================================
--- MODULE 2 : Planification, Sessions de Terrain & Véhicule
--- ==============================================================================
-
 CREATE TABLE "truck" (
     "idTruck" SERIAL PRIMARY KEY,
     "immatriculation" VARCHAR(20) NOT NULL UNIQUE,
@@ -208,16 +200,11 @@ CREATE TABLE "itineraire" (
     "jourSemaine" VARCHAR(20) NOT NULL
 );
 
--- CREATE TABLE "itineraire" (
---     "idItineraire" SERIAL PRIMARY KEY,
---     "idZone" INT,
---     "lieuExact" TEXT NOT NULL,
---     "heureDebutPrevue" TIME NOT NULL,
---     "heureFinPrevue" TIME NOT NULL,
---     "jourSemaine" VARCHAR(20) NOT NULL
---     -- FOREIGN KEY ("idZone") REFERENCES "zone"("idZone"),
 
--- );
+
+
+
+
 
 CREATE TABLE "sessionTruck" (
     "idSession" SERIAL PRIMARY KEY,
@@ -233,6 +220,21 @@ CREATE TABLE "sessionTruck" (
     FOREIGN KEY ("idItineraire") REFERENCES "itineraire"("idItineraire"),
     FOREIGN KEY ("idStatutSession") REFERENCES "statutSession"("idStatutSession")
 );
+
+CREATE TABLE "sessionTruckPosition" (
+    "idSessionTruckPosition" SERIAL PRIMARY KEY,
+    "idSession" INT NOT NULL,
+    "idItineraire" INT NOT NULL,
+    "heureArrivee" TIME NOT NULL,
+    "datePublication" DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
+    FOREIGN KEY ("idItineraire") REFERENCES "itineraire"("idItineraire")
+);
+
+-- Création d'un index pour améliorer les performances
+CREATE INDEX idx_session_position ON "sessionTruckPosition"("idSession");
+CREATE INDEX idx_date_publication ON "sessionTruckPosition"("datePublication");
+
 
 CREATE TABLE "equipeSession" (
     "idEquipeSession" SERIAL PRIMARY KEY,
@@ -261,57 +263,72 @@ CREATE TABLE "demandeChangementItineraire" (
 );
 
 
--- ==============================================================================
--- MODULE 3 : Stocks, Lots & Inventaires
--- ==============================================================================
+
+
 
 CREATE TABLE "ingredient" (
     "idIngredient" SERIAL PRIMARY KEY,
     "nomIngredient" VARCHAR(100) NOT NULL,
-    "seuilAlerteQuantite" NUMERIC(10, 2) NOT NULL,
-    "uniteMesure" VARCHAR(20) NOT NULL
+    "seuilAlerteQuantite" NUMERIC(10,2) NOT NULL,
+    "uniteMesure" VARCHAR(20) NOT NULL,
+    "actif" BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- CREATE TABLE "lotIngredient" (
---     "idLot" SERIAL PRIMARY KEY,
---     "idIngredient" INT NOT NULL,
---     "dateReception" DATE NOT NULL,
---     "datePeremption" DATE NOT NULL,
---     "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
---     "quantiteRestante" NUMERIC(10, 2) NOT NULL,
---     "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
---     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
--- );
-CREATE TABLE "typeMouvement" (
-    "idTypeMouvement" SERIAL PRIMARY KEY,
-    "libelle" VARCHAR(50) NOT NULL
-);
 
 CREATE TABLE "lotIngredient" (
     "idLot" SERIAL PRIMARY KEY,
     "idIngredient" INT NOT NULL,
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
-    "quantiteInitiale" NUMERIC(10, 2) NOT NULL,
-    "quantiteRestante" NUMERIC(10, 2) NOT NULL,
-    "prixAchatUnitaire" NUMERIC(10, 2) NOT NULL,
-    "idTypeMouvement" INT NOT NULL,
-    FOREIGN KEY ("idTypeMouvement") REFERENCES "typeMouvement"("idTypeMouvement"),
-    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
+    "quantiteInitiale" NUMERIC(10,2) NOT NULL,
+    "prixAchatUnitaire" NUMERIC(10,2) NOT NULL,
+
+    FOREIGN KEY ("idIngredient")
+        REFERENCES "ingredient"("idIngredient")
 );
+
+
+CREATE TABLE "mouvementLotIngredient" (
+    "idMouvementLot" SERIAL PRIMARY KEY,
+    "idLot" INT NOT NULL,
+    "idTypeMouvement" INT NOT NULL,
+    "quantite" NUMERIC(10,2) NOT NULL CHECK ("quantite" > 0),
+    "dateMouvement" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("idLot")
+        REFERENCES "lotIngredient"("idLot"),
+    FOREIGN KEY ("idTypeMouvement")
+        REFERENCES "typeMouvement"("idTypeMouvement")
+);
+
+
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
     "idTypeEquipement" INT NOT NULL,
     "idMethodeComptable" INT NOT NULL,
-    "quantiteStock" INT NOT NULL,
-    "valeurCump" NUMERIC(10, 2),
-    "tauxFahasimbana" NUMERIC(5, 2),
-    "idStatutAlerte" INT NOT NULL,
+    "prixUnitaire" NUMERIC(15,2) NOT NULL,
+    "quantiteMin" NUMERIC(15,2) NOT NULL,
+
     FOREIGN KEY ("idTypeEquipement") REFERENCES "typeEquipement"("idTypeEquipement"),
-    FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable"),
-    FOREIGN KEY ("idStatutAlerte") REFERENCES "statutAlerte"("idStatutAlerte")
+    FOREIGN KEY ("idMethodeComptable") REFERENCES "methodeComptable"("idMethodeComptable")
 );
+
+-- nouvelle table 
+CREATE TABLE "mouvementEquipement" (
+    "idMouvementEquipement" SERIAL PRIMARY KEY,
+    "idTypeMouvement" INT NOT NULL,
+    "idEquipement" INT NOT NULL,
+    "quantite" NUMERIC(15,2) NOT NULL,
+    "dateMouvement" DATE NOT NULL,
+
+    FOREIGN KEY ("idTypeMouvement")
+        REFERENCES "typeMouvement"("idTypeMouvement"),
+
+    FOREIGN KEY ("idEquipement")
+        REFERENCES "equipement"("idEquipement")
+);
+
+
 
 CREATE TABLE "inventaireJournalier" (
     "idInventaire" SERIAL PRIMARY KEY,
@@ -327,9 +344,6 @@ CREATE TABLE "inventaireJournalier" (
 );
 
 
--- ==============================================================================
--- MODULE 4 : Menu, Commandes Personnalisées & Factures
--- ==============================================================================
 
 CREATE TABLE "produit" (
     "idProduit" SERIAL PRIMARY KEY,
@@ -349,23 +363,9 @@ CREATE TABLE "recetteDeBase" (
     FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient")
 );
 
--- CREATE TABLE "commande" (
---     "idCommande" SERIAL PRIMARY KEY,
---     "idSession" INT NOT NULL,
---     "idVendeuse" INT,
---     "idTypeCommande" INT NOT NULL,
---     "dateHeureCreation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     "heureRecuperationPrevue" TIME,
---     "lieuRecuperationPrevu" VARCHAR(150),
---     "montantTotal" NUMERIC(12, 2) NOT NULL,
---     "idStatutCommande" INT NOT NULL,
---     "idTypeTarification" INT NOT NULL,
---     FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
---     FOREIGN KEY ("idVendeuse") REFERENCES "utilisateur"("idUtilisateur"),
---     FOREIGN KEY ("idTypeCommande") REFERENCES "typeCommande"("idTypeCommande"),
---     FOREIGN KEY ("idStatutCommande") REFERENCES "statutCommande"("idStatutCommande"),
---     FOREIGN KEY ("idTypeTarification") REFERENCES "typeTarification"("idTypeTarification")
--- );
+
+
+
 
 CREATE TABLE "commande" (
     "idCommande" SERIAL PRIMARY KEY,
@@ -420,11 +420,6 @@ CREATE TABLE "factureRecu" (
     FOREIGN KEY ("idModePaiement") REFERENCES "modePaiement"("idModePaiement")
 );
 
-
--- ==============================================================================
--- MODULE 5 : Dépenses & Imprévus
--- ==============================================================================
-
 CREATE TABLE "depense" (
     "idDepense" SERIAL PRIMARY KEY,
     "idSession" INT,
@@ -440,9 +435,6 @@ CREATE TABLE "depense" (
 );
 
 
--- ==============================================================================
--- MODULE 6 : Satisfaction Client, Avis & Boost
--- ==============================================================================
 
 CREATE TABLE "retourClient" (
     "idRetour" SERIAL PRIMARY KEY,
