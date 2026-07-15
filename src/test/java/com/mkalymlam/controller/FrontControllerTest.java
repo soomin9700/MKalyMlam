@@ -4,6 +4,7 @@ import com.mkalymlam.entity.Itineraire;
 import com.mkalymlam.entity.Produit;
 import com.mkalymlam.service.ItineraireService;
 import com.mkalymlam.service.ProduitService;
+import com.mkalymlam.service.SessionTruckPositionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,6 +30,9 @@ class FrontControllerTest {
 
     @MockBean
     private ProduitService produitService;
+
+    @MockBean
+    private SessionTruckPositionService positionTruckService;
 
     @Test
     void shouldExposeDynamicDataToTheFrontPage() throws Exception {
