@@ -21,6 +21,7 @@ public class InventaireJournalierService {
     private final EquipementRepository equipementRepository;
     private final LotIngredientRepository lotIngredientRepository;
     private final MouvementEquipementRepository mouvementEquipementRepository;
+    private final LotIngredientService lotIngredientService;
 
     public InventaireJournalierService(
             InventaireJournalierRepository inventaireRepository,
@@ -29,7 +30,8 @@ public class InventaireJournalierService {
             IngredientRepository ingredientRepository,
             EquipementRepository equipementRepository,
             LotIngredientRepository lotIngredientRepository,
-            MouvementEquipementRepository mouvementEquipementRepository) {
+            MouvementEquipementRepository mouvementEquipementRepository,
+            LotIngredientService lotIngredientService) {
         this.inventaireRepository = inventaireRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.typeItemRepository = typeItemRepository;
@@ -37,6 +39,7 @@ public class InventaireJournalierService {
         this.equipementRepository = equipementRepository;
         this.lotIngredientRepository = lotIngredientRepository;
         this.mouvementEquipementRepository = mouvementEquipementRepository;
+        this.lotIngredientService = lotIngredientService;
     }
 
     @Transactional
@@ -76,7 +79,7 @@ public class InventaireJournalierService {
 
         // INGREDIENT (idTypeItem = 1)
         if (idTypeItem == 1) {
-            return lotIngredientRepository.sumQuantiteRestanteByIdIngredient(inventaire.getIdItem());
+            return lotIngredientService.getQuantiteActuelleParIngredientId(inventaire.getIdItem());
         }
 
         // EQUIPEMENT (idTypeItem = 2)

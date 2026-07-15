@@ -40,16 +40,6 @@ import com.mkalymlam.service.TypeMouvementService;
 public class LotIngredientController {
 
     private final LotIngredientService service;
-
-    @Autowired
-    public LotIngredientController(LotIngredientService service) {
-        this.service = service;
-        this.ingredientService = null;
-        this.typeMouvementService = null;
-    }
-
-    
-
     private final IngredientService ingredientService;
     private final TypeMouvementService typeMouvementService;
 

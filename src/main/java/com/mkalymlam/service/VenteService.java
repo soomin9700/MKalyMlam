@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Service
 public class VenteService {
 
@@ -132,7 +133,32 @@ public class VenteService {
         enregistrerHistoriqueStatut(saved, ancienStatut, "PREPARATION");
         
         return saved;
+
     }
+
+    @Transactional
+    public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
+        Produit produit = produitRepository.findById(ligne.getIdProduit())
+                .orElseThrow(() -> new RuntimeException("Produit introuvable avec l'ID: " + ligne.getIdProduit()));
+        
+        if (ligne.getPrixUnitaireFacture() == null || ligne.getPrixUnitaireFacture() == 0) {
+            ligne.setPrixUnitaireFacture(produit.getPrixBase());
+        }
+        
+        double sousTotal = ligne.getPrixUnitaireFacture() * ligne.getQuantite();
+        ligne.setSousTotal(sousTotal);
+        
+        LigneCommande saved = ligneCommandeRepository.save(ligne);
+        
+        recalculerMontantCommande(ligne.getIdCommande());
+        
+        return saved;
+    }
+
+    // public double getMontantLignes(Long idCommande) {
+    //     List<LigneCommande> lignes = ligneCommandeRepository.findByIdCommande(idCommande);
+    //     return lignes.stream().mapToDouble(LigneCommande::getSousTotal).sum();
+    // }
 
     @Transactional
     public Commande annulerCommande(Long idCommande) {
@@ -244,18 +270,18 @@ public class VenteService {
         return historiqueStatutCommandeRepository.findByCommande_IdCommandeOrderByDateChangementDesc(idCommande);
     }
     
-    public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
-        Produit produit = produitRepository.findById(ligne.getIdProduit())
-                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+    // public LigneCommande ajouterLigneCommande(LigneCommande ligne) {
+    //     Produit produit = produitRepository.findById(ligne.getIdProduit())
+    //             .orElseThrow(() -> new RuntimeException("Produit introuvable"));
         
-        double montantLigne = produit.getPrixBase() * ligne.getQuantite();
-        ligne.setPrixUnitaireFacture(produit.getPrixBase());
-        ligne.setSousTotal(montantLigne);
+    //     double montantLigne = produit.getPrixBase() * ligne.getQuantite();
+    //     ligne.setPrixUnitaireFacture(produit.getPrixBase());
+    //     ligne.setSousTotal(montantLigne);
         
-        LigneCommande saved = ligneCommandeRepository.save(ligne);
-        recalculerMontantCommande(ligne.getIdCommande());
-        return saved;
-    }
+    //     LigneCommande saved = ligneCommandeRepository.save(ligne);
+    //     recalculerMontantCommande(ligne.getIdCommande());
+    //     return saved;
+    // }
     
     public Commande getCommande(Long id) {
         return commandeRepository.findById(id)

@@ -343,6 +343,26 @@ CREATE TABLE "inventaireJournalier" (
     FOREIGN KEY ("idTypeItem") REFERENCES "typeItem"("idTypeItem")
 );
 
+CREATE TABLE "mouvementStock" (
+    "idMouvement" SERIAL PRIMARY KEY,
+    "idIngredient" INT NOT NULL,
+    "idLot" INT NOT NULL,
+    "typeMouvement" VARCHAR(20) NOT NULL, -- 'ENTREE', 'SORTIE', 'AJUSTEMENT'
+    "quantite" NUMERIC(10, 2) NOT NULL,
+    "quantiteAvant" NUMERIC(10, 2) NOT NULL,
+    "quantiteApres" NUMERIC(10, 2) NOT NULL,
+    "dateMouvement" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "motif" VARCHAR(255),
+    "idUtilisateur" INT,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient"),
+    FOREIGN KEY ("idLot") REFERENCES "lotIngredient"("idLot")
+);
+
+-- Index pour les performances
+CREATE INDEX idx_mouvement_ingredient ON "mouvementStock"("idIngredient");
+CREATE INDEX idx_mouvement_lot ON "mouvementStock"("idLot");
+CREATE INDEX idx_mouvement_date ON "mouvementStock"("dateMouvement");
+CREATE INDEX idx_mouvement_type ON "mouvementStock"("typeMouvement");
 
 
 CREATE TABLE "produit" (
