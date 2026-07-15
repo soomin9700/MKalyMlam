@@ -25,7 +25,7 @@ window.onload = function () {
 
             });
 
-        });A
+        });
 
 };
 
@@ -51,8 +51,14 @@ function afficherPrix(){
 }
 
 function nouvelleCommande(){
+    const sessionSelect = document.getElementById("selectSession");
+    const idTruck = sessionSelect ? sessionSelect.value : null;
+    if(!idTruck){
+        alert("Veuillez choisir un truck avec une session ouverte.");
+        return;
+    }
 
-    fetch('${pageContext.request.contextPath}/commande/ajouter',{
+    fetch('${pageContext.request.contextPath}/commande/ajouter?idTruck='+idTruck,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({})
@@ -136,5 +142,6 @@ function validerCommande(){
         document.getElementById("total").textContent="0 Ar";
         lignesLocales=[];
         afficherLignes();
+        nouvelleCommande();
     });
 }

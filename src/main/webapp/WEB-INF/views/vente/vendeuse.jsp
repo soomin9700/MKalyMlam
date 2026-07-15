@@ -56,12 +56,18 @@
     </div>
 
 </div>
-            <h2 style="margin:25px 0;">
-                Commande N°
-                <span id="cmdId">-</span>
-            </h2>
-
-            <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;">
+            <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;align-items:flex-end;">
+                <div style="flex:1;min-width:250px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-truck"></i> Choisir un truck (session ouverte)
+                    </label>
+                    <select id="selectSession" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                        <option value="">-- Choisir un truck --</option>
+                        <c:forEach var="s" items="${sessionsOuvertes}">
+                            <option value="${s.truck.id}">${s.truck.immatriculation} - ${s.itineraire.nomZone}</option>
+                        </c:forEach>
+                    </select>
+                </div>
                 <div style="flex:1;min-width:200px;">
                     <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
                         <i class="fas fa-clock"></i> Heure de recuperation prevue
@@ -75,6 +81,11 @@
                     <input type="text" id="inputLieuRecup" placeholder="Ex: Place 12, Marche Central" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
                 </div>
             </div>
+
+            <h2 style="margin:25px 0;">
+                Commande N°
+                <span id="cmdId">-</span>
+            </h2>
 
             <table>
 
@@ -270,7 +281,7 @@ window.onload = function () {
 
             });
 
-        });A
+        });
 
 };
 
@@ -296,6 +307,13 @@ function afficherPrix(){
 }
 
 function nouvelleCommande(){
+    const sessionSelect = document.getElementById("selectSession");
+    const idTruck = sessionSelect.value;
+    if(!idTruck){
+        alert("Veuillez choisir un truck avec une session ouverte.");
+        return;
+    }
+
     const heureRecup = document.getElementById("inputHeureRecup").value || null;
     const lieuRecup = document.getElementById("inputLieuRecup").value || null;
 
@@ -303,7 +321,7 @@ function nouvelleCommande(){
     if (heureRecup) body.heureRecuperationPrevue = heureRecup;
     if (lieuRecup) body.lieuRecuperationPrevu = lieuRecup;
 
-    fetch('${pageContext.request.contextPath}/commande/ajouter',{
+    fetch('${pageContext.request.contextPath}/commande/ajouter?idTruck='+idTruck,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(body)
@@ -387,6 +405,7 @@ function validerCommande(){
         document.getElementById("total").textContent="0 Ar";
         lignesLocales=[];
         afficherLignes();
+        nouvelleCommande();
     });
 }
 </script>
