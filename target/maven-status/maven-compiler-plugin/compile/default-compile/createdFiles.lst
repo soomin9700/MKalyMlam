@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 com/mkalymlam/entity/ActionAmelioration.class
 com/mkalymlam/entity/Utilisateur.class
 com/mkalymlam/service/ActionAmeliorationService.class
@@ -24,3 +25,5 @@ com/mkalymlam/controller/DashboardController.class
 com/mkalymlam/entity/RecetteBaseId.class
 com/mkalymlam/entity/Ingredient.class
 com/mkalymlam/controller/CommandeController.class
+=======
+>>>>>>> Stashed changes

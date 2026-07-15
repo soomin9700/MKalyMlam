@@ -112,6 +112,10 @@ public class ProduitController {
         return "redirect:/produits";
     }
 
+<<<<<<< Updated upstream
+=======
+// <<<<<<< HEAD
+>>>>>>> Stashed changes
 
 @GetMapping("/export/csv")
 public void exportCSV(HttpServletResponse response) throws IOException {
@@ -140,4 +144,32 @@ public String printPage(Model model) {
 
 
 
+<<<<<<< Updated upstream
+=======
+// =======
+//     @GetMapping("/import")
+//     public String pageImport(Model model) {
+//         return "produit/import";
+//     }
+
+//     @PostMapping("/import")
+//     public String importData(@RequestParam("file") MultipartFile file,
+//                              RedirectAttributes redirectAttributes) {
+//         try {
+//             List<String> erreurs = csvExcelImportService.importFile(file, "produit");
+//             if (erreurs.isEmpty()) {
+//                 redirectAttributes.addFlashAttribute("success",
+//                     "Produit(s) importe(s) avec succes");
+//             } else {
+//                 redirectAttributes.addFlashAttribute("warning",
+//                     "Erreurs : " + String.join("; ", erreurs));
+//             }
+//         } catch (Exception e) {
+//             redirectAttributes.addFlashAttribute("error",
+//                 "Erreur lors de l'import : " + e.getMessage());
+//         }
+//         return "redirect:/produits";
+//     }
+// >>>>>>> origin/sprint_rattrapage_loic_truck
+>>>>>>> Stashed changes
 }

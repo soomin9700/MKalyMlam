@@ -5,6 +5,10 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CommandeListController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/CongeController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ConsommationController.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ConsultationController.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DashboardController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/DemandeChangementItineraireController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/EmployeController.java
@@ -15,10 +19,22 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/InventaireController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ItineraireController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LigneCommandeController.java
+<<<<<<< Updated upstream
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LotIngredientController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MethodeComptableController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementEquipementController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementLotIngredientController.java
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/Localisation.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LocalisationController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/LotIngredientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MaintenanceController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MethodeComptableController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementEquipementController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/MouvementLotIngredientController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/PlanificationController.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/PointDeVenteController.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/ProduitController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/RecetteBaseController.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/controller/RetourClientController.java
@@ -42,10 +58,19 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FactureRecu.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/FichePaie.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueConsommation.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueMaintenance.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueStatus.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/HistoriqueStatutCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Ingredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/InventaireJournalier.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Itineraire.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/ItineraireArret.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LigneCommande.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/LotIngredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MethodeComptable.java
@@ -53,6 +78,10 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementEquipement.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/MouvementLotIngredient.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/NotificationPlateforme.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/PointDeVente.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/Produit.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBase.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/entity/RecetteBaseId.java
@@ -83,9 +112,18 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FactureRecuRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/FichePaieRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueConsommationRepository.java
+<<<<<<< Updated upstream
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueStatutCommandeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/InventaireJournalierRepository.java
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueMaintenanceRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueStatusRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/HistoriqueStatutCommandeRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/IngredientRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/InventaireJournalierRepository.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireArretRepository.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ItineraireRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/LigneCommandeRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/LotIngredientRepository.java
@@ -93,6 +131,10 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementEquipementRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/MouvementLotIngredientRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/NotificationPlateformeRepository.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/PointDeVenteRepository.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/ProduitRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RecetteBaseRepository.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/repository/RetourClientRepository.java
@@ -113,6 +155,10 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ActionAmeliorationService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/CongeService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ConsommationService.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/CsvExcelImportService.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/DemandeChangementItineraireService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EmployeService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/EquipeSessionService.java
@@ -120,6 +166,11 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ExportService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/FactureRecuService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/FichePaieService.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/HistoriqueMaintenanceService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/HistoriqueStatusService.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ImportService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/IngredientService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/InventaireJournalierService.java
@@ -128,7 +179,14 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MethodeComptableService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementEquipementService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/MouvementLotIngredientService.java
+<<<<<<< Updated upstream
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/NotificationService.java
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/NotificationPlateformeService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/NotificationService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/PlanificationService.java
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/PointDeVenteService.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/ProduitService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RecetteBaseService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/RetourClientService.java
@@ -138,6 +196,10 @@
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TruckService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TypeEquipementService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TypeMouvementService.java
+<<<<<<< Updated upstream
+=======
+/home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/TypeNotificationService.java
+>>>>>>> Stashed changes
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/UtilisateurService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/service/VenteService.java
 /home/nox/Documents/GitHub/MKalyMlam/src/main/java/com/mkalymlam/view/ViewController.java
