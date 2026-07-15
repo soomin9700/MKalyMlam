@@ -1,9 +1,11 @@
 package com.mkalymlam.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -109,4 +111,65 @@ public class ProduitController {
 
         return "redirect:/produits";
     }
+
+<<<<<<< Updated upstream
+=======
+// <<<<<<< HEAD
+>>>>>>> Stashed changes
+
+@GetMapping("/export/csv")
+public void exportCSV(HttpServletResponse response) throws IOException {
+    List<Produit> produits = service.findAll(); // ou repository.findAll()
+    response.setContentType("text/csv; charset=UTF-8");
+    response.setHeader("Content-Disposition", "attachment; filename=\"produits.csv\"");
+    PrintWriter writer = response.getWriter();
+    writer.println("ID,Nom,Prix,Est nouveau,Date création");
+    for (Produit p : produits) {
+        writer.printf("%d,\"%s\",%.2f,%s,%s%n",
+                p.getIdProduit(),
+                p.getNomProduit().replace("\"", "\"\""),
+                p.getPrixBase(),
+                p.getEstNouveau() ? "Oui" : "Non",
+                p.getDateCreation()
+        );
+    }
+    writer.flush();
+}
+
+@GetMapping("/print")
+public String printPage(Model model) {
+    model.addAttribute("produits", service.findAll());
+    return "produit/print";
+}
+
+
+
+<<<<<<< Updated upstream
+=======
+// =======
+//     @GetMapping("/import")
+//     public String pageImport(Model model) {
+//         return "produit/import";
+//     }
+
+//     @PostMapping("/import")
+//     public String importData(@RequestParam("file") MultipartFile file,
+//                              RedirectAttributes redirectAttributes) {
+//         try {
+//             List<String> erreurs = csvExcelImportService.importFile(file, "produit");
+//             if (erreurs.isEmpty()) {
+//                 redirectAttributes.addFlashAttribute("success",
+//                     "Produit(s) importe(s) avec succes");
+//             } else {
+//                 redirectAttributes.addFlashAttribute("warning",
+//                     "Erreurs : " + String.join("; ", erreurs));
+//             }
+//         } catch (Exception e) {
+//             redirectAttributes.addFlashAttribute("error",
+//                 "Erreur lors de l'import : " + e.getMessage());
+//         }
+//         return "redirect:/produits";
+//     }
+// >>>>>>> origin/sprint_rattrapage_loic_truck
+>>>>>>> Stashed changes
 }

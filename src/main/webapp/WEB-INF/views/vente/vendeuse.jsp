@@ -31,28 +31,50 @@
 
             <div class="table-header">
 
-                <h1>
-                    <i class="fas fa-cash-register"
-                       style="color:var(--primary);margin-right:10px;"></i>
+    <h1>
+        <i class="fas fa-cash-register"
+           style="color:var(--primary);margin-right:10px;"></i>
+        Nouvelle vente
+    </h1>
 
-                    Nouvelle vente
-                </h1>
-
-                <button
-                        class="btn-add"
-                        onclick="nouvelleCommande()">
-
-                    <%-- <i class="fas fa-plus"></i> --%>
-                    Nouvelle commande
-
-                </button>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <button class="btn-add" onclick="nouvelleCommande()">
+            <!-- <i class="fas fa-plus"></i> -->
+            Nouvelle commande
+        </button>
 
             </div>
+        <!-- Boutons d'export (ne cassent rien) -->
+        <a href="${pageContext.request.contextPath}/commandes/export/csv"
+           class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+            <i class="fas fa-file-csv"></i> CSV
+        </a>
+        <a href="${pageContext.request.contextPath}/commandes/export/pdf" target="_blank"
+           class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
+            <i class="fas fa-file-pdf"></i> PDF
+        </a>
+    </div>
 
+</div>
             <h2 style="margin:25px 0;">
                 Commande N°
                 <span id="cmdId">-</span>
             </h2>
+
+            <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-clock"></i> Heure de recuperation prevue
+                    </label>
+                    <input type="datetime-local" id="inputHeureRecup" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-map-marker-alt"></i> Lieu de recuperation prevu
+                    </label>
+                    <input type="text" id="inputLieuRecup" placeholder="Ex: Place 12, Marche Central" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+            </div>
 
             <table>
 
@@ -144,7 +166,75 @@
 
                 </div>
 
+                <button
+                        class="btn-success"
+                        onclick="validerCommande()"
+                        style="margin-top:15px;">
+
+                    <i class="fas fa-check"></i>
+                    Valider la commande
+
+                </button>
+
             </div>
+
+            <div class="table-header" style="margin-top:35px;">
+
+                <h1>
+                    <i class="fas fa-file-invoice"
+                       style="color:var(--primary);margin-right:10px;"></i>
+                    Liste des factures
+                </h1>
+
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <a href="${pageContext.request.contextPath}/vente/factures/export/csv"
+                       class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-csv"></i>
+                        CSV
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/vente/factures/export/pdf"
+                       class="btn-secondary"
+                       style="height:44px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </a>
+                </div>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID facture</th>
+                    <th>ID commande</th>
+                    <th>Référence</th>
+                    <th>Date facturation</th>
+                    <th>Mode paiement</th>
+                    <th>Taxes brut</th>
+                    <th>Montant total</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+                <c:forEach var="f" items="${factures}">
+                <tr>
+                    <td>${f.idFacture}</td>
+                    <td>${f.commande.idCommande}</td>
+                    <td>${f.referenceFacture}</td>
+                    <td>${f.dateFacturation}</td>
+                    <td>${f.modePaiement.libelle}</td>
+                    <td>${f.detailsTaxesBrut} Ar</td>
+                    <td>${f.commande.montantTotal} Ar</td>
+                </tr>
+                </c:forEach>
+                </tbody>
+
+            </table>
         </div>
 
     </div>
@@ -153,7 +243,8 @@
 
 <script>
 
-let cmdId = null;
+    let cmdId = null;
+let lignesLocales = [];
 let produits = [];
 
 window.onload = function () {
@@ -179,7 +270,7 @@ window.onload = function () {
 
             });
 
-        });
+        });A
 
 };
 
@@ -205,116 +296,99 @@ function afficherPrix(){
 }
 
 function nouvelleCommande(){
+    const heureRecup = document.getElementById("inputHeureRecup").value || null;
+    const lieuRecup = document.getElementById("inputLieuRecup").value || null;
+
+    const body = {};
+    if (heureRecup) body.heureRecuperationPrevue = heureRecup;
+    if (lieuRecup) body.lieuRecuperationPrevu = lieuRecup;
 
     fetch('${pageContext.request.contextPath}/commande/ajouter',{
-
         method:'POST',
-
-        headers:{
-            'Content-Type':'application/json'
-        },
-
-        // body:JSON.stringify({
-        //     date:new Date().toISOString().slice(0,10)
-        // })
-
-        body:JSON.stringify({})
-
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)
     })
-
     .then(r=>r.json())
-
     .then(c=>{
-        console.log(c);
-        
-
         cmdId=c.idCommande;
-
         document.getElementById("cmdId").textContent=cmdId;
-
-        document.getElementById("lignes").innerHTML="";
-
-        document.getElementById("total").textContent="0 Ar";
-
+        document.getElementById("total").textContent=c.montantTotal+" Ar";
     });
-
 }
 
 function ajouterLigne(){
 
-    console.log(cmdId);
     if(!cmdId) return;
-    
 
     const pId=document.getElementById("selectProduit").value;
-
     const qte=parseInt(document.getElementById("inputQuantite").value);
-
     if(!pId||!qte) return;
 
-    fetch('${pageContext.request.contextPath}/ligneCommande/ajouter',{
+    const produit=produits.find(x=>x.idProduit==pId);
+    if(!produit) return;
 
-        method:'POST',
+    const montant=produit.prixBase*qte;
 
-        headers:{
-            'Content-Type':'application/json'
-        },
+    lignesLocales.push({
+        idProduit:parseInt(pId),
+        quantite:qte,
+        nomProduit:produit.nomProduit,
+        prixBase:produit.prixBase,
+        montant:montant
+    });
 
-        body:JSON.stringify({
+    afficherLignes();
+    actualiserTotalLocal();
+}
 
-            idCommande:cmdId,
+function supprimerLigne(index){
+    lignesLocales.splice(index,1);
+    afficherLignes();
+    actualiserTotalLocal();
+}
 
-            idProduit:parseInt(pId),
-
-            quantite:qte
-
-        })
-
-    })
-
-    .then(r=>r.json())
-
-    .then(ligne=>{
-
-        const p=produits.find(x=>x.idProduit==ligne.idProduit);
-
+function afficherLignes(){
+    const tbody=document.getElementById("lignes");
+    tbody.innerHTML="";
+    lignesLocales.forEach((l,i)=>{
         const tr=document.createElement("tr");
-
         tr.innerHTML=
-
-            "<td>"+p.nomProduit+"</td>"+
-
-            "<td>"+p.prixBase+" Ar</td>"+
-
-            "<td>"+ligne.quantite+"</td>"+
-
-            // "<td>"+ligne.getSousTotal()+" Ar</td>"+
-
-            "<td></td>";
-
-        document.getElementById("lignes").appendChild(tr);
-
-        actualiserTotal();
-
+            "<td>"+l.nomProduit+"</td>"+
+            "<td>"+l.prixBase+" Ar</td>"+
+            "<td>"+l.quantite+"</td>"+
+            "<td>"+l.montant+" Ar</td>"+
+            "<td><button class='btn-delete' onclick='supprimerLigne("+i+")'><i class='fas fa-trash-alt'></i></button></td>";
+        tbody.appendChild(tr);
     });
-
 }
 
-function actualiserTotal(){
-
-    fetch('${pageContext.request.contextPath}/commande/montant?id='+cmdId)
-
-    .then(r=>r.text())
-
-    .then(t=>{
-
-        document.getElementById("total").textContent=t+" Ar";
-
-    });
-
+function actualiserTotalLocal(){
+    const total=lignesLocales.reduce((s,l)=>s+l.montant,0);
+    document.getElementById("total").textContent=total+" Ar";
 }
 
+function validerCommande(){
+    if(!cmdId||lignesLocales.length===0) return;
+
+    const lignes=lignesLocales.map(l=>({
+        idProduit:l.idProduit,
+        quantite:l.quantite
+    }));
+
+    fetch('${pageContext.request.contextPath}/commande/valider?idCommande='+cmdId,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(lignes)
+    })
+    .then(r=>r.json())
+    .then(c=>{
+        cmdId=null;
+        document.getElementById("cmdId").textContent="-";
+        document.getElementById("total").textContent="0 Ar";
+        lignesLocales=[];
+        afficherLignes();
+    });
+}
 </script>
-
 </body>
 </html>

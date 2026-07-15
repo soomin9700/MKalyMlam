@@ -1,11 +1,21 @@
 package com.mkalymlam.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mkalymlam.entity.Ingredient;
 import com.mkalymlam.service.IngredientService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/ingredients")
@@ -70,7 +80,7 @@ public class IngredientController {
     // =======================
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
-                         @ModelAttribute Ingredient ingredient) {
+            @ModelAttribute Ingredient ingredient) {
 
         ingredient.setIdIngredient(id);
 
@@ -89,5 +99,30 @@ public class IngredientController {
 
         return "redirect:/ingredients";
     }
+
+
+    @GetMapping("/export/csv")
+public void exportCSV(HttpServletResponse response) throws IOException {
+    List<Ingredient> ingredients = service.findAll(); // adaptez
+    response.setContentType("text/csv; charset=UTF-8");
+    response.setHeader("Content-Disposition", "attachment; filename=\"ingredients.csv\"");
+    PrintWriter writer = response.getWriter();
+    writer.println("ID,Nom,Seuil alerte,Unité");
+    for (Ingredient i : ingredients) {
+        writer.printf("%d,\"%s\",%s,\"%s\"%n",
+                i.getIdIngredient(),
+                i.getNomIngredient().replace("\"", "\"\""),
+                i.getSeuilAlerteQuantite(),
+                i.getUniteMesure()
+        );
+    }
+    writer.flush();
+}
+
+@GetMapping("/print")
+public String printPage(Model model) {
+    model.addAttribute("ingredients", service.findAll());
+    return "ingredient/print";
+}
 
 }

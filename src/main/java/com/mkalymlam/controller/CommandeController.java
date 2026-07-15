@@ -1,6 +1,7 @@
 package com.mkalymlam.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mkalymlam.entity.Commande;
+import com.mkalymlam.entity.LigneCommande;
 import com.mkalymlam.service.VenteService;
 
 @RestController
@@ -29,15 +31,21 @@ public class CommandeController {
     // }
 
     @PostMapping("/ajouter")
-    public Commande ajouter(@RequestBody Commande commande) {
+    public Commande ajouter(@RequestBody Commande commande,
+                            @RequestParam(required = false) Long idTruck) {
 
         commande.setDateHeureCreation(LocalDateTime.now());
 
-        return venteService.ajouterCommande(commande);
+        return venteService.ajouterCommande(commande, idTruck);
     }
 
     @GetMapping("/montant")
     public double getMontant(@RequestParam Long id) {
         return venteService.getMontantCommande(id);
+    }
+
+    @PostMapping("/valider")
+    public Commande valider(@RequestParam Long idCommande, @RequestBody List<LigneCommande> lignes) {
+        return venteService.validerCommande(idCommande, lignes);
     }
 }

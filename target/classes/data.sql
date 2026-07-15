@@ -16,7 +16,7 @@ INSERT INTO "methodeComptable" ("libelle") VALUES ('LIFO'), ('CUMP');
 
 INSERT INTO "typeItem" ("libelle") VALUES ('INGREDIENT'), ('EQUIPEMENT');
 
-INSERT INTO "typeCommande" ("libelle") VALUES ('SUR_PLACE'), ('A_EMPORTER'), ('EN_LIGNE');
+INSERT INTO "typeCommande" ("libelle") VALUES ('SUR_PLACE'), ('A_EMPORTER'), ('EN_LIGNE'), ('A_DISTANCE');
 
 INSERT INTO "statutCommande" ("libelle") VALUES ('EN_ATTENTE'), ('PREPARATION'), ('PRETE_POUR_RECUPERATION'), ('LIVREE'), ('ANNULEE');
 
@@ -36,4 +36,6 @@ INSERT INTO "classificationSentiment" ("libelle") VALUES ('POSITIF'), ('NEGATIF'
 
 INSERT INTO "statutDemandeAchat" ("libelle") VALUES ('NON_APPLICABLE'), ('DEMANDE_ACHAT_ENVOYEE_A_ADMIN'), ('APPROUVEE');
 
-INSERT INTO "typeNotification" ("libelle") VALUES ('BOOST_NOUVEAU_PRODUIT'), ('ARRIVEE_POINT_DE_VENTE');
+INSERT INTO "typeMouvement" ("libelle") VALUES ('ENTREE'), ('SORTIE');
+
+INSERT INTO "typeNotification" ("libelle") VALUES ('BOOST_NOUVEAU_PRODUIT'), ('ARRIVEE_POINT_DE_VENTE'), ('ALERTE_STOCK'), ('HEURE_RECUPERATION'), ('COMMANDE_ANNULEE');

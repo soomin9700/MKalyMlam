@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.EquipeSession;
+import com.mkalymlam.entity.EquipeSessionId;
 import com.mkalymlam.entity.Itineraire;
 import com.mkalymlam.entity.Role;
 import com.mkalymlam.entity.SessionTruck;
 import com.mkalymlam.entity.StatutSession;
 import com.mkalymlam.entity.Truck;
 import com.mkalymlam.entity.Utilisateur;
+import com.mkalymlam.repository.CommandeRepository;
 import com.mkalymlam.repository.EquipeSessionRepository;
 import com.mkalymlam.repository.ItineraireRepository;
 import com.mkalymlam.repository.RoleRepository;
@@ -27,30 +29,31 @@ public class SessionTruckService {
     private static final String STATUT_DISPONIBLE = "DISPONIBLE";
     private static final String STATUT_OUVERTE = "OUVERTE";
     private static final String STATUT_CLOTUREE = "CLOTUREE";
-    private static final String ROLE_CHAUFFEUR = "CHAUFFEUR";
-
     private final SessionTruckRepository sessionTruckRepository;
     private final TruckRepository truckRepository;
     private final ItineraireRepository itineraireRepository;
     private final StatutSessionRepository statutSessionRepository;
     private final UtilisateurRepository utilisateurRepository;
-    private final RoleRepository roleRepository;
     private final EquipeSessionRepository equipeSessionRepository;
+    private final RoleRepository roleRepository;
+    private final CommandeRepository commandeRepository;
 
     public SessionTruckService(SessionTruckRepository sessionTruckRepository,
                                TruckRepository truckRepository,
                                ItineraireRepository itineraireRepository,
                                StatutSessionRepository statutSessionRepository,
                                UtilisateurRepository utilisateurRepository,
+                               EquipeSessionRepository equipeSessionRepository,
                                RoleRepository roleRepository,
-                               EquipeSessionRepository equipeSessionRepository) {
+                               CommandeRepository commandeRepository) {
         this.sessionTruckRepository = sessionTruckRepository;
         this.truckRepository = truckRepository;
         this.itineraireRepository = itineraireRepository;
         this.statutSessionRepository = statutSessionRepository;
         this.utilisateurRepository = utilisateurRepository;
-        this.roleRepository = roleRepository;
         this.equipeSessionRepository = equipeSessionRepository;
+        this.roleRepository = roleRepository;
+        this.commandeRepository = commandeRepository;
     }
 
     @Transactional
@@ -60,7 +63,7 @@ public class SessionTruckService {
                                Double fondDeCaisseOuverture) {
         Truck truck = findTruck(idTruck);
         Itineraire itineraire = findItineraire(idItineraire);
-        Utilisateur chauffeur = findUtilisateur(idChauffeur);
+        Utilisateur chauffeur = findUtilisateur(idChauffeur.intValue());
         StatutSession statutOuverte = findStatutSession(STATUT_OUVERTE);
 
         String statutTruck = truck.getStatutDisponibilite() != null
@@ -85,6 +88,7 @@ public class SessionTruckService {
         sessionTruck.setStatutSession(statutOuverte);
 
         SessionTruck saved = sessionTruckRepository.save(sessionTruck);
+        // Long id = chauffeur.getIdUtilisateur().longValue();
         saveChauffeur(saved, chauffeur);
 
         return saved;
@@ -100,6 +104,8 @@ public class SessionTruckService {
             throw new IllegalArgumentException("La session doit etre OUVERTE pour etre cloturee");
         }
 
+        Double chiffreAffaire = commandeRepository.sumMontantTotalByIdSession(idSession);
+        sessionTruck.setChiffreAffaireTotal(chiffreAffaire);
         sessionTruck.setFondDeCaisseCloture(fondDeCaisseCloture);
         sessionTruck.setStatutSession(statutCloturee);
 
@@ -110,24 +116,23 @@ public class SessionTruckService {
         if (id == null) {
             throw new IllegalArgumentException("Id session null");
         }
-        if (!sessionTruckRepository.existsById(id)) {
-            throw new IllegalArgumentException("Session " + id + " introuvable");
-        }
-        return sessionTruckRepository.findById(id).orElse(null);
+        return sessionTruckRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Session " + id + " introuvable"));
     }
 
     public List<SessionTruck> findSessionsDuJour() {
         return sessionTruckRepository.findByDateSession(LocalDate.now());
     }
 
-    private void saveChauffeur(SessionTruck sessionTruck, Utilisateur chauffeur) {
-        Role roleChauffeur = roleRepository.findByLibelle(ROLE_CHAUFFEUR);
+    public List<SessionTruck> findAll() {
+        return sessionTruckRepository.findAll();
+    }
 
-        if (roleChauffeur == null) {
-            throw new IllegalArgumentException("Role CHAUFFEUR introuvable");
-        }
+    private void saveChauffeur(SessionTruck sessionTruck, Utilisateur chauffeur) {
+        Role roleChauffeur = roleRepository.findByLibelle("CHAUFFEUR");
 
         EquipeSession equipeSession = new EquipeSession();
+        equipeSession.setId(new EquipeSessionId(sessionTruck.getId(), chauffeur.getIdUtilisateur()));
         equipeSession.setSessionTruck(sessionTruck);
         equipeSession.setUtilisateur(chauffeur);
         equipeSession.setRoleDuJour(roleChauffeur);
@@ -139,30 +144,24 @@ public class SessionTruckService {
         if (idTruck == null) {
             throw new IllegalArgumentException("Id truck null");
         }
-        if (!truckRepository.existsById(idTruck)) {
-            throw new IllegalArgumentException("Truck " + idTruck + " introuvable");
-        }
-        return truckRepository.findById(idTruck).orElse(null);
+        return truckRepository.findById(idTruck)
+                .orElseThrow(() -> new IllegalArgumentException("Truck " + idTruck + " introuvable"));
     }
 
     private Itineraire findItineraire(Long idItineraire) {
         if (idItineraire == null) {
             throw new IllegalArgumentException("Id itineraire null");
         }
-        if (!itineraireRepository.existsById(idItineraire)) {
-            throw new IllegalArgumentException("Itineraire " + idItineraire + " introuvable");
-        }
-        return itineraireRepository.findById(idItineraire).orElse(null);
+        return itineraireRepository.findById(idItineraire)
+                .orElseThrow(() -> new IllegalArgumentException("Itineraire " + idItineraire + " introuvable"));
     }
 
-    private Utilisateur findUtilisateur(Long idUtilisateur) {
+    private Utilisateur findUtilisateur(Integer idUtilisateur) {
         if (idUtilisateur == null) {
             throw new IllegalArgumentException("Id chauffeur null");
         }
-        if (!utilisateurRepository.existsById(idUtilisateur)) {
-            throw new IllegalArgumentException("Chauffeur " + idUtilisateur + " introuvable");
-        }
-        return utilisateurRepository.findById(idUtilisateur).orElse(null);
+        return utilisateurRepository.findById(idUtilisateur)
+                .orElseThrow(() -> new IllegalArgumentException("Chauffeur " + idUtilisateur + " introuvable"));
     }
 
     private StatutSession findStatutSession(String libelle) {
@@ -172,4 +171,10 @@ public class SessionTruckService {
         }
         return statutSession;
     }
+
+    public SessionTruck save(SessionTruck sessionTruck) {
+        return sessionTruckRepository.save(sessionTruck);
+    }
+
+
 }
