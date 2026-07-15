@@ -18,12 +18,8 @@ public class MouvementLotIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"idMouvementLot\"")
-    private Long idMouvementLot;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idLot\"")
-    private LotIngredient lot;
+    @Column(name = "\"idmouvementLot\"")
+    private Long idmouvementLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"idTypeMouvement\"")
@@ -34,33 +30,26 @@ public class MouvementLotIngredient {
     private Double quantite;
 
     @Column(name = "\"dateMouvement\"")
-    private LocalDateTime dateMouvement;
+    private LocalDate dateMouvement;
 
-    public MouvementLotIngredient() {
-    }
-
-    public MouvementLotIngredient(LotIngredient lot, TypeMouvement typeMouvement, Double quantite,
-            LocalDateTime dateMouvement) {
-        this.lot = lot;
+    public MouvementLotIngredient(Long idmouvementLot, TypeMouvement typeMouvement,
+            LotIngredient lotIngredient, Double quantite, LocalDate dateMouvement) {
+        this.idmouvementLot = idmouvementLot;
         this.typeMouvement = typeMouvement;
+        this.lotIngredient = lotIngredient;
         this.quantite = quantite;
         this.dateMouvement = dateMouvement;
     }
 
-    public Long getIdMouvementLot() {
-        return idMouvementLot;
+    public MouvementLotIngredient() {
     }
 
-    public void setIdMouvementLot(Long idMouvementLot) {
-        this.idMouvementLot = idMouvementLot;
+    public Long getidmouvementLot() {
+        return idmouvementLot;
     }
 
-    public LotIngredient getLot() {
-        return lot;
-    }
-
-    public void setLot(LotIngredient lot) {
-        this.lot = lot;
+    public void setidmouvementLot(Long idmouvementLot) {
+        this.idmouvementLot = idmouvementLot;
     }
 
     public TypeMouvement getTypeMouvement() {

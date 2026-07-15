@@ -14,26 +14,26 @@ public class InventaireJournalier {
     private Long idInventaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idSession\"")
+    @JoinColumn(name = "\"idSession\"", nullable = false) 
     private SessionTruck sessionTruck;
 
-    @Column(name = "\"dateInventaire\"")
+    @Column(name = "\"dateInventaire\"", nullable = false) 
     private LocalDate dateInventaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idTypeItem\"")
+    @JoinColumn(name = "\"idTypeItem\"", nullable = false) 
     private TypeItem typeItem;
 
-    @Column(name = "\"idItem\"")
+    @Column(name = "\"idItem\"", nullable = false) 
     private Long idItem;
 
-    @Column(name = "\"quantitePhysiqueConstatee\"")
+    @Column(name = "\"quantitePhysiqueConstatee\"", nullable = false) 
     private Double quantitePhysiqueConstatee;
 
-    @Column(name = "\"quantiteTheoriqueSysteme\"")
+    @Column(name = "\"quantiteTheoriqueSysteme\"", nullable = false) 
     private Double quantiteTheoriqueSysteme;
 
-    @Column(name = "\"ecartInventaire\"")
+    @Column(name = "\"ecartInventaire\"", nullable = false) 
     private Double ecartInventaire;
 
     @Transient
@@ -43,17 +43,15 @@ public class InventaireJournalier {
     public InventaireJournalier() {
     }
 
-    public InventaireJournalier(Long idInventaire, SessionTruck sessionTruck, LocalDate dateInventaire,
-            TypeItem typeItem, Long idItem, Double quantitePhysiqueConstatee, 
-            Double quantiteTheoriqueSysteme, Double ecartInventaire) {
-        this.idInventaire = idInventaire;
+    public InventaireJournalier(SessionTruck sessionTruck, LocalDate dateInventaire,
+            TypeItem typeItem, Long idItem, Double quantitePhysiqueConstatee) {
         this.sessionTruck = sessionTruck;
         this.dateInventaire = dateInventaire;
         this.typeItem = typeItem;
         this.idItem = idItem;
         this.quantitePhysiqueConstatee = quantitePhysiqueConstatee;
-        this.quantiteTheoriqueSysteme = quantiteTheoriqueSysteme;
-        this.ecartInventaire = ecartInventaire;
+        this.quantiteTheoriqueSysteme = 0.0;
+        this.ecartInventaire = 0.0;
     }
 
     // Getters et Setters

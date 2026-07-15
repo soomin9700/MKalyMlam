@@ -94,4 +94,42 @@ public class MouvementLotIngredientService {
         double s = sorties == null ? 0.0 : sorties;
         return initial + e - s;
     }
+    
+    public MouvementLotIngredient enregistrerMouvement(
+            Long idmouvementLot, 
+            TypeMouvement typeMouvement, 
+            Double quantite, 
+            LocalDate dateMouvement) {
+        
+        MouvementLotIngredient mouvement = new MouvementLotIngredient();
+            mouvement.setidmouvementLot(idmouvementLot);
+            mouvement.setTypeMouvement(typeMouvement);
+            mouvement.setQuantite(quantite);
+            mouvement.setDateMouvement(dateMouvement);
+        
+        // màj le stock du lot
+        LotIngredient lot = lotService.getById(idmouvementLot);
+        if (typeMouvement.getIdTypeMouvement() == 2) { // SORTIE
+            Double nouvelleQuantite = lot.getQuantiteRestante() + quantite;
+            if (nouvelleQuantite < 0) {
+                throw new IllegalStateException("Stock insuffisant");
+            }
+            lot.setQuantiteRestante(nouvelleQuantite);
+        } else { // ENTREE
+            lot.setQuantiteRestante(lot.getQuantiteRestante() + quantite);
+        }
+        lotService.update(idmouvementLot, lot);
+        
+        return mouvementRepository.save(mouvement);
+    }
+    
+    public List<MouvementLotIngredient> getMouvementsByLot(Long idmouvementLot) {
+        return mouvementRepository.findByLotIngredientIdLotOrderByDateMouvementDesc(idmouvementLot);
+    }
+    
+    public Double getStockReel(Long idmouvementLot) {
+        Double entree = mouvementRepository.sumEntreeByLot(idmouvementLot);
+        Double sortie = mouvementRepository.sumSortieByLot(idmouvementLot);
+        return (entree != null ? entree : 0) - (sortie != null ? sortie : 0);
+    }
 }

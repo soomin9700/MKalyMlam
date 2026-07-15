@@ -1,4 +1,4 @@
-## Inventaire journalier
+## Inventaire journalier + CORRECTION TABLES 
 
 > **Assigné à : Nampoina**
 
@@ -8,11 +8,13 @@
 - [ok] .gitignore ajout de target
 
 - [ok] BASE
+    - [ok] MODIF TABLES ET INSERTION DANS POSTGRES :
+        - [ok] cf table-ingredient-modified-sprint2
     - [ok]  tables concernées: Module 3 manontolo
-        - [ok] "ingredient"
-        - [ok] "lotIngredient"
+        - [ok] "ingredient" -> niampy colonne actif [ok]
+        - [ok] "lotIngredient" -> atao Transient le quantiteRestante
         - [ok] "mouvementLotIngredient" -> A CRÉER
-            * idmouvementLotIngredient
+            * idmouvementLot => ovaina fa diso lasa an io le anarana [ok]
             * idTypeMouvement
             * idLot
             * quantite
