@@ -8,6 +8,8 @@
     <title>Ajouter un lot d'ingrédient</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_badge.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -125,8 +127,8 @@
                 <p>Aucun lot correspondant aux filtres.</p>
             </c:if>
 
-            <c:if test="${not empty lots}">
-                <table class="list-table">
+                <c:if test="${not empty lots}">
+                <table>
                     <thead>
                     <tr>
                         <th>ID lot</th>
