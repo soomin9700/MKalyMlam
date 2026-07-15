@@ -35,6 +35,9 @@ public class LotIngredient {
     @Column(name = "\"quantiteInitiale\"")
     private Double quantiteInitiale;
 
+    @Column(name = "\"quantiteRestante\"")
+    private Double quantiteRestante;
+
     @Column(name = "\"prixAchatUnitaire\"")
     private Double prixAchatUnitaire;
 
@@ -48,6 +51,7 @@ public class LotIngredient {
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
         this.prixAchatUnitaire = prixAchatUnitaire;
+        this.quantiteRestante = quantiteInitiale;
     }
 
     public Long getIdLot() {
@@ -88,6 +92,14 @@ public class LotIngredient {
 
     public void setQuantiteInitiale(Double quantiteInitiale) {
         this.quantiteInitiale = quantiteInitiale;
+    }
+
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
     }
 
     public Double getPrixAchatUnitaire() {

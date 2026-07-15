@@ -60,10 +60,10 @@
     </a>
 </div>
 
-                <a href="${pageContext.request.contextPath}/ingredients/bientot-perimes"
+                <a href="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes"
                    class="btn-edit" style="margin-left:10px;">
-                    Voir bientôt périmés
-                </a>
+                     Voir bientôt périmés
+                 </a>
 
             </div>
 

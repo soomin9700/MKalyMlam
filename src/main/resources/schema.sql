@@ -281,6 +281,7 @@ CREATE TABLE "lotIngredient" (
     "dateReception" DATE NOT NULL,
     "datePeremption" DATE NOT NULL,
     "quantiteInitiale" NUMERIC(10,2) NOT NULL,
+    "quantiteRestante" NUMERIC(10,2) NOT NULL,
     "prixAchatUnitaire" NUMERIC(10,2) NOT NULL,
 
     FOREIGN KEY ("idIngredient")
