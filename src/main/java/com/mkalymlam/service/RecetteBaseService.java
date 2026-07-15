@@ -1,5 +1,6 @@
 package com.mkalymlam.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,25 +27,115 @@ public class RecetteBaseService {
     }
 
     public RecetteBase findById(Long idProduit, Long idIngredient) {
-
         RecetteBaseId id = new RecetteBaseId(idProduit, idIngredient);
-
         return repo.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Recette introuvable."));
+                .orElseThrow(() -> new RuntimeException("Recette introuvable."));
     }
 
     public void delete(Long idProduit, Long idIngredient) {
         repo.deleteById(new RecetteBaseId(idProduit, idIngredient));
     }
 
-    public RecetteBase update(Long idProduit,Long idIngredient,RecetteBase recette) {
-
+    public RecetteBase update(Long idProduit, Long idIngredient, RecetteBase recette) {
         RecetteBase ancienne = findById(idProduit, idIngredient);
-
         ancienne.setQuantiteRecette(recette.getQuantiteRecette());
-
         return repo.save(ancienne);
     }
 
+    public List<String> importRecettesFromRows(List<String[]> data, String[] headers) {
+        List<String> erreurs = new ArrayList<>();
+
+        int idxIdProduit = findColumnIndex(headers, "idProduit");
+        int idxIdIngredient = findColumnIndex(headers, "idIngredient");
+        int idxQuantite = findColumnIndex(headers, "quantiteRecette");
+
+        for (int i = 0; i < data.size(); i++) {
+            String[] row = data.get(i);
+            try {
+                String idProduitStr = getCellValue(row, idxIdProduit);
+                String idIngredientStr = getCellValue(row, idxIdIngredient);
+                String quantiteStr = getCellValue(row, idxQuantite);
+
+                if (idProduitStr.isEmpty()) {
+                    erreurs.add("Ligne " + (i + 2) + " : idProduit manquant");
+                    continue;
+                }
+                if (idIngredientStr.isEmpty()) {
+                    erreurs.add("Ligne " + (i + 2) + " : idIngredient manquant");
+                    continue;
+                }
+                if (quantiteStr.isEmpty()) {
+                    erreurs.add("Ligne " + (i + 2) + " : quantiteRecette manquante");
+                    continue;
+                }
+
+                RecetteBase recette = new RecetteBase();
+                recette.setIdProduit(Long.parseLong(idProduitStr));
+                recette.setIdIngredient(Long.parseLong(idIngredientStr));
+                recette.setQuantiteRecette(Double.parseDouble(quantiteStr.replace(",", ".")));
+
+                repo.save(recette);
+
+            } catch (NumberFormatException e) {
+                erreurs.add("Ligne " + (i + 2) + " : format numerique invalide");
+            } catch (Exception e) {
+                erreurs.add("Ligne " + (i + 2) + " : " + e.getMessage());
+            }
+        }
+        return erreurs;
+    }
+
+    private int findColumnIndex(String[] headers, String columnName) {
+        for (int i = 0; i < headers.length; i++) {
+            if (headers[i].trim().equalsIgnoreCase(columnName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private String getCellValue(String[] row, int index) {
+        if (index < 0 || index >= row.length) return "";
+        return row[index] != null ? row[index].trim() : "";
+    }
+    
+    // filtres
+    public List<RecetteBase> search(String nomProduit, String nomIngredient) {
+        // Si les deux filtres sont vides, retourner tout
+        if ((nomProduit == null || nomProduit.isEmpty()) && 
+            (nomIngredient == null || nomIngredient.isEmpty())) {
+            return repo.findAll();
+        }
+        
+        // Si seulement le nom du produit est fourni
+        if (nomProduit != null && !nomProduit.isEmpty() && 
+            (nomIngredient == null || nomIngredient.isEmpty())) {
+            return repo.findByProduitNomContainingIgnoreCase(nomProduit);
+        }
+        
+        // Si seulement le nom de l'ingrédient est fourni
+        if (nomIngredient != null && !nomIngredient.isEmpty() && 
+            (nomProduit == null || nomProduit.isEmpty())) {
+            return repo.findByIngredientNomContainingIgnoreCase(nomIngredient);
+        }
+        
+        // Si les deux sont fournis
+        return repo.findByProduitAndIngredientNom(nomProduit, nomIngredient);
+    }
+
+    public List<RecetteBase> findByProduitId(Long idProduit) {
+        return repo.findByIdProduit(idProduit);
+    }
+
+    public List<RecetteBase> findByIngredientId(Long idIngredient) {
+        return repo.findByIdIngredient(idIngredient);
+    }
+
+    public long countByProduitId(Long idProduit) {
+        return repo.countByIdProduit(idProduit);
+    }
+
+    public long countByIngredientId(Long idIngredient) {
+        return repo.countByIdIngredient(idIngredient);
+    }
 }

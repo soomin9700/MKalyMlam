@@ -4,15 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
-
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.entity.MouvementLotIngredient;
 import com.mkalymlam.entity.TypeMouvement;
-
 import com.mkalymlam.repository.LotIngredientRepository;
 import com.mkalymlam.repository.MouvementLotIngredientRepository;
 
@@ -22,12 +18,16 @@ public class MouvementLotIngredientService {
     private final MouvementLotIngredientRepository mouvementRepository;
     private final LotIngredientRepository lotRepository;
     private final TypeMouvementService typeMouvementService;
+    private final LotIngredientService lotService;  // AJOUTÉ
 
     public MouvementLotIngredientService(MouvementLotIngredientRepository mouvementRepository,
-            LotIngredientRepository lotRepository, TypeMouvementService typeMouvementService) {
+                                         LotIngredientRepository lotRepository, 
+                                         TypeMouvementService typeMouvementService,
+                                         LotIngredientService lotService) {  // AJOUTÉ
         this.mouvementRepository = mouvementRepository;
         this.lotRepository = lotRepository;
         this.typeMouvementService = typeMouvementService;
+        this.lotService = lotService;  // AJOUTÉ
     }
 
     public Double sumByLotAndType(Long lotId, Long typeId) {
@@ -40,12 +40,14 @@ public class MouvementLotIngredientService {
         return val == null ? 0.0 : val;
     }
 
-    public java.util.List<MouvementLotIngredient> findByLotId(Long lotId) {
+    public List<MouvementLotIngredient> findByLotId(Long lotId) {
         if (lotId == null) {
             return mouvementRepository.findAll();
         }
-        return mouvementRepository.findAll().stream().filter(m -> m.getLot() != null && m.getLot().getIdLot() != null
-                && m.getLot().getIdLot().equals(lotId)).toList();
+        return mouvementRepository.findAll().stream()
+                .filter(m -> m.getLot() != null && m.getLot().getIdLot() != null
+                        && m.getLot().getIdLot().equals(lotId))
+                .toList();
     }
 
     @Transactional
@@ -79,7 +81,7 @@ public class MouvementLotIngredientService {
         }
 
         if (mouvement.getDateMouvement() == null) {
-            mouvement.setDateMouvement(LocalDateTime.now());
+            mouvement.setDateMouvement(LocalDate.now());  // CORRIGÉ : LocalDate au lieu de LocalDateTime
         }
         mouvement.setLot(lot);
         mouvement.setTypeMouvement(type);
@@ -93,5 +95,44 @@ public class MouvementLotIngredientService {
         double e = entrees == null ? 0.0 : entrees;
         double s = sorties == null ? 0.0 : sorties;
         return initial + e - s;
+    }
+
+    @Transactional
+    public MouvementLotIngredient enregistrerMouvement(
+            Long idLot,  // CORRIGÉ : idLot au lieu de idmouvementLot
+            TypeMouvement typeMouvement,
+            Double quantite,
+            LocalDate dateMouvement) {
+
+        MouvementLotIngredient mouvement = new MouvementLotIngredient();
+        mouvement.setLot(lotService.getById(idLot));  // CORRIGÉ
+        mouvement.setTypeMouvement(typeMouvement);
+        mouvement.setQuantite(quantite);
+        mouvement.setDateMouvement(dateMouvement);
+
+        // Mise à jour du stock du lot
+        LotIngredient lot = lotService.getById(idLot);
+        if (typeMouvement.getIdTypeMouvement() == 2) { // SORTIE
+            Double nouvelleQuantite = lot.getQuantiteRestante() - quantite;  // CORRIGÉ
+            if (nouvelleQuantite < 0) {
+                throw new IllegalStateException("Stock insuffisant");
+            }
+            lot.setQuantiteRestante(nouvelleQuantite);
+        } else { // ENTREE
+            lot.setQuantiteRestante(lot.getQuantiteRestante() + quantite);
+        }
+        lotService.update(idLot, lot);
+
+        return mouvementRepository.save(mouvement);
+    }
+
+    public List<MouvementLotIngredient> getMouvementsByLot(Long idLot) {  // CORRIGÉ : idLot
+        return mouvementRepository.findByLotIdOrderByDateMouvementDesc(idLot);
+    }
+
+    public Double getStockReel(Long idLot) {  // CORRIGÉ : idLot
+        Double entree = mouvementRepository.sumEntreeByLot(idLot);
+        Double sortie = mouvementRepository.sumSortieByLot(idLot);
+        return (entree != null ? entree : 0) - (sortie != null ? sortie : 0);
     }
 }

@@ -39,7 +39,7 @@
 
     <div style="display:flex; gap:10px; align-items:center;">
         <button class="btn-add" onclick="nouvelleCommande()">
-            <i class="fas fa-plus"></i>
+            <!-- <i class="fas fa-plus"></i> -->
             Nouvelle commande
         </button>
 
@@ -56,6 +56,32 @@
     </div>
 
 </div>
+            <div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;align-items:flex-end;">
+                <div style="flex:1;min-width:250px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-truck"></i> Choisir un truck (session ouverte)
+                    </label>
+                    <select id="selectSession" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                        <option value="">-- Choisir un truck --</option>
+                        <c:forEach var="s" items="${sessionsOuvertes}">
+                            <option value="${s.truck.id}">${s.truck.immatriculation} - ${s.itineraire.nomZone}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-clock"></i> Heure de recuperation prevue
+                    </label>
+                    <input type="datetime-local" id="inputHeureRecup" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <label style="font-weight:600;font-size:13px;color:#374151;display:block;margin-bottom:5px;">
+                        <i class="fas fa-map-marker-alt"></i> Lieu de recuperation prevu
+                    </label>
+                    <input type="text" id="inputLieuRecup" placeholder="Ex: Place 12, Marche Central" style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;">
+                </div>
+            </div>
+
             <h2 style="margin:25px 0;">
                 Commande N°
                 <span id="cmdId">-</span>
@@ -206,47 +232,17 @@
                 </thead>
 
                 <tbody>
-
+                <c:forEach var="f" items="${factures}">
                 <tr>
-                    <td>1</td>
-                    <td>101</td>
-                    <td>FAC-2026-001</td>
-                    <td>2026-07-03 09:15</td>
-                    <td>Espèces</td>
-                    <td>1 200 Ar</td>
-                    <td>24 000 Ar</td>
+                    <td>${f.idFacture}</td>
+                    <td>${f.commande.idCommande}</td>
+                    <td>${f.referenceFacture}</td>
+                    <td>${f.dateFacturation}</td>
+                    <td>${f.modePaiement.libelle}</td>
+                    <td>${f.detailsTaxesBrut} Ar</td>
+                    <td>${f.commande.montantTotal} Ar</td>
                 </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>102</td>
-                    <td>FAC-2026-002</td>
-                    <td>2026-07-03 10:40</td>
-                    <td>Mobile Money</td>
-                    <td>2 500 Ar</td>
-                    <td>50 000 Ar</td>
-                </tr>
-
-                <tr>
-                    <td>3</td>
-                    <td>103</td>
-                    <td>FAC-2026-003</td>
-                    <td>2026-07-03 11:25</td>
-                    <td>Carte</td>
-                    <td>1 800 Ar</td>
-                    <td>36 000 Ar</td>
-                </tr>
-
-                <tr>
-                    <td>4</td>
-                    <td>104</td>
-                    <td>FAC-2026-004</td>
-                    <td>2026-07-03 13:10</td>
-                    <td>Espèces</td>
-                    <td>900 Ar</td>
-                    <td>18 000 Ar</td>
-                </tr>
-
+                </c:forEach>
                 </tbody>
 
             </table>
@@ -258,7 +254,7 @@
 
 <script>
 
-let cmdId = null;
+    let cmdId = null;
 let lignesLocales = [];
 let produits = [];
 
@@ -311,11 +307,24 @@ function afficherPrix(){
 }
 
 function nouvelleCommande(){
+    const sessionSelect = document.getElementById("selectSession");
+    const idTruck = sessionSelect.value;
+    if(!idTruck){
+        alert("Veuillez choisir un truck avec une session ouverte.");
+        return;
+    }
 
-    fetch('${pageContext.request.contextPath}/commande/ajouter',{
+    const heureRecup = document.getElementById("inputHeureRecup").value || null;
+    const lieuRecup = document.getElementById("inputLieuRecup").value || null;
+
+    const body = {};
+    if (heureRecup) body.heureRecuperationPrevue = heureRecup;
+    if (lieuRecup) body.lieuRecuperationPrevu = lieuRecup;
+
+    fetch('${pageContext.request.contextPath}/commande/ajouter?idTruck='+idTruck,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({})
+        body:JSON.stringify(body)
     })
     .then(r=>r.json())
     .then(c=>{
@@ -396,10 +405,9 @@ function validerCommande(){
         document.getElementById("total").textContent="0 Ar";
         lignesLocales=[];
         afficherLignes();
+        nouvelleCommande();
     });
 }
-
 </script>
-
 </body>
 </html>

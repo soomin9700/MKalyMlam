@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_form.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_list.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_liste_prod.css">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_badge.css">
     <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,27 +23,6 @@
     <c:set var="activeMenu" value="produits"/>
 
     <!-- Sidebar -->
-
-    <%-- <div class="sidebar">
-
-        <h2>ADMIN PANEL</h2>
-
-        <a href="#">Dashboard</a>
-
-        <a href="#" class="active" style="color: var(--secondary);">
-            Produits
-        </a>
-
-        <a href="#">Commandes</a>
-        <a href="#">Employés</a>
-        <a href="#">Clients</a>
-        <a href="#">Statistiques</a>
-
-        <a href="./ingredients">
-            Ingrédients
-        </a>
-
-    </div> --%>
 
     <jsp:include page="/WEB-INF/views/fragments/sidebar.jsp" />
 
@@ -71,16 +50,81 @@
 
                 </a>
 
+                <a href="${pageContext.request.contextPath}/produits/import"
+                   class="btn-add" style="background:#6366f1;">
+                    <i class="fas fa-file-import"></i> Importer CSV/Excel
+                </a>
 
-                <div class="export-buttons" style="display:flex; gap:10px; margin-left:auto;">
-    <a href="${pageContext.request.contextPath}/produits/export/csv" class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
-        <i class="fas fa-file-csv"></i> CSV
-    </a>
-    <a href="${pageContext.request.contextPath}/produits/print" target="_blank" class="btn-add" style="background:#f0f0f0; color:#1a1a1a; border:1px solid #ddd;">
-        <i class="fas fa-print"></i> Imprimer
-    </a>
-</div>
+            </div>
 
+            <!-- Filtres -->
+            <div class="filters-container">
+                <form action="${pageContext.request.contextPath}/produits" method="get" class="filters-form">
+                    
+                    <!-- Filtre par nom d'ingrédient -->
+                    <div class="filter-group">
+                        <label for="nomProduit" class="filter-label">
+                            <i class="fas fa-search"></i>
+                            Rechercher
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nomIngredient" 
+                            name="nomIngredient" 
+                            value="${param.nomIngredient}" 
+                            placeholder="Nom de l'ingrédient..."
+                            class="filter-input">
+                    </div>
+                    
+                    <!-- Filtre par nouveaute -->
+                    <div class="filter-group filter-checkbox">
+                        <input 
+                            type="checkbox" 
+                            id="nouveauProduit" 
+                            name="nouveauProduit" 
+                            value="true"
+                            ${param.nouveauProduit != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label"><i class="fas fa-star"></i> Afficher uniquement les nouveaux poduits</span>
+                    </div>
+                    
+                    <!-- Filtre par disponibilité -->
+                    <div class="filter-group filter-checkbox">
+                        <input 
+                            type="checkbox" 
+                            id="estDisponible" 
+                            name="estDisponible" 
+                            value="true"
+                            ${param.estDisponible != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label"><i class="fas fa-check-circle"></i> Afficher uniquement les produits disponibles</span>
+                    </div>
+
+                    <!-- Filtre par indisponibilité -->
+                    <div class="filter-group filter-checkbox">
+                        <input 
+                            type="checkbox" 
+                            id="estIndisponible" 
+                            name="estIndisponible" 
+                            value="true"
+                            ${param.estIndisponible != null ? 'checked' : ''}
+                            class="filter-checkbox">
+                        <span class="filter-checkbox-label"><i class="fas fa-times-circle"></i> Afficher uniquement les produits indisponibles</span>
+                    </div>
+
+                    <!-- Boutons d'action -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-filter"></i>
+                            Filtrer
+                        </button>
+                        <a href="${pageContext.request.contextPath}/produits" class="btn-filter-reset">
+                            <i class="fas fa-undo"></i>
+                            Réinitialiser
+                        </a>
+                    </div>
+                    
+                </form>
             </div>
 
             <!-- Tableau -->
@@ -91,13 +135,15 @@
 
                 <tr>
 
-                    <th><i class="fas fa-hashtag"></i> ID</th>
+                    <!-- <th><i class="fas fa-hashtag"></i> ID</th> -->
 
                     <th><i class="fas fa-tag"></i> Nom</th>
 
                     <th><i class="fas fa-euro-sign"></i> Prix</th>
 
                     <th><i class="fas fa-star"></i> Nouveau</th>
+
+                    <th><i class="fas fa-check-circle"></i> Disponible</th>
 
                     <th><i class="fas fa-calendar"></i> Date</th>
 
@@ -132,8 +178,6 @@
                                 <a href="${pageContext.request.contextPath}/produits/new"
                                    class="btn-add">
 
-                                    <i class="fas fa-plus"></i>
-
                                     Ajouter le premier produit
 
                                 </a>
@@ -151,16 +195,6 @@
                 <c:forEach var="produit" items="${produits}">
 
                     <tr>
-
-                        <td>
-
-                            <span class="product-id">
-
-                                ${produit.idProduit}
-
-                            </span>
-
-                        </td>
 
                         <td>
 
@@ -187,6 +221,38 @@
                             <c:choose>
 
                                 <c:when test="${produit.estNouveau}">
+
+                                    <span class="badge-new active">
+
+                                        <i class="fas fa-check-circle"></i>
+
+                                        Oui
+
+                                    </span>
+
+                                </c:when>
+
+                                <c:otherwise>
+
+                                    <span class="badge-new inactive">
+
+                                        <i class="fas fa-times-circle"></i>
+
+                                        Non
+
+                                    </span>
+
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </td>
+
+                        <td>
+
+                            <c:choose>
+
+                                <c:when test="${produit.estDisponible}">
 
                                     <span class="badge-new active">
 
@@ -252,6 +318,48 @@
                                     </button>
 
                                 </form>
+
+                                <!-- Activer ou desactiver -->
+
+                                <c:choose>
+
+                                    <c:when test="${produit.estDisponible}">
+
+                                        <form action="${pageContext.request.contextPath}/produits/${produit.idProduit}/deactivate"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver ce produit ?');">
+
+                                            <button type="submit"
+                                                    class="btn-delete">
+
+                                                Désactiver
+
+                                            </button>
+
+                                        </form>
+
+                                    </c:when>
+
+                                    <c:otherwise>
+
+                                        <form action="${pageContext.request.contextPath}/produits/${produit.idProduit}/activate"
+                                            method="post"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir activer ce produit ?');">
+
+                                            <button type="submit"
+                                                    class="btn-success">
+
+                                                Activer
+
+                                            </button>
+
+                                        </form>
+
+                                    </c:otherwise>
+
+                                </c:choose>
 
                             </div>
 

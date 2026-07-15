@@ -7,28 +7,31 @@ import com.mkalymlam.entity.*;
 import com.mkalymlam.repository.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class InventaireJournalierService {
-    
+
     private final InventaireJournalierRepository inventaireRepository;
     private final SessionTruckRepository sessionTruckRepository;
     private final TypeItemRepository typeItemRepository;
     private final IngredientRepository ingredientRepository;
     private final EquipementRepository equipementRepository;
-    private final LotIngredientRepository lotIngredientRepository;  
-    private final MouvementEquipementRepository mouvementEquipementRepository; 
+    private final LotIngredientRepository lotIngredientRepository;
+    private final MouvementEquipementRepository mouvementEquipementRepository;
+    private final LotIngredientService lotIngredientService;
 
     public InventaireJournalierService(
-            InventaireJournalierRepository inventaireRepository, 
-            SessionTruckRepository sessionTruckRepository, 
+            InventaireJournalierRepository inventaireRepository,
+            SessionTruckRepository sessionTruckRepository,
             TypeItemRepository typeItemRepository,
             IngredientRepository ingredientRepository,
             EquipementRepository equipementRepository,
             LotIngredientRepository lotIngredientRepository,
-            MouvementEquipementRepository mouvementEquipementRepository) { 
+            MouvementEquipementRepository mouvementEquipementRepository,
+            LotIngredientService lotIngredientService) {
         this.inventaireRepository = inventaireRepository;
         this.sessionTruckRepository = sessionTruckRepository;
         this.typeItemRepository = typeItemRepository;
@@ -36,20 +39,34 @@ public class InventaireJournalierService {
         this.equipementRepository = equipementRepository;
         this.lotIngredientRepository = lotIngredientRepository;
         this.mouvementEquipementRepository = mouvementEquipementRepository;
+        this.lotIngredientService = lotIngredientService;
     }
-    
+
     @Transactional
     public InventaireJournalier save(InventaireJournalier inventaire) {
         if (inventaire.getQuantitePhysiqueConstatee() == null) {
             throw new IllegalArgumentException("La quantité physique est obligatoire");
         }
-        
+        if (inventaire.getSessionTruck() == null) {
+            throw new IllegalArgumentException("La session est obligatoire");
+        }
+        if (inventaire.getTypeItem() == null) {
+            throw new IllegalArgumentException("Le type d'item est obligatoire");
+        }
+        if (inventaire.getIdItem() == null) {
+            throw new IllegalArgumentException("L'ID de l'item est obligatoire");
+        }
+
         Double quantiteTheorique = calculerQuantiteTheorique(inventaire);
         inventaire.setQuantiteTheoriqueSysteme(quantiteTheorique);
-        
+
         double ecart = inventaire.getQuantitePhysiqueConstatee() - quantiteTheorique;
         inventaire.setEcartInventaire(ecart);
-        
+
+        if (inventaire.getDateInventaire() == null) {
+            inventaire.setDateInventaire(LocalDate.now());
+        }
+
         return inventaireRepository.save(inventaire);
     }
 
@@ -58,33 +75,25 @@ public class InventaireJournalierService {
             return 0.0;
         }
 
-        // // INGREDIENT
-        // if (inventaire.getTypeItem().getIdTypeItem() == 1) {
-        //     List<LotIngredient> lots = lotIngredientRepository.findByIngredient_IdIngredient(
-        //         inventaire.getIdItem()
-        //     );
-            
-        //     return lots.stream()
-        //         .mapToDouble(LotIngredient::getQuantiteRestante)
-        //         .sum();
-        // }
-        
-        // EQUIPEMENT
-        if (inventaire.getTypeItem().getIdTypeItem() == 2) {
-            return calculerStockEquipement(inventaire.getIdItem());
-        }
-        
-        return 0.0;
-    }
+        Long idTypeItem = inventaire.getTypeItem().getIdTypeItem();
 
-    private Double calculerStockEquipement(Long idEquipement) {
-        Double entree = mouvementEquipementRepository.sumEntreeByEquipement(idEquipement);
-        Double sortie = mouvementEquipementRepository.sumSortieByEquipement(idEquipement);
-        
-        entree = entree != null ? entree : 0.0;
-        sortie = sortie != null ? sortie : 0.0;
-        
-        return entree - sortie;
+        // INGREDIENT (idTypeItem = 1)
+        if (idTypeItem == 1) {
+            return lotIngredientService.getQuantiteActuelleParIngredientId(inventaire.getIdItem());
+        }
+
+        // EQUIPEMENT (idTypeItem = 2)
+        if (idTypeItem == 2) {
+            Double entree = mouvementEquipementRepository.sumEntreeByEquipement(inventaire.getIdItem());
+            Double sortie = mouvementEquipementRepository.sumSortieByEquipement(inventaire.getIdItem());
+
+            entree = entree != null ? entree : 0.0;
+            sortie = sortie != null ? sortie : 0.0;
+
+            return entree - sortie;
+        }
+
+        return 0.0;
     }
 
     @Transactional
@@ -108,35 +117,16 @@ public class InventaireJournalierService {
         }
         if (inventaire.getQuantitePhysiqueConstatee() != null) {
             existing.setQuantitePhysiqueConstatee(inventaire.getQuantitePhysiqueConstatee());
+
+            // recalculer la quantité théorique et l'écart
+            Double quantiteTheorique = calculerQuantiteTheorique(existing);
+            existing.setQuantiteTheoriqueSysteme(quantiteTheorique);
+
+            double ecart = existing.getQuantitePhysiqueConstatee() - quantiteTheorique;
+            existing.setEcartInventaire(ecart);
         }
-        
-        Double quantiteTheorique = calculerQuantiteTheorique(existing);
-        existing.setQuantiteTheoriqueSysteme(quantiteTheorique);
-        
-        double ecart = existing.getQuantitePhysiqueConstatee() - quantiteTheorique;
-        existing.setEcartInventaire(ecart);
-        
+
         return inventaireRepository.save(existing);
-    }
-
-    private String getNomItem(Long idTypeItem, Long idItem) {
-        if (idTypeItem == null || idItem == null) {
-            return "Non défini";
-        }
-
-        try {
-            if (idTypeItem == 1) { 
-                Ingredient ingredient = ingredientRepository.findById(idItem).orElse(null);
-                return ingredient != null ? ingredient.getNomIngredient() : "Ingrédient inconnu (ID: " + idItem + ")";
-            } else if (idTypeItem == 2) { 
-                Equipement equipement = equipementRepository.findById(idItem).orElse(null);
-                return equipement != null ? equipement.getNomEquipement() : "Équipement inconnu (ID: " + idItem + ")";
-            } else {
-                return "Type inconnu (ID: " + idItem + ")";
-            }
-        } catch (Exception e) {
-            return "Erreur chargement (ID: " + idItem + ")";
-        }
     }
 
     @Transactional
@@ -144,91 +134,34 @@ public class InventaireJournalierService {
         inventaireRepository.deleteById(id);
     }
 
-    public List<InventaireJournalier> getAllWithItemNames() {
-        List<InventaireJournalier> inventaires = inventaireRepository.findAllByOrderByDateInventaireAsc();
-        return enrichirAvecNomItem(inventaires);
-    }
-
-    public List<InventaireJournalier> getAllDescWithItemNames() {
-        List<InventaireJournalier> inventaires = inventaireRepository.findAllByOrderByDateInventaireDesc();
-        return enrichirAvecNomItem(inventaires);
-    }
-
-    public InventaireJournalier getByIdWithItemName(Long id) {
-        InventaireJournalier inventaire = inventaireRepository.findById(id).orElse(null);
-        if (inventaire != null) {
-            enrichirAvecNomItem(inventaire);
-        }
-        return inventaire;
-    }
-
-    public List<InventaireJournalier> findBySessionWithItemNames(Long idSession) {
-        List<InventaireJournalier> inventaires = inventaireRepository.findBySessionTruckId(idSession);
-        return enrichirAvecNomItem(inventaires);
-    }
-
-    public List<InventaireJournalier> findByAvecEcartWithItemNames() {
-        List<InventaireJournalier> inventaires = inventaireRepository.findWithEcart();
-        return enrichirAvecNomItem(inventaires);
-    }
-
-    private void enrichirAvecNomItem(InventaireJournalier inventaire) {
-        if (inventaire == null || inventaire.getTypeItem() == null || inventaire.getIdItem() == null) {
-            return;
-        }
-
-        String nomItem = getNomItem(inventaire.getTypeItem().getIdTypeItem(), inventaire.getIdItem());
-        inventaire.setNomItem(nomItem);
-    }
-
-    private List<InventaireJournalier> enrichirAvecNomItem(List<InventaireJournalier> inventaires) {
-        if (inventaires == null) {
-            return null;
-        }
-        
-        for (InventaireJournalier inventaire : inventaires) {
-            enrichirAvecNomItem(inventaire);
-        }
-        return inventaires;
-    }
-
-    
-
+    // méthodes de recherche
     public List<InventaireJournalier> getAll() {
-        return getAllWithItemNames();
-    }
-
-    public List<InventaireJournalier> getAllDesc() {
-        return getAllDescWithItemNames();
+        return inventaireRepository.findAllByOrderByDateInventaireDesc();
     }
 
     public InventaireJournalier getById(Long id) {
-        return getByIdWithItemName(id);
+        return inventaireRepository.findById(id).orElse(null);
     }
 
     public List<InventaireJournalier> findBySession(Long idSession) {
-        return findBySessionWithItemNames(idSession);
+        return inventaireRepository.findBySessionTruckId(idSession);
+    }
+
+    public List<InventaireJournalier> findByDateInventaire(LocalDate dateInventaire) {
+        return inventaireRepository.findByDateInventaire(dateInventaire);
     }
 
     public List<InventaireJournalier> findByAvecEcart() {
-        return findByAvecEcartWithItemNames();
+        return inventaireRepository.findWithEcart();
     }
 
-    public List<TypeItem> getAllTypeItems() {
-        return typeItemRepository.findAll();
-    }
-
+    // méthodes utilitaires
     public List<SessionTruck> getAllSessionTrucks() {
         return sessionTruckRepository.findAll();
     }
 
-    public List<InventaireJournalier> findByDateInventaire(LocalDate dateInventaire) {
-        List<InventaireJournalier> inventaires = inventaireRepository.findByDateInventaire(dateInventaire);
-        return enrichirAvecNomItem(inventaires);
-    }
-
-    public boolean verifierEcartExistant(InventaireJournalier inventaire) {
-        return inventaire.getEcartInventaire() != 0;
+    public List<TypeItem> getAllTypeItems() {
+        return typeItemRepository.findAll();
     }
 
     public List<Ingredient> getAllIngredients() {

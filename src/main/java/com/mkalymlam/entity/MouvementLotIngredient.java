@@ -1,6 +1,6 @@
 package com.mkalymlam.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,31 +22,32 @@ public class MouvementLotIngredient {
     private Long idMouvementLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idLot\"")
+    @JoinColumn(name = "\"idLot\"", nullable = false)
     private LotIngredient lot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idTypeMouvement\"")
+    @JoinColumn(name = "\"idTypeMouvement\"", nullable = false)
     private TypeMouvement typeMouvement;
 
-
-    @Column(name = "\"quantite\"")
+    @Column(name = "\"quantite\"", nullable = false)
     private Double quantite;
 
-    @Column(name = "\"dateMouvement\"")
-    private LocalDateTime dateMouvement;
+    @Column(name = "\"dateMouvement\"", nullable = false)
+    private LocalDate dateMouvement;
 
+    // Constructeurs
     public MouvementLotIngredient() {
     }
 
-    public MouvementLotIngredient(LotIngredient lot, TypeMouvement typeMouvement, Double quantite,
-            LocalDateTime dateMouvement) {
+    public MouvementLotIngredient(LotIngredient lot, TypeMouvement typeMouvement, 
+                                   Double quantite, LocalDate dateMouvement) {
         this.lot = lot;
         this.typeMouvement = typeMouvement;
         this.quantite = quantite;
         this.dateMouvement = dateMouvement;
     }
 
+    // Getters et Setters
     public Long getIdMouvementLot() {
         return idMouvementLot;
     }
@@ -79,11 +80,11 @@ public class MouvementLotIngredient {
         this.quantite = quantite;
     }
 
-    public LocalDateTime getDateMouvement() {
+    public LocalDate getDateMouvement() {
         return dateMouvement;
     }
 
-    public void setDateMouvement(LocalDateTime dateMouvement) {
+    public void setDateMouvement(LocalDate dateMouvement) {
         this.dateMouvement = dateMouvement;
     }
 }

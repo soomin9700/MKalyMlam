@@ -10,8 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mkalymlam.entity.FactureRecu;
+import com.mkalymlam.entity.SessionTruck;
+import com.mkalymlam.repository.SessionTruckRepository;
+import com.mkalymlam.service.FactureRecuService;
 
 
 @Controller
@@ -19,15 +25,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class VendeuseController {
 
     private static final int PDF_LINES_PER_PAGE = 34;
-    private static final List<FactureStatique> FACTURES = List.of(
-            new FactureStatique(1, 101, "FAC-2026-001", "2026-07-03 09:15", "Especes", "1 200 Ar", "24 000 Ar"),
-            new FactureStatique(2, 102, "FAC-2026-002", "2026-07-03 10:40", "Mobile Money", "2 500 Ar", "50 000 Ar"),
-            new FactureStatique(3, 103, "FAC-2026-003", "2026-07-03 11:25", "Carte", "1 800 Ar", "36 000 Ar"),
-            new FactureStatique(4, 104, "FAC-2026-004", "2026-07-03 13:10", "Especes", "900 Ar", "18 000 Ar")
-    );
+
+    private final FactureRecuService factureRecuService;
+    private final SessionTruckRepository sessionTruckRepository;
+
+    public VendeuseController(FactureRecuService factureRecuService,
+                              SessionTruckRepository sessionTruckRepository) {
+        this.factureRecuService = factureRecuService;
+        this.sessionTruckRepository = sessionTruckRepository;
+    }
 
     @GetMapping("/vendeuse")
-    public String vendeuse() {
+    public String vendeuse(Model model) {
+        List<FactureRecu> factures = factureRecuService.listerToutes();
+        List<SessionTruck> sessionsOuvertes = sessionTruckRepository.findByStatutSession_Libelle("OUVERTE");
+        model.addAttribute("factures", factures);
+        model.addAttribute("sessionsOuvertes", sessionsOuvertes);
         return "vente/vendeuse";
     }
 
@@ -55,24 +68,25 @@ public class VendeuseController {
     // }
 
     private String buildCsv() {
+        List<FactureRecu> factures = factureRecuService.listerToutes();
         StringBuilder csv = new StringBuilder();
         csv.append('\uFEFF');
         csv.append("ID Facture,ID Commande,Reference,Date facturation,Mode paiement,Taxes brut,Montant total\n");
 
-        for (FactureStatique facture : FACTURES) {
-            csv.append(csvValue(facture.idFacture()))
+        for (FactureRecu facture : factures) {
+            csv.append(csvValue(facture.getIdFacture()))
                     .append(',')
-                    .append(csvValue(facture.idCommande()))
+                    .append(csvValue(facture.getCommande() != null ? facture.getCommande().getIdCommande() : ""))
                     .append(',')
-                    .append(csvValue(facture.reference()))
+                    .append(csvValue(facture.getReferenceFacture()))
                     .append(',')
-                    .append(csvValue(facture.dateFacturation()))
+                    .append(csvValue(facture.getDateFacturation()))
                     .append(',')
-                    .append(csvValue(facture.modePaiement()))
+                    .append(csvValue(facture.getModePaiement() != null ? facture.getModePaiement().getLibelle() : ""))
                     .append(',')
-                    .append(csvValue(facture.detailsTaxesBrut()))
+                    .append(csvValue(facture.getDetailsTaxesBrut() != null ? facture.getDetailsTaxesBrut() + " Ar" : ""))
                     .append(',')
-                    .append(csvValue(facture.montantTotal()))
+                    .append(csvValue(facture.getCommande() != null ? facture.getCommande().getMontantTotal() + " Ar" : ""))
                     .append('\n');
         }
 
@@ -85,20 +99,21 @@ public class VendeuseController {
     }
 
     private byte[] buildPdf() {
+        List<FactureRecu> factures = factureRecuService.listerToutes();
         List<String> lines = new ArrayList<>();
         lines.add("Liste des factures");
         lines.add("");
         lines.add("ID | Commande | Reference | Date | Paiement | Taxes | Total");
         lines.add("------------------------------------------------------------");
 
-        for (FactureStatique facture : FACTURES) {
-            lines.add(safePdfText(facture.idFacture()) + " | "
-                    + safePdfText(facture.idCommande()) + " | "
-                    + safePdfText(facture.reference()) + " | "
-                    + safePdfText(facture.dateFacturation()) + " | "
-                    + safePdfText(facture.modePaiement()) + " | "
-                    + safePdfText(facture.detailsTaxesBrut()) + " | "
-                    + safePdfText(facture.montantTotal()));
+        for (FactureRecu facture : factures) {
+            lines.add(safePdfText(facture.getIdFacture()) + " | "
+                    + safePdfText(facture.getCommande() != null ? facture.getCommande().getIdCommande() : "") + " | "
+                    + safePdfText(facture.getReferenceFacture()) + " | "
+                    + safePdfText(facture.getDateFacturation()) + " | "
+                    + safePdfText(facture.getModePaiement() != null ? facture.getModePaiement().getLibelle() : "") + " | "
+                    + safePdfText(facture.getDetailsTaxesBrut() != null ? facture.getDetailsTaxesBrut() + " Ar" : "") + " | "
+                    + safePdfText(facture.getCommande() != null ? facture.getCommande().getMontantTotal() + " Ar" : ""));
         }
 
         return writeSimplePdf(lines);
@@ -185,12 +200,4 @@ public class VendeuseController {
                 .replace(")", "\\)");
     }
 
-    private record FactureStatique(int idFacture,
-                                   int idCommande,
-                                   String reference,
-                                   String dateFacturation,
-                                   String modePaiement,
-                                   String detailsTaxesBrut,
-                                   String montantTotal) {
-    }
 }

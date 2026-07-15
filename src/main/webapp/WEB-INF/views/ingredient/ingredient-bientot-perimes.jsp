@@ -20,7 +20,7 @@
                 <h1>Ingrédients bientôt périmés</h1>
             </div>
 
-            <form method="get" action="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes" style="margin-bottom: 20px;">
+            <!-- <form method="get" action="${pageContext.request.contextPath}/lot/ingredients/view/bientot-perimes" style="margin-bottom: 20px;">
                 <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
                     <div>
                         <label for="ingredientId">Ingrédient</label><br/>
@@ -45,7 +45,7 @@
                         <button type="submit" class="btn-edit">Filtrer</button>
                     </div>
                 </div>
-            </form>
+            </form> -->
 
             <c:if test="${empty lots}">
                 <p>Aucun lot bientôt périmé.</p>

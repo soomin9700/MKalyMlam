@@ -91,7 +91,7 @@
                             class="filter-checkbox">
                         <span class="filter-checkbox-label">Afficher uniquement les inventaires avec écarts</span>
                     </div>
-                    
+            
                     <!-- Boutons d'action -->
                     <div class="filter-actions">
                         <button type="submit" class="btn-filter">

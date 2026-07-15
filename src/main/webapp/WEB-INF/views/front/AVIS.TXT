@@ -1,0 +1,97 @@
+<section class="reviews-section" id="avis-clients">
+                    <div class="container">
+                        <div class="row g-5">
+                            <!-- Liste des Avis existants -->
+                            <div class="col-lg-6">
+                                <h2 class="section-title mb-2">Avis de nos Gourmands</h2>
+                                <p class="text-muted mb-4">Ceux qui en parlent le mieux sont ceux qui ont goûté !</p>
+
+                                <div class="d-flex flex-column gap-3" id="reviews-list">
+                                    <!-- Avis dynamique 1 -->
+                                    <div class="review-card">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div
+                                                    class="review-avatar d-flex align-items-center justify-content-center bg-primary text-white fw-bold">
+                                                    R</div>
+                                                <div>
+                                                    <h6 class="fw-bold mb-0">Rova</h6>
+                                                    <small class="text-muted">Il y a 2 jours</small>
+                                                </div>
+                                            </div>
+                                            <div class="stars">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="mb-0 text-muted">"Le Boss Burger est tout simplement incroyable ! La
+                                            sauce est délicieuse et le steak super juteux. Service rapide !"</p>
+                                    </div>
+
+                                    <!-- Avis dynamique 2 -->
+                                    <div class="review-card">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div
+                                                    class="review-avatar d-flex align-items-center justify-content-center bg-warning text-dark fw-bold">
+                                                    H</div>
+                                                <div>
+                                                    <h6 class="fw-bold mb-0">Hery</h6>
+                                                    <small class="text-muted">Il y a 1 semaine</small>
+                                                </div>
+                                            </div>
+                                            <div class="stars">
+                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                                    class="far fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="mb-0 text-muted">"Très bons tacos, portion ultra généreuse. On sent
+                                            que les ingrédients sont frais. Je recommande !"</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulaire pour Publier un Avis -->
+                            <div class="col-lg-6">
+                                <div class="review-form-container">
+                                    <h3 class="fw-bold mb-2">Donnez-nous votre avis !</h3>
+                                    <p class="text-muted mb-4">Votre retour nous aide à toujours plus vous régaler.</p>
+
+                                    <form id="add-review-form" onsubmit="submitReview(event)">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Votre prénom</label>
+                                            <input type="text" class="form-control rounded-3 py-2" id="reviewer-name"
+                                                placeholder="Ex: Nampoina" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold d-block">Votre note</label>
+                                            <div class="rating-input d-flex gap-2" id="star-selector">
+                                                <i class="fas fa-star" data-rating="1"></i>
+                                                <i class="fas fa-star" data-rating="2"></i>
+                                                <i class="fas fa-star" data-rating="3"></i>
+                                                <i class="fas fa-star" data-rating="4"></i>
+                                                <i class="fas fa-star" data-rating="5"></i>
+                                            </div>
+                                            <input type="hidden" id="selected-rating" value="5">
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-semibold">Votre commentaire</label>
+                                            <textarea class="form-control rounded-3" id="reviewer-comment" rows="4"
+                                                placeholder="Qu'avez-vous pensé de votre dégustation ?"
+                                                required></textarea>
+                                        </div>
+
+                                        <button type="submit"
+                                            class="btn btn-primary w-100 py-3 rounded-pill fw-bold btn-hero">
+                                            <i class="fas fa-paper-plane me-2"></i>Publier mon avis
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>

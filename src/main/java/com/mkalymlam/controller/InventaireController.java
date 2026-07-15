@@ -13,33 +13,33 @@ import com.mkalymlam.service.*;
 @Controller
 @RequestMapping("/inventaire")
 public class InventaireController {
-    
+
     private final InventaireJournalierService service;
 
     public InventaireController(InventaireJournalierService service) {
         this.service = service;
     }
-    
+
     @GetMapping("/findAll")
     public String findAll(
             Model model,
             @RequestParam(required = false) Long idSession,
             @RequestParam(required = false) LocalDate dateInventaire,
             @RequestParam(required = false) Boolean ecart) {
-        
+
         List<InventaireJournalier> inventaires;
         String titre = "Tous les inventaires";
         String filtreActif = "tous";
-        
-        // filtres
+
+        // ✅ Filtres
         if (ecart != null && ecart) {
             inventaires = service.findByAvecEcart();
             titre = "Inventaires avec écarts";
             filtreActif = "ecart";
         } else if (dateInventaire != null) {
             inventaires = service.findByDateInventaire(dateInventaire);
-            titre = "Inventaires de la date #" + dateInventaire;
-            filtreActif = "session";
+            titre = "Inventaires du " + dateInventaire;
+            filtreActif = "date";
         } else if (idSession != null && idSession > 0) {
             inventaires = service.findBySession(idSession);
             titre = "Inventaires de la session #" + idSession;
@@ -47,15 +47,16 @@ public class InventaireController {
         } else {
             inventaires = service.getAll();
         }
-        
+
         model.addAttribute("inventaires", inventaires);
         model.addAttribute("titre", titre);
         model.addAttribute("filtreActif", filtreActif);
         model.addAttribute("idSessionFiltre", idSession);
+        model.addAttribute("dateFiltre", dateInventaire);
         model.addAttribute("ecartFiltre", ecart);
-        
+
         model.addAttribute("sessions", service.getAllSessionTrucks());
-        
+
         return "inventaire/list";
     }
 
@@ -77,7 +78,7 @@ public class InventaireController {
         if (inventaire == null) {
             return "redirect:/inventaire/findAll";
         }
-        
+
         model.addAttribute("sessions", service.getAllSessionTrucks());
         model.addAttribute("typeItems", service.getAllTypeItems());
         model.addAttribute("ingredients", service.getAllIngredients());

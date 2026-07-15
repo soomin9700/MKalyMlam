@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "produit")
@@ -30,6 +31,21 @@ public class Produit {
     @Column(name = "\"dateCreation\"")
     private LocalDate dateCreation;
 
+    @Transient
+    private Boolean estDisponible;
+
+    
+
+    public Produit(Long idProduit, String nomProduit, Double prixBase, Boolean estNouveau, LocalDate dateCreation,
+            Boolean estDisponible) {
+        this.idProduit = idProduit;
+        this.nomProduit = nomProduit;
+        this.prixBase = prixBase;
+        this.estNouveau = estNouveau;
+        this.dateCreation = dateCreation;
+        this.estDisponible = estDisponible;
+    }
+
     public Produit() {}
 
     public Produit(String nomProduit, Double prixBase, Boolean estNouveau, LocalDate dateCreation) {
@@ -40,6 +56,14 @@ public class Produit {
     }
 
     // Getters et Setters...
+    public Boolean getEstDisponible() {
+        return estDisponible;
+    }
+
+    public void setEstDisponible(Boolean estDisponible) {
+        this.estDisponible = estDisponible;
+    }
+    
     public Long getIdProduit() {
         return idProduit;
     }

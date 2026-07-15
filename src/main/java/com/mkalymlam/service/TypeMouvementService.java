@@ -38,10 +38,7 @@ public class TypeMouvementService {
     }
 
     public TypeMouvement getTypeMouvementByLibelle(String libelle) {
-        TypeMouvement typeMouvement = repository.findByLibelle(libelle);
-        if (typeMouvement == null) {
-            throw new RuntimeException("Type de mouvement non trouvé : " + libelle);
-        }
-        return typeMouvement;
+        return repository.findByLibelle(libelle)
+                .orElseThrow(() -> new RuntimeException("Type de mouvement non trouvé : " + libelle));
     }
 }

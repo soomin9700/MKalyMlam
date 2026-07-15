@@ -2,6 +2,7 @@ package com.mkalymlam.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import com.mkalymlam.entity.LotIngredient;
 import com.mkalymlam.repository.IngredientRepository;
 import com.mkalymlam.repository.LotIngredientRepository;
 import com.mkalymlam.repository.MouvementLotIngredientRepository;
+import com.mkalymlam.dto.IngredientStockDTO;
+import com.mkalymlam.dto.StockStatisticsDTO;
 
 @Service
 public class LotIngredientService {
@@ -249,5 +252,104 @@ public class LotIngredientService {
     private double calculerTotalSorties(Long idIngredient) {
         Double mouvementsSorties = mouvementRepository.sumQuantiteByIngredientAndType(idIngredient, 2L);
         return mouvementsSorties == null ? 0.0 : mouvementsSorties;
+    }
+
+    // statistiques
+
+    public StockStatisticsDTO getStockStatistics() {
+        List<IngredientStockDTO> stock = getAllIngredientsWithStock();
+
+        Long totalIngredients = (long) stock.size();
+        long ingredientsDisponibles = stock.stream().filter(dto -> "DISPONIBLE".equals(dto.getStatut())).count();
+        long ingredientsEnRupture = stock.stream().filter(dto -> "RUPTURE".equals(dto.getStatut())).count();
+        long ingredientsEnAlerte = stock.stream().filter(dto -> "ALERTE".equals(dto.getStatut())).count();
+        double valeurTotaleStock = stock.stream()
+                .mapToDouble(dto -> dto.getValeurTotale() == null ? 0.0 : dto.getValeurTotale())
+                .sum();
+
+        return new StockStatisticsDTO(
+            totalIngredients,
+            ingredientsDisponibles,
+            ingredientsEnRupture,
+            ingredientsEnAlerte,
+            valeurTotaleStock
+        );
+    }
+
+    private IngredientStockDTO mapToIngredientStockDTO(Ingredient ingredient) {
+        double quantiteTotale = getStockActuelIngredient(ingredient);
+        double valeurTotale = calculerValeurStock(ingredient.getIdIngredient());
+
+        return new IngredientStockDTO(
+            ingredient.getIdIngredient(),
+            ingredient.getNomIngredient(),
+            ingredient.getUniteMesure(),
+            ingredient.getSeuilAlerteQuantite(),
+            quantiteTotale,
+            valeurTotale
+        );
+    }
+
+    private double calculerValeurStock(Long idIngredient) {
+        return lotIngredientRepository.findByIngredient_IdIngredient(idIngredient).stream()
+            .filter(lot -> lot != null && lot.getPrixAchatUnitaire() != null)
+            .mapToDouble(lot -> getQuantiteRestantePourLot(lot) * lot.getPrixAchatUnitaire())
+            .sum();
+    }
+
+    public List<IngredientStockDTO> getAllIngredientsWithStock() {
+        return ingredientRepository.findAll()
+            .stream()
+            .map(this::mapToIngredientStockDTO)
+            .collect(Collectors.toList());
+    }
+
+    public double getQuantiteActuelleParIngredientId(Long idIngredient) {
+        if (idIngredient == null) {
+            return 0.0;
+        }
+        double totalEntrees = calculerTotalEntreesNonPerimees(idIngredient);
+        double totalSorties = calculerTotalSorties(idIngredient);
+        return totalEntrees - totalSorties;
+    }
+
+    public List<IngredientStockDTO> getIngredientsDisponibles() {
+        return getAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "DISPONIBLE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    public List<IngredientStockDTO> getIngredientsEnRupture() {
+        return getAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "RUPTURE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    public List<IngredientStockDTO> getIngredientsEnAlerte() {
+        return getAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> "ALERTE".equals(dto.getStatut()))
+            .collect(Collectors.toList());
+    }
+
+    public IngredientStockDTO getStockByIngredientId(Long ingredientId) {
+        return getAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> dto.getIdIngredient().equals(ingredientId))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public List<IngredientStockDTO> searchIngredientsWithStock(String nomIngredient) {
+        if (nomIngredient == null || nomIngredient.trim().isEmpty()) {
+            return getAllIngredientsWithStock();
+        }
+        return getAllIngredientsWithStock()
+            .stream()
+            .filter(dto -> dto.getNomIngredient().toLowerCase()
+                .contains(nomIngredient.toLowerCase()))
+            .collect(Collectors.toList());
     }
 }

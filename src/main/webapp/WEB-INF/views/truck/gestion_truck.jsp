@@ -25,7 +25,12 @@
         <div class="table-container">
             <div class="table-header">
                 <h1>Gestion des trucks</h1>
-                <button class="btn-add" onclick="openAddModal()">Ajouter un truck</button>
+                <div style="display:flex;gap:0.5rem;">
+                    <!-- <a href="${pageContext.request.contextPath}/truck/import" class="btn-add" style="background:#6366f1;">
+                        <i class="fas fa-file-import"></i> Importer CSV/Excel
+                    </a> -->
+                    <button class="btn-add" onclick="openAddModal()">Ajouter un truck</button>
+                </div>
             </div>
 
             <table>
@@ -46,13 +51,13 @@
                                     <c:when test="${display == 'Disponible'}">
                                         <span class="badge badge-success">${display}</span>
                                     </c:when>
-                                    <c:when test="${display.startsWith('Indisponnible - En session')}">
+                                    <c:when test="${display == 'Indisponnible - En session'}">
                                         <span class="badge badge-warning">${display}</span>
                                     </c:when>
-                                    <c:when test="${display.startsWith('Indisponnible - En maintenance')}">
+                                    <c:when test="${display == 'Indisponnible - En maintenance'}">
                                         <span class="badge badge-secondary">${display}</span>
                                     </c:when>
-                                    <c:when test="${display.startsWith('Indisponnible - En panne')}">
+                                    <c:when test="${display == 'Indisponnible - En panne'}">
                                         <span class="badge badge-danger">${display}</span>
                                     </c:when>
                                     <c:otherwise>
@@ -62,12 +67,12 @@
                             </td>
                             <td>
                                 <div class="actions">
-                                    <!-- <button class="btn-edit" onclick="openEditModal(${truck.id}, '${truck.immatriculation}', '${truck.statutDisponibilite.libelle}')">
+                                    <button class="btn-edit" onclick="openEditModal(${truck.id}, '${truck.immatriculation}', '${truck.statutDisponibilite.libelle}')">
                                         <i class="fas fa-edit"></i> Modifier
                                     </button>
                                     <button class="btn-delete" onclick="deleteTruck(${truck.id})">
                                         <i class="fas fa-trash"></i> Supprimer
-                                    </button> -->
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -76,7 +81,7 @@
                         <tr>
                             <td colspan="3">
                                 <div class="empty-state">
-                                    <p>Aucun truck enregistr\u00e9</p>
+                                    <p>Aucun truck enregistree</p>
                                 </div>
                             </td>
                         </tr>

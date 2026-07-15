@@ -1,13 +1,20 @@
 package com.mkalymlam.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 import com.mkalymlam.entity.RecetteBase;
 import com.mkalymlam.service.IngredientService;
 import com.mkalymlam.service.ProduitService;
 import com.mkalymlam.service.RecetteBaseService;
+import com.mkalymlam.service.CsvExcelImportService;
 
 @Controller
 @RequestMapping("/recetteBase")
@@ -16,27 +23,44 @@ public class RecetteBaseController {
     private final RecetteBaseService service;
     private final ProduitService produitService;
     private final IngredientService ingredientService;
+    private final CsvExcelImportService csvExcelImportService;
 
     public RecetteBaseController(
             RecetteBaseService service,
             ProduitService produitService,
-            IngredientService ingredientService) {
+            IngredientService ingredientService,
+            CsvExcelImportService csvExcelImportService) {
 
         this.service = service;
         this.produitService = produitService;
         this.ingredientService = ingredientService;
+        this.csvExcelImportService = csvExcelImportService;
     }
 
     // =========================
-    // Liste
+    // Liste avec filtres
     // =========================
 
     @GetMapping
-    public String list(Model model) {
+    public String list(
+            @RequestParam(required = false) String nomProduit,
+            @RequestParam(required = false) String nomIngredient,
+            Model model) {
 
-        model.addAttribute("recettes", service.findAll());
+        // Récupérer les recettes avec filtres
+        List<RecetteBase> recettes = service.search(nomProduit, nomIngredient);
+
+        // Ajouter les attributs pour la vue
+        model.addAttribute("recettes", recettes);
         model.addAttribute("produits", produitService.findAll());
         model.addAttribute("ingredients", ingredientService.findAll());
+        
+        // Conserver les valeurs des filtres pour le formulaire
+        model.addAttribute("nomProduit", nomProduit);
+        model.addAttribute("nomIngredient", nomIngredient);
+        
+        // Statistiques
+        model.addAttribute("totalRecettes", recettes.size());
 
         return "recetteBase/list";
     }
@@ -118,6 +142,30 @@ public class RecetteBaseController {
 
         service.delete(idProduit, idIngredient);
 
+        return "redirect:/recetteBase";
+    }
+
+    @GetMapping("/import")
+    public String pageImport(Model model) {
+        return "recetteBase/import";
+    }
+
+    @PostMapping("/import")
+    public String importData(@RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            List<String> erreurs = csvExcelImportService.importFile(file, "recette");
+            if (erreurs.isEmpty()) {
+                redirectAttributes.addFlashAttribute("success",
+                    "Recette(s) importee(s) avec succes");
+            } else {
+                redirectAttributes.addFlashAttribute("warning",
+                    "Erreurs : " + String.join("; ", erreurs));
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error",
+                "Erreur lors de l'import : " + e.getMessage());
+        }
         return "redirect:/recetteBase";
     }
 
