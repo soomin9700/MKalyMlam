@@ -1,7 +1,7 @@
-drop database "foodTruckDb";
+-- drop database "foodTruckDb";
 
-CREATE DATABASE "foodTruckDb";
-\c "foodTruckDb";
+-- CREATE DATABASE "foodTruckDb";
+-- \c "foodTruckDb";
 
 
 -- Module 1
