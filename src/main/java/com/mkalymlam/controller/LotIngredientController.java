@@ -1,13 +1,8 @@
 package com.mkalymlam.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.ui.Model;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.stereotype.Controller;
-
-import com.mkalymlam.entity.LotIngredient;
-import com.mkalymlam.service.LotIngredientService;
-
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +38,6 @@ public class LotIngredientController {
         this.typeMouvementService = typeMouvementService;
     }
 
-
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("lot", new LotIngredient());
@@ -59,7 +46,6 @@ public class LotIngredientController {
         model.addAttribute("actionUrl", "/lot/save");
         return "lot/form";
     }
-
 
     @PostMapping("/save")
     @ResponseBody
@@ -95,41 +81,39 @@ public class LotIngredientController {
         return service.getAll();
     }
 
-    
+    // @GetMapping("/findAll")
+    // <<<<<<< HEAD
+    // public String findAll(
+    // @RequestParam(required = false) String nomIngredient,
+    // @RequestParam(required = false) Boolean alerte,
+    // Model model) {
 
-//     @GetMapping("/findAll")
-// <<<<<<< HEAD
-//     public String findAll(
-//             @RequestParam(required = false) String nomIngredient,
-//             @RequestParam(required = false) Boolean alerte,
-//             Model model) {
-        
-//         List<LotIngredient> lots;
-        
-//         // filtre par nom si il y a un ingrédient lors de la recherche
-//         if (nomIngredient != null && !nomIngredient.isEmpty()) {
-//             lots = service.findByIngredientName(nomIngredient);
-//         } else {
-//             lots = service.getAllWithAlertStatus();
-//         }
-        
-//         // si le filtre alerte est activé, on filtre les lots en alerte
-//         if (alerte != null && alerte) {
-//             lots = lots.stream()
-//                     .filter(lot -> service.verifierAlerte(lot))
-//                     .collect(Collectors.toList());
-//         }
-    
-//         model.addAttribute("lots", lots);
-//         return "lot/list";
-//     }
+    // List<LotIngredient> lots;
 
-//     @GetMapping("/alertes")
-//     public String alertes(Model model) {
-//         List<LotIngredient> lots = service.getAlertLots();
-//         model.addAttribute("lots", lots);
-//         return "alertes/list";
-// =======
+    // // filtre par nom si il y a un ingrédient lors de la recherche
+    // if (nomIngredient != null && !nomIngredient.isEmpty()) {
+    // lots = service.findByIngredientName(nomIngredient);
+    // } else {
+    // lots = service.getAllWithAlertStatus();
+    // }
+
+    // // si le filtre alerte est activé, on filtre les lots en alerte
+    // if (alerte != null && alerte) {
+    // lots = lots.stream()
+    // .filter(lot -> service.verifierAlerte(lot))
+    // .collect(Collectors.toList());
+    // }
+
+    // model.addAttribute("lots", lots);
+    // return "lot/list";
+    // }
+
+    // @GetMapping("/alertes")
+    // public String alertes(Model model) {
+    // List<LotIngredient> lots = service.getAlertLots();
+    // model.addAttribute("lots", lots);
+    // return "alertes/list";
+    // =======
     @ResponseBody
     public List<LotIngredient> findAll() {
         return service.getAll();
@@ -231,7 +215,7 @@ public class LotIngredientController {
         model.addAttribute("dateMin", dateMin);
         model.addAttribute("dateMax", dateMax);
         model.addAttribute("lots", service.filterIngredients(dateMin, dateMax, ingredientId));
-        return "ingredient/lotIngredientForm";
+        return "lotIngredient/form";
     }
 
     @PostMapping("/ingredients")

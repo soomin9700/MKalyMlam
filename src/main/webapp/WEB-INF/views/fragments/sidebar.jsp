@@ -55,13 +55,17 @@
         Ingrédients
     </a>
 
-    <a href="${pageContext.request.contextPath}/lot/findAll"
+    <!-- <a href="${pageContext.request.contextPath}/lot/findAll"
     class="${activeMenu == 'lots' ? 'active' : ''}">
-        Lots
+        Lots -->
     <a href="${pageContext.request.contextPath}/lot/ingredients/new"
     class="${activeMenu == 'lot-ingredients' ? 'active' : ''}">
         Créer un lot ingrédient
     </a>
+    <!-- <a href="${pageContext.request.contextPath}/lot/new"
+    class="${activeMenu == 'lots' ? 'active' : ''}">
+        Nouvel lot
+    </a> -->
 
     <a href="${pageContext.request.contextPath}/lot/ingredients/alertes"
     class="${activeMenu == 'lot-ingredients-alertes' ? 'active' : ''}">
