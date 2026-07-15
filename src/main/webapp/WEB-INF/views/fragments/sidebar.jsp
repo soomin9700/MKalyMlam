@@ -41,11 +41,6 @@
             <i class="fas fa-chart-line"></i> Statistiques
         </a>
 
-        <a href="${pageContext.request.contextPath}/clients"
-           class="${activeMenu == 'clients' ? 'active' : ''}">
-            <i class="fas fa-users"></i> Clients
-        </a>
-
         <a href="${pageContext.request.contextPath}/employes"
            class="${activeMenu == 'employes' ? 'active' : ''}">
             <i class="fas fa-id-badge"></i> Employés

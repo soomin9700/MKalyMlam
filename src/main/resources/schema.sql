@@ -110,7 +110,10 @@ CREATE TABLE "typeNotification" (
     "libelle" VARCHAR(50) NOT NULL
 );
 
-
+CREATE TABLE "typeMouvement" (
+    "idTypeMouvement" SERIAL PRIMARY KEY,
+    "libelle" VARCHAR(50) NOT NULL
+);
 
 
 CREATE TABLE "utilisateur" (
@@ -218,6 +221,21 @@ CREATE TABLE "sessionTruck" (
     FOREIGN KEY ("idStatutSession") REFERENCES "statutSession"("idStatutSession")
 );
 
+CREATE TABLE "sessionTruckPosition" (
+    "idSessionTruckPosition" SERIAL PRIMARY KEY,
+    "idSession" INT NOT NULL,
+    "idItineraire" INT NOT NULL,
+    "heureArrivee" TIME NOT NULL,
+    "datePublication" DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession"),
+    FOREIGN KEY ("idItineraire") REFERENCES "itineraire"("idItineraire")
+);
+
+-- Création d'un index pour améliorer les performances
+CREATE INDEX idx_session_position ON "sessionTruckPosition"("idSession");
+CREATE INDEX idx_date_publication ON "sessionTruckPosition"("datePublication");
+
+
 CREATE TABLE "equipeSession" (
     "idEquipeSession" SERIAL PRIMARY KEY,
     "idSession" INT NOT NULL,
@@ -283,13 +301,6 @@ CREATE TABLE "mouvementLotIngredient" (
 );
 
 
-
-CREATE TABLE "typeMouvement" (
-    "idTypeMouvement" SERIAL PRIMARY KEY,
-    "libelle" VARCHAR(50) NOT NULL
-);
-
-
 CREATE TABLE "equipement" (
     "idEquipement" SERIAL PRIMARY KEY,
     "nomEquipement" VARCHAR(100) NOT NULL,
@@ -332,6 +343,26 @@ CREATE TABLE "inventaireJournalier" (
     FOREIGN KEY ("idTypeItem") REFERENCES "typeItem"("idTypeItem")
 );
 
+CREATE TABLE "mouvementStock" (
+    "idMouvement" SERIAL PRIMARY KEY,
+    "idIngredient" INT NOT NULL,
+    "idLot" INT NOT NULL,
+    "typeMouvement" VARCHAR(20) NOT NULL, -- 'ENTREE', 'SORTIE', 'AJUSTEMENT'
+    "quantite" NUMERIC(10, 2) NOT NULL,
+    "quantiteAvant" NUMERIC(10, 2) NOT NULL,
+    "quantiteApres" NUMERIC(10, 2) NOT NULL,
+    "dateMouvement" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "motif" VARCHAR(255),
+    "idUtilisateur" INT,
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient"),
+    FOREIGN KEY ("idLot") REFERENCES "lotIngredient"("idLot")
+);
+
+-- Index pour les performances
+CREATE INDEX idx_mouvement_ingredient ON "mouvementStock"("idIngredient");
+CREATE INDEX idx_mouvement_lot ON "mouvementStock"("idLot");
+CREATE INDEX idx_mouvement_date ON "mouvementStock"("dateMouvement");
+CREATE INDEX idx_mouvement_type ON "mouvementStock"("typeMouvement");
 
 
 CREATE TABLE "produit" (
@@ -341,6 +372,28 @@ CREATE TABLE "produit" (
     "estNouveau" BOOLEAN DEFAULT FALSE,
     "dateCreation" DATE DEFAULT CURRENT_DATE
 );
+
+CREATE TABLE "disponibiliteProduit" (
+    "id" SERIAL PRIMARY KEY,
+    "idProduit" INT NOT NULL,
+    "dateModification" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "estDisponible" BOOLEAN NOT NULL,
+    FOREIGN KEY ("idProduit") REFERENCES "produit"("idProduit")
+);
+
+-- Vue pour simuler la colonne (SANS ALTER TABLE)
+CREATE VIEW "produit_avec_disponibilite" AS
+SELECT 
+    p.*,
+    COALESCE(
+        (SELECT d."estDisponible" 
+         FROM "disponibiliteProduit" d 
+         WHERE d."idProduit" = p."idProduit" 
+         ORDER BY d."dateModification" DESC 
+         LIMIT 1),
+        true
+    ) as "estDisponible"
+FROM "produit" p;
 
 CREATE TABLE "recetteDeBase" (
 
@@ -446,6 +499,27 @@ CREATE TABLE "actionAmelioration" (
     FOREIGN KEY ("idRetourOrigine") REFERENCES "retourClient"("idRetour"),
     FOREIGN KEY ("idAuteurAdmin") REFERENCES "utilisateur"("idUtilisateur"),
     FOREIGN KEY ("idStatutDemandeAchat") REFERENCES "statutDemandeAchat"("idStatutDemandeAchat")
+);
+
+CREATE TABLE "historiqueStatutCommande" (
+    "idHistorique" SERIAL PRIMARY KEY,
+    "idCommande" INT NOT NULL,
+    "ancienStatut" VARCHAR(50),
+    "nouveauStatut" VARCHAR(50) NOT NULL,
+    "dateChangement" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande")
+);
+
+CREATE TABLE "historiqueConsommation" (
+    "idConsommation" SERIAL PRIMARY KEY,
+    "idCommande" INT NOT NULL,
+    "idIngredient" INT NOT NULL,
+    "quantiteConsommee" NUMERIC(10, 2) NOT NULL,
+    "dateConsommation" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "idSession" INT NOT NULL,
+    FOREIGN KEY ("idCommande") REFERENCES "commande"("idCommande"),
+    FOREIGN KEY ("idIngredient") REFERENCES "ingredient"("idIngredient"),
+    FOREIGN KEY ("idSession") REFERENCES "sessionTruck"("idSession")
 );
 
 CREATE TABLE "notificationPlateforme" (
