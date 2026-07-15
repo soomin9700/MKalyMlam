@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mkalymlam.entity.FactureRecu;
+import com.mkalymlam.entity.SessionTruck;
+import com.mkalymlam.repository.SessionTruckRepository;
 import com.mkalymlam.service.FactureRecuService;
 
 
@@ -25,15 +27,20 @@ public class VendeuseController {
     private static final int PDF_LINES_PER_PAGE = 34;
 
     private final FactureRecuService factureRecuService;
+    private final SessionTruckRepository sessionTruckRepository;
 
-    public VendeuseController(FactureRecuService factureRecuService) {
+    public VendeuseController(FactureRecuService factureRecuService,
+                              SessionTruckRepository sessionTruckRepository) {
         this.factureRecuService = factureRecuService;
+        this.sessionTruckRepository = sessionTruckRepository;
     }
 
     @GetMapping("/vendeuse")
     public String vendeuse(Model model) {
         List<FactureRecu> factures = factureRecuService.listerToutes();
+        List<SessionTruck> sessionsOuvertes = sessionTruckRepository.findByStatutSession_Libelle("OUVERTE");
         model.addAttribute("factures", factures);
+        model.addAttribute("sessionsOuvertes", sessionsOuvertes);
         return "vente/vendeuse";
     }
 
