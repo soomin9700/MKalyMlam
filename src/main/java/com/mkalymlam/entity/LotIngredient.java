@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-
 @Entity
 @Table(name = "\"lotIngredient\"")
 public class LotIngredient {
@@ -24,55 +23,63 @@ public class LotIngredient {
     private Long idLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idIngredient\"", nullable = false)  
+    @JoinColumn(name = "\"idIngredient\"", nullable = false)
     private Ingredient ingredient;
 
-    @Column(name = "\"dateReception\"", nullable = false)  
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "\"idTypeMouvement\"")
+    private TypeMouvement typeMouvement;
+
+    @Column(name = "\"dateReception\"", nullable = false)
     private LocalDate dateReception;
 
-    @Column(name = "\"datePeremption\"", nullable = false)  
+    @Column(name = "\"datePeremption\"", nullable = false)
     private LocalDate datePeremption;
 
-    @Column(name = "\"quantiteInitiale\"", nullable = false)  
+    @Column(name = "\"quantiteInitiale\"", nullable = false)
     private Double quantiteInitiale;
 
-    @Column(name = "\"prixAchatUnitaire\"", nullable = false)  
+    @Column(name = "\"prixAchatUnitaire\"", nullable = false)
     private Double prixAchatUnitaire;
 
-    //  Ajout de quantiteRestante (calculée)
     @Transient
     private Double quantiteRestante;
 
     @Transient
     private boolean alerte;
 
-    public boolean isAlerte() {
-        return alerte;
-    }
-
-    public void setAlerte(boolean alerte) {
-        this.alerte = alerte;
-    }
-
-    public Double getQuantiteRestante() {
-        return quantiteRestante;
-    }
-
-    public void setQuantiteRestante(Double quantiteRestante) {
-        this.quantiteRestante = quantiteRestante;
-    }
-
+    // Constructeur par défaut
     public LotIngredient() {
     }
 
-    public LotIngredient(Ingredient ingredient, LocalDate dateReception, LocalDate datePeremption,
-            Double quantiteInitiale, Double prixAchatUnitaire) {
+    // Constructeur avec tous les paramètres sauf idLot (pour la création)
+    public LotIngredient(Ingredient ingredient, TypeMouvement typeMouvement, 
+                         LocalDate dateReception, LocalDate datePeremption,
+                         Double quantiteInitiale, Double prixAchatUnitaire) {
         this.ingredient = ingredient;
+        this.typeMouvement = typeMouvement;
         this.dateReception = dateReception;
         this.datePeremption = datePeremption;
         this.quantiteInitiale = quantiteInitiale;
         this.prixAchatUnitaire = prixAchatUnitaire;
         this.quantiteRestante = quantiteInitiale;
+        this.alerte = false;
+    }
+
+    // Constructeur avec tous les paramètres
+    public LotIngredient(Long idLot, Ingredient ingredient, TypeMouvement typeMouvement,
+                         LocalDate dateReception, LocalDate datePeremption,
+                         Double quantiteInitiale, Double prixAchatUnitaire,
+                         Double quantiteRestante, boolean alerte) {
+        this.idLot = idLot;
+        this.ingredient = ingredient;
+        this.typeMouvement = typeMouvement;
+        this.dateReception = dateReception;
+        this.datePeremption = datePeremption;
+        this.quantiteInitiale = quantiteInitiale;
+        this.prixAchatUnitaire = prixAchatUnitaire;
+        this.quantiteRestante = quantiteRestante;
+        this.alerte = alerte;
     }
 
     // Getters et Setters
@@ -90,6 +97,14 @@ public class LotIngredient {
 
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public TypeMouvement getTypeMouvement() {
+        return typeMouvement;
+    }
+
+    public void setTypeMouvement(TypeMouvement typeMouvement) {
+        this.typeMouvement = typeMouvement;
     }
 
     public LocalDate getDateReception() {
@@ -122,5 +137,60 @@ public class LotIngredient {
 
     public void setPrixAchatUnitaire(Double prixAchatUnitaire) {
         this.prixAchatUnitaire = prixAchatUnitaire;
+    }
+
+    public Double getQuantiteRestante() {
+        return quantiteRestante;
+    }
+
+    public void setQuantiteRestante(Double quantiteRestante) {
+        this.quantiteRestante = quantiteRestante;
+    }
+
+    public boolean isAlerte() {
+        return alerte;
+    }
+
+    public void setAlerte(boolean alerte) {
+        this.alerte = alerte;
+    }
+
+    // Méthode utilitaire pour vérifier si le lot est périmé
+    public boolean isPerime() {
+        if (datePeremption == null) {
+            return false;
+        }
+        return datePeremption.isBefore(LocalDate.now());
+    }
+
+    // Méthode utilitaire pour calculer la quantité utilisée
+    public Double getQuantiteUtilisee() {
+        if (quantiteInitiale == null || quantiteRestante == null) {
+            return 0.0;
+        }
+        return quantiteInitiale - quantiteRestante;
+    }
+
+    // Méthode utilitaire pour vérifier si le stock est suffisant
+    public boolean hasStockSuffisant(Double quantiteDemandee) {
+        if (quantiteRestante == null || quantiteDemandee == null) {
+            return false;
+        }
+        return quantiteRestante >= quantiteDemandee;
+    }
+
+    @Override
+    public String toString() {
+        return "LotIngredient{" +
+                "idLot=" + idLot +
+                ", ingredient=" + (ingredient != null ? ingredient.getNomIngredient() : null) +
+                ", typeMouvement=" + (typeMouvement != null ? typeMouvement.getLibelle() : null) +
+                ", dateReception=" + dateReception +
+                ", datePeremption=" + datePeremption +
+                ", quantiteInitiale=" + quantiteInitiale +
+                ", prixAchatUnitaire=" + prixAchatUnitaire +
+                ", quantiteRestante=" + quantiteRestante +
+                ", alerte=" + alerte +
+                '}';
     }
 }

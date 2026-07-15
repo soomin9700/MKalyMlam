@@ -1,6 +1,6 @@
 package com.mkalymlam.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,38 +18,50 @@ public class MouvementLotIngredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"idmouvementLot\"")
-    private Long idmouvementLot;
+    @Column(name = "\"idMouvementLot\"")
+    private Long idMouvementLot;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"idTypeMouvement\"")
+    @JoinColumn(name = "\"idLot\"", nullable = false)
+    private LotIngredient lot;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "\"idTypeMouvement\"", nullable = false)
     private TypeMouvement typeMouvement;
 
-
-    @Column(name = "\"quantite\"")
+    @Column(name = "\"quantite\"", nullable = false)
     private Double quantite;
 
-    @Column(name = "\"dateMouvement\"")
+    @Column(name = "\"dateMouvement\"", nullable = false)
     private LocalDate dateMouvement;
 
-    public MouvementLotIngredient(Long idmouvementLot, TypeMouvement typeMouvement,
-            LotIngredient lotIngredient, Double quantite, LocalDate dateMouvement) {
-        this.idmouvementLot = idmouvementLot;
+    // Constructeurs
+    public MouvementLotIngredient() {
+    }
+
+    public MouvementLotIngredient(LotIngredient lot, TypeMouvement typeMouvement, 
+                                   Double quantite, LocalDate dateMouvement) {
+        this.lot = lot;
         this.typeMouvement = typeMouvement;
-        this.lotIngredient = lotIngredient;
         this.quantite = quantite;
         this.dateMouvement = dateMouvement;
     }
 
-    public MouvementLotIngredient() {
+    // Getters et Setters
+    public Long getIdMouvementLot() {
+        return idMouvementLot;
     }
 
-    public Long getidmouvementLot() {
-        return idmouvementLot;
+    public void setIdMouvementLot(Long idMouvementLot) {
+        this.idMouvementLot = idMouvementLot;
     }
 
-    public void setidmouvementLot(Long idmouvementLot) {
-        this.idmouvementLot = idmouvementLot;
+    public LotIngredient getLot() {
+        return lot;
+    }
+
+    public void setLot(LotIngredient lot) {
+        this.lot = lot;
     }
 
     public TypeMouvement getTypeMouvement() {
@@ -68,11 +80,11 @@ public class MouvementLotIngredient {
         this.quantite = quantite;
     }
 
-    public LocalDateTime getDateMouvement() {
+    public LocalDate getDateMouvement() {
         return dateMouvement;
     }
 
-    public void setDateMouvement(LocalDateTime dateMouvement) {
+    public void setDateMouvement(LocalDate dateMouvement) {
         this.dateMouvement = dateMouvement;
     }
 }

@@ -17,4 +17,14 @@ public interface MouvementLotIngredientRepository extends JpaRepository<Mouvemen
 
     @Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MouvementLotIngredient m WHERE m.lot.ingredient.idIngredient = :ingredientId AND m.typeMouvement.idTypeMouvement = :typeId")
     Double sumQuantiteByIngredientAndType(@Param("ingredientId") Long ingredientId, @Param("typeId") Long typeId);
+
+    // AJOUT DES MÉTHODES MANQUANTES
+    @Query("SELECT m FROM MouvementLotIngredient m WHERE m.lot.idLot = :lotId ORDER BY m.dateMouvement DESC")
+    List<MouvementLotIngredient> findByLotIdOrderByDateMouvementDesc(@Param("lotId") Long lotId);
+
+    @Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MouvementLotIngredient m WHERE m.lot.idLot = :lotId AND m.typeMouvement.libelle = 'ENTREE'")
+    Double sumEntreeByLot(@Param("lotId") Long lotId);
+
+    @Query("SELECT COALESCE(SUM(m.quantite), 0) FROM MouvementLotIngredient m WHERE m.lot.idLot = :lotId AND m.typeMouvement.libelle = 'SORTIE'")
+    Double sumSortieByLot(@Param("lotId") Long lotId);
 }

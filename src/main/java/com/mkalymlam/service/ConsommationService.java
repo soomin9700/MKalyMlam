@@ -1,5 +1,6 @@
 package com.mkalymlam.service;
 
+import java.time.LocalDate;  // IMPORT AJOUTÉ
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -72,7 +73,8 @@ public class ConsommationService {
                     lot.setQuantiteRestante(lot.getQuantiteRestante() - aDeduire);
                     lotIngredientRepository.save(lot);
 
-                    MouvementLotIngredient mouvement = new MouvementLotIngredient(lot, sortie, aDeduire, LocalDateTime.now());
+                    // Correction : utilisation du bon constructeur avec LocalDate.now()
+                    MouvementLotIngredient mouvement = new MouvementLotIngredient(lot, sortie, aDeduire, LocalDate.now());
                     mouvementLotIngredientRepository.save(mouvement);
 
                     HistoriqueConsommation historique = new HistoriqueConsommation(null, ingredient, aDeduire, null);
@@ -102,7 +104,8 @@ public class ConsommationService {
                 dernierLot.setQuantiteRestante(dernierLot.getQuantiteRestante() + h.getQuantiteConsommee());
                 lotIngredientRepository.save(dernierLot);
 
-                MouvementLotIngredient mouvement = new MouvementLotIngredient(dernierLot, entree, h.getQuantiteConsommee(), LocalDateTime.now());
+                // Correction : utilisation du bon constructeur avec LocalDate.now()
+                MouvementLotIngredient mouvement = new MouvementLotIngredient(dernierLot, entree, h.getQuantiteConsommee(), LocalDate.now());
                 mouvementLotIngredientRepository.save(mouvement);
             }
         }
